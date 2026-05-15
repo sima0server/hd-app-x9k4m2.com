@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>HD™ Register</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- Preload custom avatar images -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1677297679380-46df420f8a68?q=80&w=150&h=150&fit=crop&crop=faces">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1677297681311-cfdcb74bba8f?q=80&w=150&h=150&fit=crop&crop=faces">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1670031652348-79bac7b88dfc?q=80&w=150&h=150&fit=crop&crop=faces">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1663544093574-4cc2eb15cca1?q=80&w=150&h=150&fit=crop&crop=faces">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1652182899957-452577c97486?q=80&w=150&h=150&fit=crop&crop=faces">
+
+    <style>
+        :root {
+            --primary-green: #71a35a;
+            --light-green: #a2e08e;
+            --input-border: rgba(255, 255, 255, 0.5);
+            --text-main: #ffffff;
+            --blue-btn: #3498db;
+            --vh: 1vh;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
+                        url('register.png') center/cover fixed;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Intro Screen */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            height: calc(var(--vh, 1vh) * 100);
+            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+                        url('register.png') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .intro-screen.hidden {
+            display: none;
+        }
+
+        .intro-logo {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .intro-logo img {
+            width: 120px;
+            height: auto;
+        }
+
+        .intro-title {
+            font-weight: 300;
+            font-size: clamp(1.8rem, 8vw, 2.5rem);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .intro-subtext {
+            font-size: clamp(0.9rem, 4vw, 1.1rem);
+            line-height: 1.6;
+            margin-bottom: 50px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 350px;
+            padding: 0 20px;
+        }
+
+        .start-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            position: absolute;
+            bottom: max(40px, env(safe-area-inset-bottom, 40px));
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .start-trigger:active {
+            transform: translateX(-50%) scale(0.98);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .chevron-wrapper svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+        }
+
+        .continue-text {
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* Registration Container */
+        .registration-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px 16px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .registration-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Header */
+        .reg-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-title-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .main-title {
+            font-weight: 300;
+            font-size: 1.8rem;
+        }
+
+        .step-counter {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 24px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .close-btn:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-container {
+            display: flex;
+            gap: 6px;
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        .progress-bar.active {
+            background: var(--light-green);
+        }
+
+        /* Steps Container */
+        .steps-container {
+            position: relative;
+            min-height: 440px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .form-step {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .form-step.active {
+            opacity: 1;
+            visibility: visible;
+            position: relative;
+        }
+
+        /* Agent Info */
+        .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .agent-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--light-green);
+        }
+
+        .agent-details {
+            flex: 1;
+        }
+
+        .agent-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2px;
+        }
+
+        .agent-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .agent-uid {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: monospace;
+        }
+
+        /* Form Elements */
+        .form-group {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 10px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1.5px solid var(--input-border);
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            border-bottom-color: white;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        .form-select option {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Referral Display */
+        .referral-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1.5px solid var(--input-border);
+        }
+
+        .referral-code {
+            font-size: 14px;
+            font-weight: 500;
+            font-family: monospace;
+            letter-spacing: 2px;
+            color: var(--light-green);
+        }
+
+        .referral-badge {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+        }
+
+        /* CAPTCHA Card */
+        .captcha-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .captcha-display {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        #captchaCanvas {
+            border: 1px solid #ddd;
+            flex-grow: 1;
+            height: 80px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .captcha-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .control-btn {
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .control-btn:active {
+            background: #e0e0e0;
+        }
+
+        .captcha-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 0.9rem;
+            background: #fafafa;
+            outline: none;
+        }
+
+        .captcha-input:focus {
+            border-color: var(--primary-green);
+        }
+
+        /* Avatar Selection */
+        .avatar-selection {
+            margin-bottom: 16px;
+        }
+
+        .avatar-label {
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .avatar-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .avatar-option {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar-option.selected {
+            border-color: var(--light-green);
+            transform: scale(1.05);
+        }
+
+        .avatar-option.none-option {
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .avatar-option.none-option span {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .file-upload:active {
+            border-color: var(--primary-green);
+        }
+
+        .file-upload .material-symbols-outlined {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 6px;
+        }
+
+        .file-upload p {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        /* Buttons */
+        .btn-group {
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-row .btn {
+            flex: 1;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        .app-footer {
+            margin-top: 40px;
+            padding-top: 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:active {
+            color: white;
+        }
+
+        .sponsors-section {
+            margin-bottom: 20px;
+        }
+
+        .sponsors-label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .sponsors-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .sponsor-logo {
+            opacity: 0.5;
+            transition: opacity 0.2s;
+            filter: brightness(0) invert(1);
+        }
+
+        .sponsor-logo img {
+            height: 20px;
+            width: auto;
+        }
+
+        .sponsor-logo:hover {
+            opacity: 0.8;
+        }
+
+        .copyright {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 20px;
+        }
+
+        /* State Messages */
+        .state-message {
+            text-align: center;
+            padding: 30px 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .state-message .material-symbols-outlined {
+            font-size: 48px;
+            color: var(--primary-green);
+            margin-bottom: 16px;
+        }
+
+        .state-message.state-error .material-symbols-outlined {
+            color: #ef4444;
+        }
+
+        .state-message h3 {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .state-message p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* iOS fixes */
+        @media screen and (max-width: 768px) {
+            input, select, button {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Intro Screen -->
+<div class="intro-screen" id="introScreen">
+    <div class="intro-logo">
+        <img src="assets/HD.png" alt="Logo" onerror="this.style.display='none'">
+    </div>
+    <h1 class="intro-title">Discover Amazing<br>Destinations</h1>
+    <p class="intro-subtext">Explore popular places, hidden gems, and experiences from around the world...</p>
+    <div class="start-trigger" id="startTrigger">
+        <span class="chevron-wrapper">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M5 9l7-7 7 7" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </span>
+        <span class="continue-text">Continue</span>
+    </div>
+</div>
+
+<!-- Registration Container -->
+<div class="registration-container" id="registrationContainer">
+    <header class="reg-header">
+        <div class="header-title-row">
+            <h1 class="main-title">Register</h1>
+            <span class="step-counter" id="stepCounter">Step 1/3</span>
+        </div>
+        <div class="close-btn" id="closeBtn">✕</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress1"></div>
+            <div class="progress-bar" id="progress2"></div>
+            <div class="progress-bar" id="progress3"></div>
+        </div>
+    </header>
+
+    <!-- Session Exists -->
+    <div class="state-message hidden" id="sessionExistsState">
+        <span class="material-symbols-outlined">check_circle</span>
+        <h3>Already Logged In</h3>
+        <p>You already have an active session.</p>
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="window.location.href='index.html'">Go to Dashboard</button>
+            <button class="btn btn-secondary" onclick="logoutAndContinue()">Register New Account</button>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="state-message state-error hidden" id="errorState">
+        <span class="material-symbols-outlined">error_outline</span>
+        <h3>Invalid Referral</h3>
+        <p>The referral link you used is invalid or expired.<br>Please contact an agent to get a valid referral link.</p>
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="window.location.href='index.html'">Go to Home</button>
+        </div>
+    </div>
+
+    <!-- Registration Form -->
+    <div id="registrationForm">
+        <!-- Agent Info -->
+        <div class="agent-info" id="agentBanner">
+            <img src="" alt="Agent" class="agent-avatar" id="agentAvatar">
+            <div class="agent-details">
+                <div class="agent-label">Your Agent</div>
+                <div class="agent-name" id="agentName">Loading...</div>
+                <div class="agent-uid" id="agentUid">---</div>
+            </div>
+        </div>
+
+        <div class="steps-container">
+            <!-- STEP 1 -->
+            <div class="form-step active" id="step1">
+                <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <select class="form-select" id="language">
+                        <option value="en">English</option>
+                        <option value="sw">Swahili</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Theme</label>
+                    <select class="form-select" id="themeSelect">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Referral Code</label>
+                    <div class="referral-display">
+                        <span class="referral-code" id="referralCodeDisplay">------</span>
+                        <span class="referral-badge">Locked</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="nextStep()" style="margin-top: 20px;">Continue</button>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="form-step" id="step2">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="username" placeholder="Choose a username">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" id="phone" placeholder="+255 XXX XXX XXX">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="password" placeholder="Create a password">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Country</label>
+                    <select class="form-select" id="country" onchange="handleCountryChange()">
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Rwanda">Rwanda</option>
+                        <option value="DRC">DR Congo</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Nigeria">Nigeria</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="regionTZGroup">
+                    <label class="form-label">Region</label>
+                    <select class="form-select" id="regionTZ">
+                        <option>Dar es Salaam</option><option>Arusha</option><option>Dodoma</option>
+                        <option>Mwanza</option><option>Mbeya</option><option>Morogoro</option>
+                        <option>Tanga</option><option>Kilimanjaro</option><option>Iringa</option>
+                        <option>Njombe</option><option>Tabora</option><option>Singida</option>
+                        <option>Shinyanga</option><option>Kigoma</option><option>Kagera</option>
+                        <option>Mtwara</option><option>Lindi</option><option>Ruvuma</option>
+                        <option>Pwani</option><option>Geita</option><option>Simiyu</option>
+                        <option>Katavi</option><option>Songwe</option>
+                    </select>
+                </div>
+
+                <div class="form-group hidden" id="regionOtherGroup">
+                    <label class="form-label">Region / City</label>
+                    <input type="text" class="form-input" id="regionOther" placeholder="Enter your region">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Birth Year</label>
+                    <input type="number" class="form-input" id="birthYear" placeholder="YYYY" min="1940" max="2012">
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Continue</button>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="form-step" id="step3">
+                <!-- CAPTCHA Card -->
+                <div class="captcha-card">
+                    <div class="captcha-display">
+                        <canvas id="captchaCanvas" width="250" height="80"></canvas>
+                        <div class="captcha-controls">
+                            <button class="control-btn" type="button" onclick="speakCaptcha()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                            </button>
+                            <button class="control-btn" type="button" onclick="generateCaptcha()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" class="captcha-input" id="captchaInput" placeholder="Enter the code above">
+                </div>
+
+                <!-- Avatar Selection - Custom Images -->
+                <div class="avatar-selection">
+                    <div class="avatar-label">Choose Profile Picture</div>
+                    <div class="avatar-options" id="avatarOptions">
+                        <div class="avatar-option none-option selected" id="avatarNone" onclick="selectAvatar('default')">
+                            <span class="material-symbols-outlined">person</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Or Upload Your Own</label>
+                    <div class="file-upload" onclick="document.getElementById('profilePic').click()">
+                        <span class="material-symbols-outlined">cloud_upload</span>
+                        <p id="fileLabel">Click to upload profile picture</p>
+                        <input type="file" id="profilePic" accept="image/*" onchange="handleFileSelect(this)">
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button class="btn btn-primary" onclick="finishRegister()">Complete Registration</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="app-footer">
+            <div class="footer-links">
+                <a href="help/terms.html">Terms of Service</a>
+                <a href="help/privacy.html">Privacy Policy</a>
+                <a href="help/privacy.html">Cookie Policy</a>
+                <a href="help/privacy.html">Contact Us</a>
+                <a href="help/privacy.html">Help Center</a>
+            </div>
+            
+            <div class="sponsors-section">
+                <div class="sponsors-label">Trusted Partners</div>
+                <div class="sponsors-logos">
+                    <div class="sponsor-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='12' fill='white' font-family='Arial'%3EVISA%3C/text%3E%3C/svg%3E" alt="Visa">
+                    </div>
+                    <div class="sponsor-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='12' fill='white' font-family='Arial'%3EMastercard%3C/text%3E%3C/svg%3E" alt="Mastercard">
+                    </div>
+                    <div class="sponsor-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='12' fill='white' font-family='Arial'%3EPayPal%3C/text%3E%3C/svg%3E" alt="PayPal">
+                    </div>
+                    <div class="sponsor-logo">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='10' fill='white' font-family='Arial'%3EStripe%3C/text%3E%3C/svg%3E" alt="Stripe">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2024 FIG Chréus. All rights reserved.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay hidden" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+</div>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",
+    authDomain: "newagefarmbase.firebaseapp.com",
+    projectId: "newagefarmbase"
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Custom avatar URLs (your special images)
+const AVATAR_URLS = [
+    'https://images.unsplash.com/photo-1677297679380-46df420f8a68?q=80&w=150&h=150&fit=crop&crop=faces',
+    'https://images.unsplash.com/photo-1677297681311-cfdcb74bba8f?q=80&w=150&h=150&fit=crop&crop=faces',
+    'https://images.unsplash.com/photo-1670031652348-79bac7b88dfc?q=80&w=150&h=150&fit=crop&crop=faces',
+    'https://images.unsplash.com/photo-1663544093574-4cc2eb15cca1?q=80&w=150&h=150&fit=crop&crop=faces',
+    'https://images.unsplash.com/photo-1652182899957-452577c97486?q=80&w=150&h=150&fit=crop&crop=faces'
+];
+
+// Default profile pic
+const DEFAULT_PROFILE_PIC = "https://res.cloudinary.com/dinwv2dux/image/upload/v1766050865/pwnpt4pdgejt7wbdllk3.jpg";
+
+// Populate avatar options
+const avatarOptionsContainer = document.getElementById('avatarOptions');
+AVATAR_URLS.forEach(url => {
+    const img = document.createElement('img');
+    img.src = url;
+    img.className = 'avatar-option';
+    img.setAttribute('data-url', url);
+    img.onclick = function() { selectAvatar(url); };
+    avatarOptionsContainer.appendChild(img);
+});
+
+// UI Elements
+const introScreen = document.getElementById('introScreen');
+const regContainer = document.getElementById('registrationContainer');
+const registrationForm = document.getElementById('registrationForm');
+const sessionExistsState = document.getElementById('sessionExistsState');
+const errorState = document.getElementById('errorState');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const progress1 = document.getElementById('progress1');
+const progress2 = document.getElementById('progress2');
+const progress3 = document.getElementById('progress3');
+const stepCounter = document.getElementById('stepCounter');
+
+// CAPTCHA Canvas
+const canvas = document.getElementById('captchaCanvas');
+const ctx = canvas.getContext('2d');
+
+// State
+let step = 1;
+let captchaText = "";
+let agentData = null;
+let referralCode = "";
+let selectedFile = null;
+let selectedAvatar = null;
+
+// Check session
+const session = JSON.parse(localStorage.getItem('naf_session') || 'null');
+const hasValidSession = session && session.expires > Date.now();
+
+// Get referral from URL
+const urlParams = new URLSearchParams(window.location.search);
+referralCode = urlParams.get('ref') || '';
+
+// Fix viewport height
+function setVH() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+setVH();
+window.addEventListener('resize', setVH);
+
+// Intro to Registration
+function startRegistration() {
+    gsap.to(introScreen, {
+        duration: 0.5,
+        y: "-100%",
+        opacity: 0,
+        ease: "power2.inOut",
+        onComplete: () => {
+            introScreen.classList.add('hidden');
+            regContainer.classList.add('visible');
+            
+            gsap.fromTo(regContainer,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
+            );
+        }
+    });
+}
+
+function backToIntro() {
+    gsap.to(regContainer, {
+        duration: 0.4,
+        opacity: 0,
+        y: 20,
+        ease: "power2.inOut",
+        onComplete: () => {
+            regContainer.classList.remove('visible');
+            introScreen.classList.remove('hidden');
+            
+            gsap.fromTo(introScreen,
+                { y: "-100%", opacity: 0 },
+                { y: "0%", opacity: 1, duration: 0.5, ease: "power2.out" }
+            );
+        }
+    });
+}
+
+document.getElementById('startTrigger').addEventListener('click', startRegistration);
+document.getElementById('closeBtn').addEventListener('click', backToIntro);
+
+// Handle states
+if (hasValidSession) {
+    registrationForm.classList.add('hidden');
+    sessionExistsState.classList.remove('hidden');
+} else if (!referralCode) {
+    registrationForm.classList.add('hidden');
+    errorState.classList.remove('hidden');
+} else {
+    init();
+}
+
+async function init() {
+    showLoading();
+    
+    try {
+        const usersSnap = await getDocs(collection(db, 'users'));
+        let foundAgent = null;
+        
+        usersSnap.forEach(doc => {
+            const user = doc.data();
+            if (String(user.uid) === referralCode) {
+                foundAgent = { id: doc.id, ...user };
+            }
+        });
+
+        if (!foundAgent) {
+            hideLoading();
+            registrationForm.classList.add('hidden');
+            errorState.classList.remove('hidden');
+            return;
+        }
+
+        agentData = foundAgent;
+        
+        document.getElementById('agentAvatar').src = agentData.profilePic || AVATAR_URLS[0];
+        document.getElementById('agentName').textContent = agentData.username || 'Agent';
+        document.getElementById('agentUid').textContent = 'ID: ' + referralCode;
+        document.getElementById('referralCodeDisplay').textContent = referralCode;
+        
+        hideLoading();
+        
+    } catch (e) {
+        console.error('Init error:', e);
+        hideLoading();
+        registrationForm.classList.add('hidden');
+        errorState.classList.remove('hidden');
+    }
+}
+
+window.logoutAndContinue = function() {
+    localStorage.removeItem('naf_session');
+    sessionExistsState.classList.add('hidden');
+    registrationForm.classList.remove('hidden');
+    init();
+};
+
+function showLoading() {
+    loadingOverlay.classList.remove('hidden');
+}
+
+function hideLoading() {
+    loadingOverlay.classList.add('hidden');
+}
+
+// CAPTCHA Functions
+function drawCaptcha() {
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < 100; i++) {
+        ctx.fillStyle = `rgba(0,0,0,${Math.random() * 0.4})`;
+        ctx.beginPath();
+        ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    ctx.font = "bold 38px serif";
+    ctx.fillStyle = "#555";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    
+    const chars = captchaText.split('');
+    const xStart = 35;
+    for(let i = 0; i < chars.length; i++) {
+        ctx.save();
+        ctx.translate(xStart + (i * 38), 40 + (Math.random() * 8 - 4));
+        ctx.rotate((Math.random() * 0.3) - 0.15);
+        ctx.fillText(chars[i], 0, 0);
+        ctx.restore();
+    }
+
+    ctx.strokeStyle = "#666";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(8, 25);
+    ctx.bezierCurveTo(80, 20, 120, 60, 240, 40);
+    ctx.stroke();
+}
+
+function generateCaptchaText() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let text = '';
+    for (let i = 0; i < 5; i++) {
+        text += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return text;
+}
+
+window.generateCaptcha = function() {
+    captchaText = generateCaptchaText();
+    drawCaptcha();
+};
+
+window.speakCaptcha = function() {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(captchaText.split('').join(' '));
+        utterance.rate = 0.8;
+        speechSynthesis.speak(utterance);
+    }
+};
+
+// Avatar Selection
+window.selectAvatar = function(avatarUrl) {
+    selectedAvatar = avatarUrl === 'default' ? DEFAULT_PROFILE_PIC : avatarUrl;
+    
+    document.querySelectorAll('.avatar-option').forEach(opt => {
+        opt.classList.remove('selected');
+    });
+    
+    if (avatarUrl === 'default') {
+        document.getElementById('avatarNone').classList.add('selected');
+    } else {
+        const selectedImg = Array.from(document.querySelectorAll('.avatar-option[data-url]'))
+            .find(img => img.getAttribute('data-url') === avatarUrl);
+        if (selectedImg) selectedImg.classList.add('selected');
+    }
+    
+    selectedFile = null;
+    document.getElementById('fileLabel').textContent = 'Click to upload profile picture';
+};
+
+function updateProgressBars() {
+    [progress1, progress2, progress3].forEach((bar, index) => {
+        bar.classList.remove('active');
+        if (index < step) bar.classList.add('active');
+    });
+    stepCounter.textContent = `Step ${step}/3`;
+}
+
+window.nextStep = function() {
+    if (step === 1) {
+        step = 2;
+    } else if (step === 2) {
+        if (!validateStep2()) return;
+        step = 3;
+        generateCaptcha();
+    }
+    
+    document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+    updateProgressBars();
+};
+
+window.prevStep = function() {
+    if (step > 1) {
+        step--;
+        document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + step).classList.add('active');
+        updateProgressBars();
+    }
+};
+
+function validateStep2() {
+    const username = document.getElementById('username').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const password = document.getElementById('password').value;
+    const birthYear = document.getElementById('birthYear').value;
+    
+    if (!username || username.length < 3) {
+        alert('Username must be at least 3 characters');
+        return false;
+    }
+    
+    if (!phone) {
+        alert('Phone number is required');
+        return false;
+    }
+    
+    if (!password || password.length < 6) {
+        alert('Password must be at least 6 characters');
+        return false;
+    }
+    
+    const age = new Date().getFullYear() - parseInt(birthYear);
+    if (!birthYear || age < 12 || age > 80) {
+        alert('Age must be between 12 and 80');
+        return false;
+    }
+    
+    return true;
+}
+
+window.handleCountryChange = function() {
+    const country = document.getElementById('country').value;
+    const regionTZGroup = document.getElementById('regionTZGroup');
+    const regionOtherGroup = document.getElementById('regionOtherGroup');
+    
+    if (country === 'Tanzania') {
+        regionTZGroup.classList.remove('hidden');
+        regionOtherGroup.classList.add('hidden');
+    } else {
+        regionTZGroup.classList.add('hidden');
+        regionOtherGroup.classList.remove('hidden');
+    }
+};
+
+window.handleFileSelect = function(input) {
+    if (input.files && input.files[0]) {
+        selectedFile = input.files[0];
+        document.getElementById('fileLabel').textContent = selectedFile.name;
+        selectedAvatar = null;
+        document.querySelectorAll('.avatar-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+    }
+};
+
+window.finishRegister = async function() {
+    const captchaInput = document.getElementById('captchaInput').value;
+    
+    if (captchaInput.toUpperCase() !== captchaText) {
+        alert('Incorrect CAPTCHA. Please try again.');
+        generateCaptcha();
+        return;
+    }
+
+    const username = document.getElementById('username').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const password = document.getElementById('password').value;
+    const language = document.getElementById('language').value;
+    const theme = document.getElementById('themeSelect').value;
+    const country = document.getElementById('country').value;
+    const region = country === 'Tanzania' 
+        ? document.getElementById('regionTZ').value 
+        : document.getElementById('regionOther').value;
+    const birthYear = parseInt(document.getElementById('birthYear').value);
+
+    const docId = username + "@" + phone;
+    
+    showLoading();
+
+    try {
+        const existing = await getDoc(doc(db, 'users', docId));
+        if (existing.exists()) {
+            hideLoading();
+            alert('Username or phone already registered');
+            return;
+        }
+
+        let uid;
+        let exists = true;
+        while (exists) {
+            uid = Math.floor(100000 + Math.random() * 900000);
+            const usersSnap = await getDocs(collection(db, 'users'));
+            exists = false;
+            usersSnap.forEach(doc => {
+                if (doc.data().uid === uid) exists = true;
+            });
+        }
+
+        const welcomeBonus = Math.floor(Math.random() * (237 - 156 + 1)) + 156;
+        const profilePic = selectedAvatar || DEFAULT_PROFILE_PIC;
+
+        await setDoc(doc(db, 'users', docId), {
+            uid,
+            username,
+            phone,
+            password,
+            language,
+            theme,
+            referral: referralCode,
+            country,
+            region,
+            birthYear,
+            age: new Date().getFullYear() - birthYear,
+            profilePic,
+            balance: welcomeBonus,
+            role: "user",
+            recharge: "none",
+            createdAt: serverTimestamp()
+        });
+
+        localStorage.removeItem('naf_session');
+        localStorage.setItem("naf_session", JSON.stringify({
+            docId,
+            uid,
+            language,
+            theme,
+            expires: Date.now() + 172800000
+        }));
+
+        hideLoading();
+        alert(`Registration successful! Welcome bonus: TZS ${welcomeBonus.toLocaleString()}`);
+        window.location.href = "index.html";
+
+    } catch (e) {
+        hideLoading();
+        console.error('Registration error:', e);
+        alert('Registration failed. Please try again.');
+    }
+};
+
+// Initialize
+handleCountryChange();
+updateProgressBars();
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && regContainer.classList.contains('visible')) {
+        backToIntro();
+    }
+});
+</script>
+
+</body>
+</html>

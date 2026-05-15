@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>404 · Inmarsat-6 Live Feed</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808;
+      --surface: #0f0f0f;
+      --border: #1a1a1a;
+      --text: #ffffff;
+      --muted: #666666;
+      --text-secondary: #999999;
+      --accent: #ffffff;
+      --font: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.5;
+      min-height: 100vh;
+      position: relative;
+      font-size: 12px;
+      overflow-x: hidden;
+    }
+
+    body * {
+      font-size: 12px;
+    }
+
+    #swarm-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      background: #080808;
+    }
+
+    #swarm-background canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      padding: 2rem 1.5rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 3rem 2.5rem 5rem;
+      }
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .bot-face {
+      width: 35px;
+      height: 35px;
+      background: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .bot-face:active { transform: scale(0.9) rotate(5deg); }
+
+    .face-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: float 3s ease-in-out infinite alternate;
+      transform: scale(0.7) translateX(4px);
+    }
+
+    @keyframes float {
+      0% { transform: scale(0.7) translateX(4px) translateY(0); }
+      50% { transform: scale(0.7) translateX(4px) translateY(-2px); }
+      100% { transform: scale(0.7) translateX(4px) translateY(2px); }
+    }
+
+    .eyes-row { display: flex; gap: 10px; margin-top: 6px; height: 8px; align-items: center; }
+    .eye { width: 5px; height: 5px; background: #000; border-radius: 50%; transition: all 0.3s; }
+    .mouth { margin-top: 3px; width: 6px; height: 6px; border: 2px solid #000; border-radius: 50%; transition: all 0.3s; }
+
+    .bot-face.state-happy .mouth { width: 10px; height: 5px; border-radius: 0 0 10px 10px; border-top-color: transparent; }
+    .bot-face.state-excited .eye.left { background: transparent; border-top: 2px solid #000; border-right: 2px solid #000; border-radius: 0; transform: rotate(45deg) scale(1.2); }
+    .bot-face.state-excited .eye.right { background: transparent; border-top: 2px solid #000; border-right: 2px solid #000; border-radius: 0; transform: rotate(-135deg) scale(1.2); }
+    .bot-face.state-excited .mouth { width: 12px; height: 10px; border-radius: 3px 3px 8px 8px; background: #000; }
+    .bot-face.state-skeptical .eye.left { height: 2px; border-radius: 0; transform: scaleX(1.2); }
+    .bot-face.state-skeptical .mouth { width: 8px; height: 0; border: 0; border-bottom: 2px solid #000; transform: translateX(2px); }
+    .bot-face.state-awe .mouth { width: 10px; height: 10px; border-radius: 50%; }
+    .blinking .eye { transform: scaleY(0.1); }
+    .bot-face.state-excited .blinking .eye { transform: rotate(45deg) scale(1.2) !important; }
+
+    .menu-btn {
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .menu-btn span {
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .menu-btn span:nth-child(1) { transform: translateY(-8px); }
+    .menu-btn span:nth-child(2) { width: 18px; transform: translateX(3px); }
+    .menu-btn span:nth-child(3) { transform: translateY(8px); }
+
+    .menu-open .menu-btn span:nth-child(1) { transform: rotate(45deg) translateY(0); width: 24px; }
+    .menu-open .menu-btn span:nth-child(2) { opacity: 0; transform: scale(0); }
+    .menu-open .menu-btn span:nth-child(3) { transform: rotate(-45deg) translateY(0); width: 24px; }
+
+    #menu-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #000;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 25px;
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+      overflow-y: auto;
+    }
+    #menu-overlay.active { transform: translateY(0); }
+
+    .close-btn {
+      position: absolute;
+      top: 30px; right: 25px;
+      cursor: pointer;
+      z-index: 1002;
+    }
+    .close-btn .material-icons { font-size: 32px; color: #fff; }
+
+    .menu-links { display: flex; flex-direction: column; gap: 40px; margin-top: 100px; }
+    .menu-item {
+      display: flex; justify-content: space-between; align-items: center;
+      text-decoration: none; color: #fff; font-size: 32px; font-weight: 400;
+    }
+    .menu-item .material-icons { font-size: 28px; color: #aaa; }
+
+    .subscribe-section { margin-top: 60px; }
+    .sub-label { font-size: 11px; letter-spacing: 2px; color: #fff; margin-bottom: 15px; }
+    .sub-label span { color: #666; font-size: 9px; }
+    .input-group {
+      position: relative; border: 1px solid #333; border-radius: 12px;
+      padding: 18px 20px; display: flex; justify-content: space-between;
+      align-items: center; max-width: 500px;
+    }
+    .input-group input { background: transparent; border: none; color: #fff; font-family: inherit; font-size: 13px; width: 80%; outline: none; }
+    .input-group .material-icons { color: #fff; font-size: 20px; }
+
+    .footer-grid { margin-top: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 11px; letter-spacing: 2px; }
+    .footer-grid a, .footer-grid div { text-decoration: none; color: #fff; }
+    .copyright-row { margin-top: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .l-logo { width: 15px; height: 15px; border-left: 3px solid #fff; border-bottom: 3px solid #fff; }
+
+    .error-code {
+      font-size: 72px;
+      font-weight: 300;
+      letter-spacing: -2px;
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+
+    .error-sub {
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    /* live telemetry strip */
+    .telemetry-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 0.8rem 1rem;
+    }
+
+    .telemetry-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #aaa;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .telemetry-item .material-icons { font-size: 14px; color: #555; }
+    .telemetry-value { color: #ddd; font-weight: 500; }
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      background: #4f4;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    .sat-gif-banner {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .camera-card {
+      flex: 1;
+      min-width: 150px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    .camera-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      background: #0a0a0a;
+    }
+
+    .camera-label {
+      padding: 0.4rem 0.8rem;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #777;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid #1a1a1a;
+      padding-bottom: 1.5rem;
+    }
+
+    .section h2 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .section p, .section li { color: var(--text-secondary); line-height: 1.8; margin-bottom: 0.5rem; }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.8rem;
+      background: var(--surface);
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      margin: 0.8rem 0;
+    }
+    .spec-item { display: flex; flex-direction: column; }
+    .spec-label { color: #555; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+    .spec-value { color: #ccc; font-weight: 500; }
+
+    .band-row { display: flex; flex-direction: column; gap: 0.6rem; margin: 0.8rem 0; }
+    @media (min-width: 600px) { .band-row { flex-direction: row; } }
+
+    .band-chip {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #bbb;
+    }
+
+    .uses-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .use-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.7rem 1rem;
+      border-radius: 1rem;
+      flex: 1 1 120px;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .beam-note {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.8rem;
+      border-radius: 0.8rem;
+      color: #888;
+      font-style: italic;
+      margin: 0.6rem 0;
+    }
+
+    .quick-links-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .quick-links-section h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .link-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+
+    .link-chip {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      color: #ccc;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .link-chip:hover { border-color: #444; color: #fff; }
+
+    .link-chip .remove-btn {
+      display: none;
+      margin-left: 0.3rem;
+      cursor: pointer;
+      color: #555;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .link-chip:hover .remove-btn { display: flex; align-items: center; }
+
+    .add-link-form { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+    .add-link-form input {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      color: #fff;
+      padding: 0.6rem 1rem;
+      border-radius: 2rem;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      flex: 1;
+      min-width: 180px;
+    }
+    .add-link-form input::placeholder { color: #444; }
+    .add-link-form button {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 2rem;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .footer-note {
+      margin-top: 4rem;
+      color: #444;
+      text-align: left;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 1.5rem;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+  </script>
+</head>
+<body>
+  <div id="swarm-background"></div>
+
+  <div id="menu-overlay">
+    <div class="close-btn" id="close-menu"><span class="material-icons">close</span></div>
+    <div class="menu-links">
+      <a href="#" class="menu-item"><span>Home</span><span class="material-icons">arrow_forward</span></a>
+      <a href="#" class="menu-item"><span>Satellites</span><span class="material-icons">open_in_new</span></a>
+    </div>
+    <div class="subscribe-section">
+      <label class="sub-label">SUBSCRIBE <span>(UPDATES)</span></label>
+      <div class="input-group">
+        <input type="text" placeholder="EMAIL ADDRESS">
+        <span class="material-icons">arrow_forward</span>
+      </div>
+    </div>
+    <div class="footer-grid">
+      <a href="#">GITHUB</a><a href="#">TWITTER</a>
+      <div>contact@satellite.page</div>
+    </div>
+    <div class="copyright-row">
+      <div style="font-size:24px;font-weight:300;">©2026</div>
+      <div class="l-logo"></div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="header-row">
+      <div class="bot-face" id="bot">
+        <div class="face-container">
+          <div class="eyes-row"><div class="eye left"></div><div class="eye right"></div></div>
+          <div class="mouth"></div>
+        </div>
+      </div>
+      <div class="menu-btn" id="menuToggle"><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="error-code">Err - 403</div>
+    <div class="error-sub">Signal acquired · Inmarsat-6 F2 telemetry active</div>
+
+    <!-- simulated live telemetry -->
+    <div class="telemetry-strip" id="telemetryStrip">
+      <div class="telemetry-item"><span class="live-dot"></span> <span>LIVE</span></div>
+      <div class="telemetry-item"><span class="material-icons">satellite_alt</span> <span>ALT:</span> <span class="telemetry-value" id="altVal">35,786 km</span></div>
+      <div class="telemetry-item"><span class="material-icons">explore</span> <span>LAT:</span> <span class="telemetry-value" id="latVal">0.00°</span></div>
+      <div class="telemetry-item"><span class="material-icons">public</span> <span>LON:</span> <span class="telemetry-value" id="lonVal">25.0°E</span></div>
+      <div class="telemetry-item"><span class="material-icons">speed</span> <span>VEL:</span> <span class="telemetry-value">3.07 km/s</span></div>
+      <div class="telemetry-item"><span class="material-icons">wifi</span> <span>UPLINK:</span> <span class="telemetry-value">ACTIVE</span></div>
+    </div>
+
+    <!-- camera feeds with labels -->
+    <div class="sat-gif-banner">
+      <div class="camera-card">
+        <img src="404/1.gif" alt="satellite" onerror="this.style.display='none';">
+        <div class="camera-label"><span class="material-icons" style="font-size:12px;">videocam</span> CAM-1 · Nadir</div>
+      </div>
+      <div class="camera-card">
+        <img src="404/2.gif" alt="satellite" onerror="this.style.display='none';">
+        <div class="camera-label"><span class="material-icons" style="font-size:12px;">videocam</span> CAM-2 · Star Tracker</div>
+      </div>
+      <div class="camera-card">
+        <img src="404/3.gif" alt="satellite" onerror="this.style.display='none';">
+        <div class="camera-label"><span class="material-icons" style="font-size:12px;">videocam</span> CAM-3 · Solar Array</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Identification</h2>
+      <div class="spec-grid">
+        <div class="spec-item"><span class="spec-label">Operator</span><span class="spec-value">Inmarsat</span></div>
+        <div class="spec-item"><span class="spec-label">Manufacturer</span><span class="spec-value">Airbus Defence and Space</span></div>
+        <div class="spec-item"><span class="spec-label">Bus</span><span class="spec-value">Eurostar Neo</span></div>
+        <div class="spec-item"><span class="spec-label">Orbit</span><span class="spec-value">Geostationary (GEO)</span></div>
+        <div class="spec-item"><span class="spec-label">Altitude</span><span class="spec-value">~35,786 km</span></div>
+        <div class="spec-item"><span class="spec-label">Lifetime</span><span class="spec-value">15+ years</span></div>
+        <div class="spec-item"><span class="spec-label">Launch</span><span class="spec-value">H-IIA / Falcon 9</span></div>
+        <div class="spec-item"><span class="spec-label">Satellites</span><span class="spec-value">I-6 F1 & I-6 F2</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Hybrid Communication</h2>
+      <div class="band-row">
+        <div class="band-chip"><span class="material-icons">waves</span> L-band · 1–2 GHz · weather-resilient · cockpit, distress, military</div>
+        <div class="band-chip"><span class="material-icons">bolt</span> Ka-band · 26–40 GHz · high-speed broadband · aircraft Wi-Fi, streaming</div>
+      </div>
+      <p>Combines two major technologies into one hybrid satellite. L-band remains reliable through rain, clouds, and storms. Ka-band delivers gigabit-class internet with dynamic beam steering.</p>
+    </div>
+
+    <div class="section">
+      <h2>Geostationary Orbit Mechanics</h2>
+      <p>Inmarsat-6 sits at ~35,786 km above Earth. It rotates at the same angular speed as the planet, appearing fixed over one location. Ground antennas never need tracking movement. A single satellite covers almost one-third of Earth's surface — oceans, deserts, polar edges, rural Africa, and major air routes.</p>
+    </div>
+
+    <div class="section">
+      <h2>Antenna System</h2>
+      <p>Large deployable reflector antennas · digital beam forming processors · electronically steerable spot beams.</p>
+      <div class="beam-note">
+        <span class="material-icons" style="font-size:14px;">arrow_forward</span> Dynamic capacity allocation: more aircraft over Europe → bandwidth automatically shifted there in real time.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Propulsion & Power</h2>
+      <p><span class="material-icons" style="font-size:14px;">solar_power</span> Large solar arrays generate ~20 kW electrical power.</p>
+      <p><span class="material-icons" style="font-size:14px;">rocket_launch</span> Electric ion propulsion using xenon plasma thrusters. Benefits: uses less fuel, longer operational life, precise orbit control.</p>
+    </div>
+
+    <div class="section">
+      <h2>Onboard Processing — The Space Computer</h2>
+      <p>Inmarsat-6 includes a digital transparent processor. It routes signals internally, switches frequencies, manages traffic loads, and reconfigures communication beams remotely. Think of it as a cloud router in orbit — software-defined and fully reconfigurable from ground stations.</p>
+    </div>
+
+    <div class="section">
+      <h2>Real-World Applications</h2>
+      <div class="uses-row">
+        <div class="use-tile"><span class="material-icons">flight</span> Aviation · cockpit data, tracking, passenger Wi-Fi</div>
+        <div class="use-tile"><span class="material-icons">sailing</span> Maritime · ship internet, navigation, distress systems</div>
+        <div class="use-tile"><span class="material-icons">shield</span> Government · secure communications, disaster response</div>
+        <div class="use-tile"><span class="material-icons">construction</span> Remote industry · oil rigs, mining, polar research</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Technological Significance</h2>
+      <p>Inmarsat-6 represents the shift toward software-defined satellites, flexible bandwidth allocation, hybrid communication systems, and space-based global networking. It is essentially a data backbone node in orbit — serving as critical infrastructure for aviation, maritime, military, and emergency services worldwide.</p>
+      <p style="margin-top:0.8rem;">Further deep dives available: internal architecture diagrams · ground station step-by-step · signal encryption & security · how satellites send internet packets · temporary orbital data storage.</p>
+    </div>
+
+    <!-- quick links with IndexedDB storage and hover remove -->
+    <div class="quick-links-section">
+      <h3><span class="material-icons">edit</span> Quick Redirect · add existing files</h3>
+      <div class="link-list" id="linkContainer"></div>
+      <div class="add-link-form">
+        <input type="text" id="fileNameInput" placeholder="e.g. user.html or dashboard">
+        <button id="addLinkBtn"><span class="material-icons">add</span> Add</button>
+      </div>
+      <p style="color:#444; margin-top:0.6rem; font-size:10px;">Type a filename that exists on your server. Stored in IndexedDB. Hover any link to reveal remove button.</p>
+    </div>
+
+    <div class="footer-note">
+      <span class="material-icons" style="font-size:14px;">more_horiz</span> lost? this page doubles as a satellite knowledge base · Inmarsat-6 F1 & F2
+    </div>
+  </div>
+
+  <script>
+    // menu
+    const menu = document.getElementById('menu-overlay');
+    const menuToggle = document.getElementById('menuToggle');
+    const closeBtn = document.getElementById('close-menu');
+
+    function openMenu() {
+      menu.classList.add('active');
+      document.body.classList.add('menu-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      menu.classList.remove('active');
+      document.body.classList.remove('menu-open');
+      document.body.style.overflow = 'auto';
+    }
+    menuToggle.addEventListener('click', () => menu.classList.contains('active') ? closeMenu() : openMenu());
+    closeBtn.addEventListener('click', closeMenu);
+
+    // bot
+    const bot = document.getElementById('bot');
+    const states = ['state-awe','state-happy','state-skeptical','state-excited'];
+    let lastScrollY = window.scrollY;
+    let idleTimer;
+    function setMood(m) { states.forEach(s => bot.classList.remove(s)); bot.classList.add(m); }
+    window.addEventListener('load', () => setMood('state-awe'));
+    window.addEventListener('scroll', () => {
+      const cur = window.scrollY;
+      setMood(cur > lastScrollY ? 'state-excited' : 'state-happy');
+      lastScrollY = cur;
+      resetIdle();
+    });
+    function resetIdle() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => { setMood('state-skeptical'); setTimeout(() => setMood('state-awe'), 2000); }, 3000);
+    }
+    ['scroll','mousemove','touchstart'].forEach(e => window.addEventListener(e, resetIdle));
+    bot.addEventListener('click', () => { setMood(states[Math.floor(Math.random()*states.length)]); resetIdle(); });
+    function blinkLoop() {
+      if (!bot.classList.contains('state-excited')) { bot.classList.add('blinking'); setTimeout(() => bot.classList.remove('blinking'), 150); }
+      setTimeout(blinkLoop, Math.random()*3000+1000);
+    }
+    blinkLoop();
+
+    // simulated live telemetry update
+    function updateTelemetry() {
+      const latEl = document.getElementById('latVal');
+      const lonEl = document.getElementById('lonVal');
+      if (latEl && lonEl) {
+        const lat = (Math.random() * 10 - 5).toFixed(2);
+        const lon = (Math.random() * 40 + 5).toFixed(1);
+        latEl.textContent = lat + '°';
+        lonEl.textContent = lon + '°E';
+      }
+    }
+    setInterval(updateTelemetry, 3000);
+    updateTelemetry();
+
+    // IndexedDB quick links
+    const DB_NAME = 'Sat404DB';
+    const STORE_NAME = 'links';
+    let db;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, 1);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+          }
+        };
+        request.onsuccess = (e) => { db = e.target.result; resolve(db); };
+        request.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    function getLinks() {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result || []);
+        request.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    function addLink(name) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.add({ name });
+        tx.oncomplete = () => resolve();
+        tx.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    function deleteLink(id) {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.delete(id);
+        tx.oncomplete = () => resolve();
+        tx.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    const linkContainer = document.getElementById('linkContainer');
+    const fileNameInput = document.getElementById('fileNameInput');
+    const addBtn = document.getElementById('addLinkBtn');
+
+    async function renderLinks() {
+      const links = await getLinks();
+      linkContainer.innerHTML = '';
+      links.forEach(link => {
+        const chip = document.createElement('div');
+        chip.className = 'link-chip';
+        chip.innerHTML = `<span class="material-icons" style="font-size:14px;">link</span> ${link.name} <span class="remove-btn material-icons" data-id="${link.id}">close</span>`;
+        chip.querySelector('.link-icon-area')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          window.location.href = link.name;
+        });
+        chip.addEventListener('click', (e) => {
+          if (e.target.classList.contains('remove-btn') || e.target.closest('.remove-btn')) return;
+          window.location.href = link.name;
+        });
+        chip.querySelector('.remove-btn').addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await deleteLink(link.id);
+          await renderLinks();
+        });
+        linkContainer.appendChild(chip);
+      });
+    }
+
+    addBtn.addEventListener('click', async () => {
+      const val = fileNameInput.value.trim();
+      if (!val) return;
+      const links = await getLinks();
+      if (!links.some(l => l.name === val)) {
+        await addLink(val);
+        await renderLinks();
+      }
+      fileNameInput.value = '';
+    });
+
+    fileNameInput.addEventListener('keypress', async (e) => {
+      if (e.key === 'Enter') addBtn.click();
+    });
+
+    openDB().then(() => renderLinks());
+
+    // swarm background
+    (function initSwarm() {
+      const container = document.getElementById("swarm-background");
+      if (!container) return;
+      const scene = new THREE.Scene();
+      scene.background = null;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      const camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
+      camera.position.z = 12; camera.position.y = 1; camera.lookAt(2,0,0);
+      const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+      const particleCount = 400;
+      const sparkleCount = 150;
+      const positions = new Float32Array(particleCount*3);
+      const colors = new Float32Array(particleCount*3);
+      const velocities = [];
+      let tiltX=0, tiltY=0, tiltZ=0, targetTiltX=0, targetTiltY=0, targetTiltZ=0;
+      const TILT_SMOOTH=0.08;
+      const BOUNDS = { left:-10, right:12, top:8, bottom:-8, front:8, back:-8 };
+      for (let i=0; i<particleCount; i++) {
+        positions[i*3] = Math.random()*(BOUNDS.right-BOUNDS.left)+BOUNDS.left;
+        positions[i*3+1] = Math.random()*(BOUNDS.top-BOUNDS.bottom)+BOUNDS.bottom;
+        positions[i*3+2] = Math.random()*(BOUNDS.front-BOUNDS.back)+BOUNDS.back;
+        velocities.push({
+          baseX:0.01+Math.random()*0.015, baseY:(Math.random()-0.5)*0.02, baseZ:(Math.random()-0.5)*0.01,
+          x:0.02+Math.random()*0.03, y:(Math.random()-0.5)*0.02, z:(Math.random()-0.5)*0.01,
+          phase:Math.random()*Math.PI*2
+        });
+        if (Math.random()>0.5) { colors[i*3]=0.3+Math.random()*0.2; colors[i*3+1]=0.3+Math.random()*0.2; colors[i*3+2]=0.4+Math.random()*0.3; }
+        else { colors[i*3]=0.4+Math.random()*0.2; colors[i*3+1]=0.4+Math.random()*0.2; colors[i*3+2]=0.3+Math.random()*0.2; }
+      }
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute("position", new THREE.BufferAttribute(positions,3));
+      geometry.setAttribute("color", new THREE.BufferAttribute(colors,3));
+      const material = new THREE.PointsMaterial({ size:0.04, vertexColors:true, transparent:true, opacity:0.45, blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true });
+      const particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+      const sparkleGeo = new THREE.BufferGeometry();
+      const sparklePos = new Float32Array(sparkleCount*3);
+      const sparkleColors = new Float32Array(sparkleCount*3);
+      for (let i=0; i<sparkleCount; i++) {
+        sparklePos[i*3]=Math.random()*(BOUNDS.right-BOUNDS.left)+BOUNDS.left;
+        sparklePos[i*3+1]=Math.random()*(BOUNDS.top-BOUNDS.bottom)+BOUNDS.bottom;
+        sparklePos[i*3+2]=Math.random()*(BOUNDS.front-BOUNDS.back)+BOUNDS.back;
+        sparkleColors[i*3]=0.9; sparkleColors[i*3+1]=0.8; sparkleColors[i*3+2]=0.6;
+      }
+      sparkleGeo.setAttribute("position", new THREE.BufferAttribute(sparklePos,3));
+      sparkleGeo.setAttribute("color", new THREE.BufferAttribute(sparkleColors,3));
+      const sparkleMat = new THREE.PointsMaterial({ size:0.025, vertexColors:true, transparent:true, opacity:0.3, blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true });
+      const sparkles = new THREE.Points(sparkleGeo, sparkleMat);
+      scene.add(sparkles);
+      scene.fog = new THREE.FogExp2(0x080808, 0.04);
+      function handleOrientation(e) {
+        if (e.beta!==null) targetTiltY = Math.max(-45,Math.min(45,e.beta))/45;
+        if (e.gamma!==null) targetTiltX = Math.max(-45,Math.min(45,e.gamma))/45;
+        if (e.alpha!==null) targetTiltZ = (e.alpha/180)-1;
+      }
+      function requestPerm() {
+        if (typeof DeviceOrientationEvent!=='undefined' && typeof DeviceOrientationEvent.requestPermission==='function') {
+          DeviceOrientationEvent.requestPermission().then(s => { if(s==='granted') window.addEventListener('deviceorientation',handleOrientation); }).catch(()=>{});
+        } else { window.addEventListener('deviceorientation',handleOrientation); }
+      }
+      document.addEventListener('touchstart', requestPerm);
+      document.addEventListener('click', requestPerm);
+      const SPEED=0.4; let time=0;
+      function animate() {
+        requestAnimationFrame(animate);
+        tiltX+=(targetTiltX-tiltX)*TILT_SMOOTH; tiltY+=(targetTiltY-tiltY)*TILT_SMOOTH; tiltZ+=(targetTiltZ-tiltZ)*TILT_SMOOTH;
+        time+=0.01*SPEED;
+        const posArray = geometry.attributes.position.array;
+        for (let i=0; i<particleCount; i++) {
+          const v=velocities[i];
+          v.x+=(v.baseX*(1+tiltX*0.4)-v.x)*0.05; v.y+=(v.baseY+tiltY*0.03-v.y)*0.05; v.z+=(v.baseZ+tiltZ*0.02-v.z)*0.05;
+          posArray[i*3]+=(v.x+Math.sin(time*2+v.phase)*0.002)*SPEED;
+          posArray[i*3+1]+=(v.y+Math.cos(time*1.5+v.phase)*0.002)*SPEED;
+          posArray[i*3+2]+=(v.z+Math.sin(time*1.8+v.phase*2)*0.001)*SPEED;
+          if (posArray[i*3]>BOUNDS.right) posArray[i*3]=BOUNDS.left; else if (posArray[i*3]<BOUNDS.left) posArray[i*3]=BOUNDS.right;
+          if (posArray[i*3+1]>BOUNDS.top) posArray[i*3+1]=BOUNDS.bottom; else if (posArray[i*3+1]<BOUNDS.bottom) posArray[i*3+1]=BOUNDS.top;
+          if (posArray[i*3+2]>BOUNDS.front) posArray[i*3+2]=BOUNDS.back; else if (posArray[i*3+2]<BOUNDS.back) posArray[i*3+2]=BOUNDS.front;
+        }
+        geometry.attributes.position.needsUpdate=true;
+        const spArr = sparkleGeo.attributes.position.array;
+        for (let i=0; i<sparkleCount; i++) {
+          spArr[i*3]+=(0.015+tiltX*0.01)*SPEED; spArr[i*3+1]+=(tiltY*0.01)*SPEED; spArr[i*3+2]+=(tiltZ*0.005)*SPEED;
+          if (spArr[i*3]>BOUNDS.right) spArr[i*3]=BOUNDS.left; else if (spArr[i*3]<BOUNDS.left) spArr[i*3]=BOUNDS.right;
+          if (spArr[i*3+1]>BOUNDS.top) spArr[i*3+1]=BOUNDS.bottom; else if (spArr[i*3+1]<BOUNDS.bottom) spArr[i*3+1]=BOUNDS.top;
+          if (spArr[i*3+2]>BOUNDS.front) spArr[i*3+2]=BOUNDS.back; else if (spArr[i*3+2]<BOUNDS.back) spArr[i*3+2]=BOUNDS.front;
+        }
+        sparkleGeo.attributes.position.needsUpdate=true;
+        camera.position.x+=(Math.sin(time*0.1)*1+tiltX*0.8-camera.position.x)*0.05;
+        camera.position.y+=(1+Math.sin(time*0.2)*0.3+tiltY*0.8-camera.position.y)*0.05;
+        camera.position.z+=(12+tiltZ*0.5-camera.position.z)*0.05;
+        camera.lookAt(2+tiltX*0.3,0+tiltY*0.3,0);
+        renderer.render(scene, camera);
+      }
+      animate();
+      window.addEventListener("resize", () => {
+        const w=container.clientWidth, h=container.clientHeight;
+        camera.aspect=w/h; camera.updateProjectionMatrix();
+        renderer.setSize(w,h);
+      });
+    })();
+  </script>
+</body>
+</html>

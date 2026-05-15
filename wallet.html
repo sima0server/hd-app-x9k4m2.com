@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HD™ Wallet</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #0a0c10;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 414px;
+            padding: 24px 20px;
+            background: #0a0c10;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #14181f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6b7280;
+            cursor: pointer;
+        }
+
+        .pill-btn {
+            background: #14181f;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pill-btn.active {
+            background: #dcb95e;
+            color: #0a0c10;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .greeting {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        /* Wallet Container */
+        .wallet-container {
+            position: relative;
+            width: 100%;
+            background: #11141a;
+            border-radius: 24px;
+            border: 1px solid #1f242c;
+            padding: 15px;
+            margin-bottom: 30px;
+            height: 390px;
+            overflow: hidden;
+            transition: height 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        .wallet-container.expanded {
+            height: 580px;
+        }
+
+        /* Cards */
+        .card {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            height: 200px;
+            border-radius: 16px;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 22px;
+            transition: all 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        .card-chréus {
+            top: 20px;
+            background: linear-gradient(145deg, #f0d060, #c49b1f);
+            color: #0a0c10;
+            z-index: 1;
+        }
+
+        .card-mastercard {
+            top: 50px;
+            background: linear-gradient(145deg, #1e2430, #151a24);
+            z-index: 2;
+            border: 1px solid #2a303a;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .mc-logo { 
+            display: flex; 
+            margin-top: -5px;
+        }
+        .mc-logo img {
+            width: 45px;
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .card-visa {
+            top: 80px;
+            background: linear-gradient(145deg, #1a3a5c, #0f2840);
+            z-index: 3;
+            border: 1px solid #2a5a8a;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        .wallet-container.expanded .card-visa {
+            height: 220px;
+            top: 25px;
+        }
+
+        .visa-normal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-style: italic;
+            font-size: 26px;
+            color: #8b9bb5;
+            opacity: 1;
+            transition: opacity 0.25s ease;
+        }
+
+        .wallet-container.expanded .visa-normal {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .visa-expanded {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .wallet-container.expanded .visa-expanded {
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        .card-provider-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .card-provider-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .card-chip {
+            width: 45px;
+            height: 35px;
+            background: linear-gradient(145deg, #e8c84a, #c49b1f);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .card-number {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+        }
+
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .card-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 3px;
+        }
+
+        .card-value {
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 10px;
+        }
+
+        .card-bottom .mc-logo-bottom img {
+            width: 40px;
+            height: 25px;
+            object-fit: contain;
+        }
+
+        .card-bottom .visa-text-bottom {
+            font-size: 22px;
+            font-style: italic;
+            font-weight: 700;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Front Panel */
+        .front-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0e1117;
+            border-radius: 0 0 24px 24px;
+            z-index: 4;
+            padding: 25px 25px 20px;
+            border-top: 1px solid #1f242c;
+            clip-path: polygon(0% 20px, 5% 20px, 10% 0%, 90% 0%, 95% 20px, 100% 20px, 100% 100%, 0% 100%);
+            height: 260px;
+            transition: height 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        .wallet-container.expanded .front-panel {
+            height: 330px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .wallet-title { display: flex; align-items: center; gap: 6px; }
+
+        .lock-icon {
+            width: 10px;
+            height: 8px;
+            background: #6b7280;
+            border-radius: 2px;
+            position: relative;
+        }
+        .lock-icon::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 2px;
+            width: 5px;
+            height: 5px;
+            border: 1px solid #6b7280;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .balance-usd {
+            font-size: 34px;
+            font-weight: 400;
+            margin: 0 0 6px;
+        }
+
+        .balance-tzs {
+            color: #4a4b52;
+            font-size: 14px;
+            margin: 0 0 20px;
+        }
+
+        .currency-toggle {
+            position: absolute;
+            right: 25px;
+            top: 100px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toggle-labels {
+            display: flex;
+            flex-direction: column;
+            color: #4a4b52;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .switch {
+            width: 20px;
+            height: 40px;
+            background: #1a1e26;
+            border-radius: 10px;
+            position: relative;
+            border: 1px solid #2a303a;
+            cursor: pointer;
+        }
+
+        .knob {
+            width: 12px;
+            height: 12px;
+            background: #dcb95e;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 4px;
+            left: 3px;
+            transition: bottom 0.2s ease;
+        }
+        .switch.active .knob { bottom: 22px; }
+
+        /* Form Area */
+        .form-area {
+            margin-top: 5px;
+        }
+
+        .setup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            color: #fff;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .save-btn {
+            background: #dcb95e;
+            color: #0a0c10;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .save-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .withdrawal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .amount-input {
+            position: relative;
+        }
+
+        .amount-input input {
+            width: 100%;
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            color: #fff;
+            padding: 12px 50px 12px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .amount-input span {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .withdraw-btn {
+            background: #dcb95e;
+            color: #0a0c10;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .withdraw-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Expand button */
+        .expand-btn {
+            position: absolute;
+            bottom: 242px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 32px;
+            background: #1a1e26;
+            border: 1px solid #3a404a;
+            border-radius: 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: bottom 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        .wallet-container.expanded .expand-btn {
+            bottom: 312px;
+        }
+
+        .chevron {
+            border: solid #dcb95e;
+            border-width: 0 2px 2px 0;
+            padding: 3px;
+            transform: rotate(45deg);
+            margin-bottom: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .wallet-container.expanded .chevron {
+            transform: rotate(-135deg);
+            margin-bottom: -4px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #11141a;
+            border-radius: 24px;
+            padding: 24px;
+            width: 90%;
+            max-width: 340px;
+            border: 1px solid #2a303a;
+        }
+
+        .modal-content h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            color: #fff;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-actions .confirm {
+            background: #ef4444;
+            color: white;
+        }
+
+        .modal-actions .cancel {
+            background: #2a303a;
+            color: #6b7280;
+        }
+
+        .modal-sheet {
+            background: #11141a;
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            width: 100%;
+            max-width: 414px;
+            border-top: 1px solid #2a303a;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1a1e26;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .slot-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .slot-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #1a1e26;
+            border-radius: 12px;
+            border: 1px solid #2a303a;
+            cursor: pointer;
+        }
+
+        .slot-item.active {
+            border-color: #dcb95e;
+        }
+
+        .slot-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slot-info img {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            object-fit: contain;
+        }
+
+        .slot-details h4 {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .slot-details p {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .delete-slot {
+            color: #ef4444;
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .add-slot-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: 1px dashed #3a404a;
+            border-radius: 12px;
+            color: #6b7280;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Favorites */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title { font-size: 16px; font-weight: 500; }
+        .see-all { color: #6b7280; font-size: 13px; text-decoration: none; }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .crypto-card {
+            background: #11141a;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid #1f242c;
+        }
+
+        .crypto-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6b7280;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .crypto-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .btc-bg { background: #f7931a; color: #000; }
+        .eth-bg { background: #627eea; color: #fff; }
+
+        .crypto-price { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+        .crypto-change { font-size: 11px; }
+        .text-red { color: #ef4444; }
+        .text-green { color: #10b981; }
+
+        /* Transactions */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tx-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tx-flags {
+            position: relative;
+            width: 38px;
+            height: 28px;
+        }
+
+        .tx-flags .flag {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            position: absolute;
+            border: 2px solid #0a0c10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .tx-flags .flag:first-child { left: 0; z-index: 2; }
+        .tx-flags .flag:last-child { right: 0; z-index: 1; }
+
+        .flag-sg { background: #dd3036; color: white; }
+        .flag-us { background: #3b5998; color: white; }
+        .flag-eu { background: #0052b4; color: white; }
+        .flag-jp { background: #ffffff; color: #bc002d; }
+
+        .tx-details h4 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .tx-details p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .tx-right {
+            text-align: right;
+        }
+
+        .tx-right h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .tx-right p {
+            font-size: 12px;
+        }
+
+        * { -webkit-tap-highlight-color: transparent; }
+        input, select, button { outline: none; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <header>
+        <div class="icon-btn" onclick="window.location.href='more.html'">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </div>
+        <div class="header-right">
+            <div class="pill-btn" id="cardSlotIndicator">No Card</div>
+            <div class="icon-btn" onclick="window.location.href='withdraw-history.html'">
+                <span class="material-symbols-outlined">history</span>
+            </div>
+        </div>
+    </header>
+
+    <h1 class="greeting" id="greetingText">Hai!</h1>
+
+    <div class="wallet-container" id="walletContainer">
+        
+        <div class="card card-chréus">chréus</div>
+        
+        <div class="card card-mastercard">
+            <div class="mc-logo">
+                <img src="assets/icons/mastercard.png" alt="Mastercard" onerror="this.parentElement.innerHTML='<div style=\'display:flex\'><div style=\'width:24px;height:24px;background:#eb001b;border-radius:50%\'></div><div style=\'width:24px;height:24px;background:#f79e1b;border-radius:50%;margin-left:-10px\'></div></div>'">
+            </div>
+        </div>
+        
+        <div class="card card-visa">
+            <div class="visa-normal">VISA</div>
+            <div class="visa-expanded">
+                <div class="card-provider-logo">
+                    <img src="" id="providerLogoExpanded" style="display:none">
+                </div>
+                
+                <div>
+                    <div class="card-chip"></div>
+                    <div class="card-number" id="cardNumber">••••  ••••  ••••  ••••</div>
+                </div>
+                
+                <div>
+                    <div class="card-row">
+                        <div>
+                            <div class="card-label">Holder</div>
+                            <div class="card-value" id="cardName">-</div>
+                        </div>
+                        <div>
+                            <div class="card-label">Phone</div>
+                            <div class="card-value" id="cardPhone">-</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-bottom">
+                        <div class="mc-logo-bottom">
+                            <img src="assets/icons/card.png" alt="MC" onerror="this.style.display='none'">
+                        </div>
+                        <div class="visa-text-bottom">VISA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="front-panel">
+            <div class="header-row">
+                <div class="wallet-title">Total Balance <span>🪪</span></div>
+                <div class="lock-icon"></div>
+            </div>
+            
+            <p class="balance-usd" id="mainBalance">$0.00</p>
+            <p class="balance-tzs" id="secondaryBalance">TSh 0</p>
+
+            <div class="currency-toggle">
+                <div class="toggle-labels">
+                    <span>USDT</span>
+                    <span>TZS</span>
+                </div>
+                <div class="switch" id="currencySwitch">
+                    <div class="knob"></div>
+                </div>
+            </div>
+
+            <div class="form-area">
+                <div id="setupFormContainer">
+                    <div class="setup-form">
+                        <div class="form-group">
+                            <input type="text" id="fullName" placeholder="FULL NAME" style="text-transform:uppercase">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="tel" id="phoneNumber" placeholder="PHONE">
+                            </div>
+                            <div class="form-group">
+                                <select id="walletProvider">
+                                    <option value="">PROVIDER</option>
+                                    <option value="vodacom">Vodacom</option>
+                                    <option value="tigo">Tigo</option>
+                                    <option value="halopesa">Halopesa</option>
+                                    <option value="airtel">Airtel</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="save-btn" id="saveCardBtn">
+                            <span class="material-symbols-outlined" style="font-size:16px">add</span>
+                            Add Card
+                        </button>
+                    </div>
+                </div>
+
+                <div id="withdrawContainer" class="hidden">
+                    <div class="withdrawal-form">
+                        <div class="amount-input">
+                            <input type="number" id="withdrawAmount" placeholder="Amount" step="0.01">
+                            <span id="currencyLabel">USDT</span>
+                        </div>
+                        <button class="withdraw-btn" id="withdrawBtn">
+                            <span class="material-symbols-outlined" style="font-size:16px">send</span>
+                            Withdraw
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="expand-btn" id="expandBtn">
+            <i class="chevron"></i>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h3 class="section-title">Favorites</h3>
+        <a href="#" class="see-all">See all</a>
+    </div>
+    
+    <div class="favorites-grid">
+        <div class="crypto-card">
+            <div class="crypto-header"><div class="crypto-icon btc-bg">₿</div>Bitcoin</div>
+            <div class="crypto-price">$65,257</div>
+            <div class="crypto-change text-red">-0.42%</div>
+        </div>
+        <div class="crypto-card">
+            <div class="crypto-header"><div class="crypto-icon eth-bg">Ξ</div>Ethereum</div>
+            <div class="crypto-price">$1,812</div>
+            <div class="crypto-change text-green">+1.10%</div>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h3 class="section-title">Transactions</h3>
+        <a href="#" class="see-all">See all</a>
+    </div>
+
+    <div class="transaction-list">
+        <div class="transaction-item">
+            <div class="tx-left">
+                <div class="tx-flags">
+                    <div class="flag flag-sg">SG</div>
+                    <div class="flag flag-us">US</div>
+                </div>
+                <div class="tx-details">
+                    <h4>SGD → USD</h4>
+                    <p>SGDT → $32,306</p>
+                </div>
+            </div>
+            <div class="tx-right">
+                <h4>+$3.21</h4>
+                <p class="text-green">+26%</p>
+            </div>
+        </div>
+        <div class="transaction-item">
+            <div class="tx-left">
+                <div class="tx-flags">
+                    <div class="flag flag-eu">EU</div>
+                    <div class="flag flag-jp">JP</div>
+                </div>
+                <div class="tx-details">
+                    <h4>EUR → JPY</h4>
+                    <p>CACD → $25.75</p>
+                </div>
+            </div>
+            <div class="tx-right">
+                <h4>+$1.20</h4>
+                <p class="text-green">+1.10%</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Card Slots Modal -->
+<div class="modal" id="slotsModal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <h3>Card Slots</h3>
+            <div class="close-btn" id="closeModal"><span class="material-symbols-outlined">close</span></div>
+        </div>
+        <div class="slot-list" id="slotList"></div>
+        <button class="add-slot-btn" id="addNewSlotBtn">
+            <span class="material-symbols-outlined">add</span>
+            Add New Card (Max 3)
+        </button>
+    </div>
+</div>
+
+<!-- Password Confirmation Modal -->
+<div class="modal" id="passwordModal">
+    <div class="modal-content">
+        <h3>Confirm Password</h3>
+        <input type="password" id="confirmPassword" placeholder="Enter your password">
+        <div class="modal-actions">
+            <button class="cancel" id="cancelPassword">Cancel</button>
+            <button class="confirm" id="confirmDeleteBtn">Delete</button>
+        </div>
+    </div>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",
+  authDomain: "newagefarmbase.firebaseapp.com",
+  projectId: "newagefarmbase"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Session check
+const session = JSON.parse(localStorage.getItem('naf_session') || '{}');
+if (!session.docId || Date.now() > session.expires) {
+    localStorage.removeItem('naf_session');
+    window.location.href = 'login.html';
+}
+
+const userId = session.docId;
+let userData = null;
+let userPassword = '';
+let cards = [];
+let activeCardIndex = -1;
+let userBalanceTZS = 0;
+let pendingDeleteIndex = -1;
+let isUSDTMode = true;
+
+const EXCHANGE_RATE = 2600;
+
+// UI Elements
+const wallet = document.getElementById('walletContainer');
+const expandBtn = document.getElementById('expandBtn');
+const indicator = document.getElementById('cardSlotIndicator');
+const modal = document.getElementById('slotsModal');
+const passwordModal = document.getElementById('passwordModal');
+const slotList = document.getElementById('slotList');
+const greetingText = document.getElementById('greetingText');
+const mainBal = document.getElementById('mainBalance');
+const secBal = document.getElementById('secondaryBalance');
+const currencyLabel = document.getElementById('currencyLabel');
+const switchEl = document.getElementById('currencySwitch');
+
+const icons = {
+    vodacom: 'assets/icons/mpesa.png',
+    tigo: 'assets/icons/tigo.png',
+    halopesa: 'assets/icons/halopesa.png',
+    airtel: 'assets/icons/airtel.png'
+};
+const names = {
+    vodacom: 'Vodacom', tigo: 'Tigo', halopesa: 'Halopesa', airtel: 'Airtel'
+};
+
+function updateBalanceDisplay() {
+    if (isUSDTMode) {
+        mainBal.textContent = `$${(userBalanceTZS / EXCHANGE_RATE).toFixed(2)}`;
+        secBal.textContent = `TSh ${userBalanceTZS.toLocaleString()}`;
+        currencyLabel.textContent = 'USDT';
+    } else {
+        mainBal.textContent = `TSh ${userBalanceTZS.toLocaleString()}`;
+        secBal.textContent = `$${(userBalanceTZS / EXCHANGE_RATE).toFixed(2)}`;
+        currencyLabel.textContent = 'TZS';
+    }
+}
+
+async function loadUserData() {
+    try {
+        const userDoc = await getDoc(doc(db, 'users', userId));
+        if (!userDoc.exists()) {
+            window.location.href = 'login.html';
+            return;
+        }
+        userData = userDoc.data();
+        userPassword = userData.password;
+        greetingText.textContent = `Hai, ${userData.username || 'User'}!`;
+        userBalanceTZS = userData.balance || 0;
+        
+        cards = userData.cards || [];
+        activeCardIndex = userData.activeCardIndex !== undefined ? userData.activeCardIndex : -1;
+        
+        updateUI();
+        updateBalanceDisplay();
+    } catch (e) {
+        console.error('Load error:', e);
+    }
+}
+
+const cardNum = document.getElementById('cardNumber');
+const cardName = document.getElementById('cardName');
+const cardPhone = document.getElementById('cardPhone');
+const providerLogoExpanded = document.getElementById('providerLogoExpanded');
+const setupContainer = document.getElementById('setupFormContainer');
+const withdrawContainer = document.getElementById('withdrawContainer');
+
+function fmtCard(phone) {
+    const c = (phone || '').replace(/\D/g,'');
+    return c.length >= 8 ? `••••  ••••  ••••  ${c.slice(-4)}` : '••••  ••••  ••••  ••••';
+}
+
+function updateUI() {
+    if (activeCardIndex >= 0 && cards[activeCardIndex]) {
+        const c = cards[activeCardIndex];
+        cardName.textContent = c.name;
+        cardPhone.textContent = c.phone;
+        cardNum.textContent = fmtCard(c.phone);
+        providerLogoExpanded.src = icons[c.provider] || '';
+        providerLogoExpanded.style.display = 'inline-block';
+        setupContainer.classList.add('hidden');
+        withdrawContainer.classList.remove('hidden');
+        indicator.textContent = `${names[c.provider]}`;
+        indicator.classList.add('active');
+    } else {
+        cardName.textContent = '-';
+        cardPhone.textContent = '-';
+        cardNum.textContent = '••••  ••••  ••••  ••••';
+        providerLogoExpanded.style.display = 'none';
+        setupContainer.classList.remove('hidden');
+        withdrawContainer.classList.add('hidden');
+        indicator.textContent = 'No Card';
+        indicator.classList.remove('active');
+    }
+}
+
+async function saveUserData() {
+    await updateDoc(doc(db, 'users', userId), {
+        cards: cards,
+        activeCardIndex: activeCardIndex
+    });
+}
+
+function renderSlotList() {
+    slotList.innerHTML = '';
+    cards.forEach((card, i) => {
+        const div = document.createElement('div');
+        div.className = `slot-item ${i === activeCardIndex ? 'active' : ''}`;
+        div.innerHTML = `
+            <div class="slot-info">
+                <img src="${icons[card.provider]}" onerror="this.style.display='none'">
+                <div class="slot-details">
+                    <h4>${card.name}</h4>
+                    <p>${card.phone} · ${names[card.provider]}</p>
+                </div>
+            </div>
+            <span class="delete-slot" data-index="${i}">
+                <span class="material-symbols-outlined">delete</span>
+            </span>
+        `;
+        div.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-slot')) {
+                e.stopPropagation();
+                pendingDeleteIndex = i;
+                passwordModal.classList.add('active');
+                document.getElementById('confirmPassword').value = '';
+            } else {
+                activeCardIndex = i;
+                saveUserData().then(() => {
+                    updateUI();
+                    renderSlotList();
+                    modal.classList.remove('active');
+                });
+            }
+        });
+        slotList.appendChild(div);
+    });
+}
+
+indicator.addEventListener('click', () => {
+    renderSlotList();
+    modal.classList.add('active');
+});
+
+document.getElementById('closeModal').addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
+
+document.getElementById('cancelPassword').addEventListener('click', () => {
+    passwordModal.classList.remove('active');
+    pendingDeleteIndex = -1;
+});
+
+document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+    const pwd = document.getElementById('confirmPassword').value;
+    if (pwd !== userPassword) {
+        alert('Incorrect password');
+        return;
+    }
+    
+    if (pendingDeleteIndex >= 0) {
+        cards.splice(pendingDeleteIndex, 1);
+        if (activeCardIndex === pendingDeleteIndex) {
+            activeCardIndex = cards.length ? 0 : -1;
+        } else if (activeCardIndex > pendingDeleteIndex) {
+            activeCardIndex--;
+        }
+        await saveUserData();
+        updateUI();
+        renderSlotList();
+    }
+    
+    passwordModal.classList.remove('active');
+    pendingDeleteIndex = -1;
+});
+
+passwordModal.addEventListener('click', e => { 
+    if (e.target === passwordModal) {
+        passwordModal.classList.remove('active');
+        pendingDeleteIndex = -1;
+    }
+});
+
+document.getElementById('addNewSlotBtn').addEventListener('click', () => {
+    if (cards.length >= 3) return alert('Max 3 cards');
+    modal.classList.remove('active');
+    activeCardIndex = -1;
+    updateUI();
+    wallet.classList.add('expanded');
+});
+
+document.getElementById('saveCardBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('saveCardBtn');
+    const name = document.getElementById('fullName').value.trim().toUpperCase();
+    const phone = document.getElementById('phoneNumber').value.trim();
+    const provider = document.getElementById('walletProvider').value;
+    
+    if (!name || !phone || !provider) return alert('Fill all fields');
+    
+    btn.disabled = true;
+    btn.innerHTML = 'Saving...';
+    
+    const newCard = { name, phone, provider };
+    if (activeCardIndex >= 0) cards[activeCardIndex] = newCard;
+    else {
+        if (cards.length >= 3) return alert('Max 3 cards');
+        cards.push(newCard);
+        activeCardIndex = cards.length - 1;
+    }
+    
+    await saveUserData();
+    updateUI();
+    
+    document.getElementById('fullName').value = '';
+    document.getElementById('phoneNumber').value = '';
+    document.getElementById('walletProvider').value = '';
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px">add</span> Add Card';
+});
+
+expandBtn.addEventListener('click', () => wallet.classList.toggle('expanded'));
+
+// Currency toggle - default USDT
+switchEl.addEventListener('click', () => {
+    switchEl.classList.toggle('active');
+    isUSDTMode = !switchEl.classList.contains('active');
+    updateBalanceDisplay();
+});
+
+// Withdrawal
+document.getElementById('withdrawBtn').addEventListener('click', async () => {
+    const amountInput = document.getElementById('withdrawAmount');
+    let amount = parseFloat(amountInput.value);
+    
+    if (!amount || amount <= 0) return alert('Enter valid amount');
+    if (activeCardIndex < 0) return alert('No card selected');
+    
+    // Convert to TZS if in USDT mode
+    let amountTZS = isUSDTMode ? amount * EXCHANGE_RATE : amount;
+    
+    if (amountTZS > userBalanceTZS) return alert('Insufficient balance');
+    
+    const fee = amountTZS * 0.09;
+    const receiveAmount = amountTZS - fee;
+    const card = cards[activeCardIndex];
+    
+    if (!confirm(`Confirm Withdrawal:\n\nRecipient: ${card.name}\nPhone: ${card.phone}\nProvider: ${names[card.provider]}\nLocation: ${userData.region || 'N/A'}, ${userData.country || 'Tanzania'}\n\nRequest: ${isUSDTMode ? '$' + amount.toFixed(2) : 'TSh ' + amountTZS.toLocaleString()}\nFee (9%): TSh ${fee.toLocaleString()}\nYou Receive: TSh ${receiveAmount.toLocaleString()}\n\nMoney will be sent to your ${names[card.provider]} number.`)) {
+        return;
+    }
+    
+    const btn = document.getElementById('withdrawBtn');
+    btn.disabled = true;
+    btn.innerHTML = 'Processing...';
+    
+    const newBalance = userBalanceTZS - amountTZS;
+    
+    const withdrawalData = {
+        userId,
+        userName: userData.username,
+        userPhone: userData.phone,
+        userLocation: `${userData.region || 'N/A'}, ${userData.country || 'Tanzania'}`,
+        requestAmount: amountTZS,
+        fee,
+        receiveAmount,
+        cardName: card.name,
+        cardPhone: card.phone,
+        cardProvider: card.provider,
+        balanceBefore: userBalanceTZS,
+        balanceAfter: newBalance,
+        status: 'pending',
+        createdAt: serverTimestamp()
+    };
+    
+    try {
+        await addDoc(collection(db, 'withdrawals'), withdrawalData);
+        await updateDoc(doc(db, 'users', userId), { balance: newBalance });
+        
+        userBalanceTZS = newBalance;
+        updateBalanceDisplay();
+        
+        alert(`✅ Withdrawal of TSh ${receiveAmount.toLocaleString()} requested!\nStatus: Pending`);
+        amountInput.value = '';
+        
+    } catch (e) {
+        alert('Error processing withdrawal');
+        console.error(e);
+    }
+    
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px">send</span> Withdraw';
+});
+
+// Initialize
+loadUserData();
+</script>
+</body>
+</html>

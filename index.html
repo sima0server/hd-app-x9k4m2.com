@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>HD™ Live Chart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background-color: #0a0c10;
+            color: white;
+            font-family: 'Montserrat', cursive, sans-serif;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #0a0c10;
+            border-bottom: 1px solid #2a2e39;
+            flex-shrink: 0;
+        }
+
+        .welcome-pill {
+            background-color: #234936;
+            display: flex;
+            align-items: center;
+            padding: 4px 12px 4px 4px;
+            border-radius: 40px;
+            gap: 8px;
+        }
+
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #ffd166;
+            object-fit: cover;
+        }
+
+        .welcome-text {
+            font-size: 12px;
+            letter-spacing: 0.3px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+        }
+
+        .material-icons {
+            font-size: 22px;
+            color: #ccc;
+        }
+
+        .main-content {
+            flex: 1;
+            position: relative;
+            background-color: #0a0c10;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #1a1d24;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #1a1d24;
+        }
+
+        .price-axis {
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 70px;
+            pointer-events: none;
+            z-index: 8;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 0;
+        }
+
+        .price-axis-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            text-align: right;
+            padding-right: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .price-tag-container {
+            position: absolute;
+            pointer-events: none;
+            z-index: 10;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+        }
+
+        .price-tag {
+            background-color: #2b80ff;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: -50px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .social-trade {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translate(-50%, calc(-100% + 4px));
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .social-amount {
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 2px;
+            color: var(--theme-color);
+            background: rgba(26, 29, 36, 0.7);
+            padding: 0 4px;
+            border-radius: 4px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .social-img {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--theme-color);
+            background-color: #2a2e39;
+            object-fit: cover;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .pin-stem {
+            width: 2px;
+            height: 15px;
+            background-color: var(--theme-color);
+        }
+
+        .pin-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #1a1d24;
+            border: 2px solid var(--theme-color);
+        }
+
+        .activity-panel {
+            position: absolute;
+            bottom: 8px;
+            left: 12px;
+            right: 12px;
+            background: rgba(26, 29, 36, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(54, 58, 69, 0.5);
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 100px;
+            overflow: hidden;
+            z-index: 50;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .panel-title {
+            font-size: 10px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .panel-clear {
+            background: rgba(54, 58, 69, 0.3);
+            border: 1px solid rgba(54, 58, 69, 0.4);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 9px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            backdrop-filter: blur(5px);
+        }
+
+        .panel-clear:hover {
+            background: rgba(54, 58, 69, 0.6);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .activity-feed {
+            height: 60px;
+            overflow-y: auto;
+            font-size: 9px;
+        }
+
+        .feed-item {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(54, 58, 69, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            gap: 8px;
+        }
+
+        .feed-time {
+            color: rgba(255, 255, 255, 0.3);
+            min-width: 40px;
+        }
+
+        .feed-message {
+            flex: 1;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .activity-feed::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .activity-feed::-webkit-scrollbar-thumb {
+            background: rgba(54, 58, 69, 0.4);
+            border-radius: 2px;
+        }
+
+        .bottom-nav {
+            background-color: #1e2128;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 0;
+            border-top: 1px solid #363a45;
+           /* min-height: 52px;*/
+            flex-shrink: 0;
+            z-index: 200;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            flex: 1;
+            max-width: 70px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            transition: background-color 0.2s;
+            padding: 4px 0;
+        }
+
+        .nav-item.active .nav-icon-wrapper .material-icons {
+            color: #4caf50;
+        }
+
+        .nav-item:not(.active) {
+            color: #848a97;
+        }
+
+        .nav-item .material-icons {
+            font-size: 20px;
+            color: currentColor;
+        }
+    
+    
+    
+    /* ========== ACTIVITY PANEL ========== */
+.activity-panel {
+  position: fixed;
+  bottom: 52px;
+  left: 12px;
+  right: 12px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  max-height: 100px;
+  overflow: hidden;
+  z-index: 100;
+    margin-bottom: 50px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.panel-title {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.activity-feed {
+  height: 60px;
+  overflow-y: auto;
+  font-size: 9px;
+}
+
+.feed-item {
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  display: flex;
+  gap: 8px;
+}
+
+.feed-time {
+  color: var(--text-muted);
+  min-width: 40px;
+}
+
+.feed-message {
+  flex: 1;
+}
+
+/* scrollbar */
+.activity-feed::-webkit-scrollbar {
+  width: 4px;
+}
+
+.activity-feed::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <header class="top-bar">
+        <div class="welcome-pill">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dog&backgroundColor=b6e3f4" alt="Avatar" class="avatar">
+            <span class="welcome-text">Welcome to HD-Forge 👋</span>
+        </div>
+        <div class="header-icons">
+            <button class="icon-btn" onclick="window.location.href='tabs.html'">
+                <span class="material-icons">receipt_long</span>
+            </button>
+            <button class="icon-btn" onclick="window.location.href='home.html'">
+                <span class="material-icons">storefront</span>
+            </button>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="chart-wrapper" id="chartWrapper">
+            <canvas id="chartCanvas"></canvas>
+            
+            <div class="price-axis" id="priceAxis">
+                <span class="price-axis-label" id="priceHigh">0.000000</span>
+                <span class="price-axis-label" id="priceMid">0.000000</span>
+                <span class="price-axis-label" id="priceLow">0.000000</span>
+            </div>
+            
+            <div class="price-tag-container" id="priceTagContainer">
+                <div class="price-tag" id="priceTag">0.000000</div>
+            </div>
+
+            <!-- Activity panel INSIDE main-content, absolute positioned -->
+            <div class="activity-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <span class="material-icons" style="font-size: 12px; opacity: 0.6;">history</span>
+                        Recent Activity
+                    </div>
+                    <button class="panel-clear" onclick="clearFeed()">Clear</button>
+                </div>
+                <div id="liveLogList" class="activity-feed"></div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="live.html" class="nav-item active">
+            <div class="nav-icon-wrapper">
+                <span class="material-icons">candlestick_chart</span>
+            </div>
+            <span>Live</span>
+        </a>
+        <a href="market.html" class="nav-item">
+            <div class="nav-icon-wrapper">
+                <span class="material-icons">add_shopping_cart</span>
+            </div>
+            <span>Market</span>
+        </a>
+        <a href="more.html" class="nav-item">
+            <div class="nav-icon-wrapper">
+                <span class="material-icons">grid_view</span>
+            </div>
+            <span>More</span>
+        </a>
+    </nav>
+
+    <script>
+        const FEED_KEY = 'naf_feed';
+        function loadFeed() { try { return JSON.parse(localStorage.getItem(FEED_KEY) || '[]'); } catch { return []; } }
+        function renderFeed() {
+            const container = document.getElementById('liveLogList');
+            if (!container) return;
+            const feed = loadFeed();
+            if (feed.length === 0) {
+                container.innerHTML = '<div class="feed-item"><span class="feed-time">--:--</span><span class="feed-message">No activity yet</span></div>';
+                return;
+            }
+            container.innerHTML = feed.map(item => `<div class="feed-item"><span class="feed-time">${item.time}</span><span class="feed-message">${item.msg}</span></div>`).join('');
+        }
+        function clearFeed() {
+            localStorage.setItem(FEED_KEY, '[]');
+            renderFeed();
+        }
+        renderFeed();
+        window.addEventListener('storage', (e) => { if (e.key === FEED_KEY) renderFeed(); });
+    </script>
+
+    <script>
+        (function() {
+            const API_URL = "https://hd-indexengine.sima0server.workers.dev";
+            
+            const canvas = document.getElementById('chartCanvas');
+            const ctx = canvas.getContext('2d');
+            const wrapper = document.getElementById('chartWrapper');
+            const priceTagContainer = document.getElementById('priceTagContainer');
+            const priceTag = document.getElementById('priceTag');
+            const priceHigh = document.getElementById('priceHigh');
+            const priceMid = document.getElementById('priceMid');
+            const priceLow = document.getElementById('priceLow');
+
+            const MAX_HISTORY_LENGTH = 600;
+            const HISTORY_INTERVAL = 100;
+
+            let currentPrice = 0;
+            let targetPrice = 0;
+            let priceHistory = [];
+            let viewMin = 0;
+            let viewMax = 0;
+            let socialTrades = [];
+            let lastHistoryPushTime = Date.now();
+            let dataInitialized = false;
+
+            function getDrawX() {
+                return canvas.width * 0.70;
+            }
+
+            function resizeCanvas() {
+                const width = wrapper.clientWidth;
+                const height = wrapper.clientHeight;
+                if (width > 0 && height > 0) {
+                    canvas.width = width;
+                    canvas.height = height;
+                }
+            }
+
+            setTimeout(resizeCanvas, 50);
+            window.addEventListener('resize', resizeCanvas);
+
+            function generateSyntheticHistory(backendPrice) {
+                const KEY_POINTS = 60;
+                const keyHistory = [];
+                let price = backendPrice * (1 + (Math.random() - 0.5) * 0.0001);
+                
+                for (let i = 0; i < KEY_POINTS; i++) {
+                    const progress = i / KEY_POINTS;
+                    const target = backendPrice * (1 + (Math.random() - 0.5) * 0.00005);
+                    price += (target - price) * 0.05;
+                    keyHistory.push(price);
+                }
+                
+                keyHistory[keyHistory.length - 1] = backendPrice;
+                
+                const smoothHistory = [];
+                for (let i = 0; i < MAX_HISTORY_LENGTH; i++) {
+                    const keyIndex = (i / MAX_HISTORY_LENGTH) * (keyHistory.length - 1);
+                    const lowerIndex = Math.floor(keyIndex);
+                    const upperIndex = Math.min(lowerIndex + 1, keyHistory.length - 1);
+                    const fraction = keyIndex - lowerIndex;
+                    
+                    const interpolatedPrice = keyHistory[lowerIndex] + 
+                        (keyHistory[upperIndex] - keyHistory[lowerIndex]) * fraction;
+                    smoothHistory.push(interpolatedPrice);
+                }
+                
+                return smoothHistory;
+            }
+
+            function updatePriceAxis() {
+                const range = viewMax - viewMin || 0.00001;
+                priceHigh.textContent = viewMax.toFixed(6);
+                priceMid.textContent = ((viewMax + viewMin) / 2).toFixed(6);
+                priceLow.textContent = viewMin.toFixed(6);
+            }
+
+            async function initializeFromBackend() {
+                try {
+                    const res = await fetch(API_URL);
+                    const data = await res.json();
+                    
+                    if (data.price) {
+                        priceHistory = generateSyntheticHistory(data.price);
+                        currentPrice = data.price;
+                        targetPrice = currentPrice;
+                        viewMin = currentPrice - 0.000050;
+                        viewMax = currentPrice + 0.000050;
+                        lastHistoryPushTime = Date.now();
+                        dataInitialized = true;
+                        updatePriceAxis();
+                    } else {
+                        priceHistory = Array(MAX_HISTORY_LENGTH).fill(1.156995);
+                        currentPrice = 1.156995;
+                        targetPrice = currentPrice;
+                        viewMin = currentPrice - 0.000050;
+                        viewMax = currentPrice + 0.000050;
+                        dataInitialized = true;
+                        updatePriceAxis();
+                    }
+                } catch (e) {
+                    priceHistory = Array(MAX_HISTORY_LENGTH).fill(1.156995);
+                    currentPrice = 1.156995;
+                    targetPrice = currentPrice;
+                    viewMin = currentPrice - 0.000050;
+                    viewMax = currentPrice + 0.000050;
+                    dataInitialized = true;
+                    updatePriceAxis();
+                }
+            }
+
+            async function fetchBackendPrice() {
+                try {
+                    const res = await fetch(API_URL);
+                    const data = await res.json();
+                    if (data.price) {
+                        targetPrice = data.price;
+                    }
+                } catch (e) {}
+            }
+
+            function updateMarket() {
+                if (!dataInitialized) return;
+                const now = Date.now();
+
+                currentPrice += (targetPrice - currentPrice) * 0.15;
+
+                while (now - lastHistoryPushTime >= HISTORY_INTERVAL) {
+                    priceHistory.push(currentPrice);
+                    if (priceHistory.length > MAX_HISTORY_LENGTH) {
+                        priceHistory.shift();
+                    }
+                    lastHistoryPushTime += HISTORY_INTERVAL;
+                }
+
+                if (now - (window._lastFetch || 0) >= 1000) {
+                    fetchBackendPrice();
+                    window._lastFetch = now;
+                }
+
+                if (Math.random() < 0.002) spawnSocialTrade();
+            }
+
+            function spawnSocialTrade(type = 'random', customPrice = null) {
+                const isBuy = type === 'random' ? Math.random() > 0.5 : type === 'buy';
+                const color = isBuy ? '#00c853' : '#ff3b30';
+
+                const tradeDiv = document.createElement('div');
+                tradeDiv.className = 'social-trade';
+                tradeDiv.style.setProperty('--theme-color', color);
+
+                tradeDiv.innerHTML = `
+                    <span class="social-amount">$${Math.floor(Math.random() * 5 + 1) * 10}</span>
+                    <img class="social-img" src="https://i.pravatar.cc/100?img=${Math.floor(Math.random() * 50)}">
+                    <div class="pin-stem"></div>
+                    <div class="pin-dot"></div>
+                `;
+
+                wrapper.appendChild(tradeDiv);
+                socialTrades.push({
+                    element: tradeDiv,
+                    entryPrice: customPrice || currentPrice,
+                    timeAdded: Date.now()
+                });
+            }
+
+            function draw() {
+                if (!dataInitialized || canvas.width === 0 || canvas.height === 0) {
+                    resizeCanvas();
+                    requestAnimationFrame(draw);
+                    return;
+                }
+
+                updateMarket();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const now = Date.now();
+                const actualMin = Math.min(...priceHistory, currentPrice);
+                const actualMax = Math.max(...priceHistory, currentPrice);
+                let padding = (actualMax - actualMin) * 0.4;
+                if (padding < 0.000020) padding = 0.000020;
+
+                viewMin += ((actualMin - padding) - viewMin) * 0.02;
+                viewMax += ((actualMax + padding) - viewMax) * 0.02;
+                const range = viewMax - viewMin || 0.00001;
+
+                updatePriceAxis();
+
+                const DRAW_X = getDrawX();
+                const pointCount = priceHistory.length;
+                const stepX = pointCount > 1 ? DRAW_X / (pointCount - 1) : 0;
+                const timeOffset = now - lastHistoryPushTime;
+                const fractionalOffset = timeOffset / HISTORY_INTERVAL;
+                const shiftLeft = fractionalOffset * stepX;
+
+                // Grid lines
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.lineWidth = 0.5;
+                for (let i = 1; i < 4; i++) {
+                    const y = (canvas.height / 4) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+
+                // Filled area
+                ctx.beginPath();
+                ctx.moveTo(-shiftLeft, canvas.height);
+                for (let i = 0; i < pointCount; i++) {
+                    const x = (i * stepX) - shiftLeft;
+                    const y = canvas.height - ((priceHistory[i] - viewMin) / range) * canvas.height;
+                    ctx.lineTo(x, y);
+                }
+                const currentY = canvas.height - ((currentPrice - viewMin) / range) * canvas.height;
+                ctx.lineTo(DRAW_X, currentY);
+                ctx.lineTo(DRAW_X, canvas.height);
+
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, 'rgba(43, 128, 255, 0.25)');
+                gradient.addColorStop(1, 'rgba(43, 128, 255, 0.0)');
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Blue line
+                ctx.beginPath();
+                for (let i = 0; i < pointCount; i++) {
+                    const x = (i * stepX) - shiftLeft;
+                    const y = canvas.height - ((priceHistory[i] - viewMin) / range) * canvas.height;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.lineTo(DRAW_X, currentY);
+                ctx.strokeStyle = '#2b80ff';
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+
+                // Horizontal line
+                ctx.beginPath();
+                ctx.moveTo(0, currentY);
+                ctx.lineTo(canvas.width, currentY);
+                ctx.strokeStyle = '#2b80ff';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Dot
+                ctx.beginPath();
+                ctx.arc(DRAW_X, currentY, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+                ctx.strokeStyle = '#2b80ff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Price tag
+                priceTag.innerText = currentPrice.toFixed(6);
+                priceTagContainer.style.left = `${DRAW_X}px`;
+                priceTagContainer.style.top = `${currentY}px`;
+
+                // Social pins
+                for (let i = socialTrades.length - 1; i >= 0; i--) {
+                    const trade = socialTrades[i];
+                    const ageMs = now - trade.timeAdded;
+                    const timeUnitsBack = ageMs / HISTORY_INTERVAL;
+                    const x = DRAW_X - (timeUnitsBack * stepX);
+                    const y = canvas.height - ((trade.entryPrice - viewMin) / range) * canvas.height;
+                    if (x < -50) {
+                        if (trade.element.parentNode) trade.element.remove();
+                        socialTrades.splice(i, 1);
+                        continue;
+                    }
+                    trade.element.style.left = `${x}px`;
+                    trade.element.style.top = `${y}px`;
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            initializeFromBackend().then(() => {
+                resizeCanvas();
+                window._lastFetch = Date.now();
+                requestAnimationFrame(draw);
+            });
+
+            setTimeout(() => {
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => spawnSocialTrade(), i * 400);
+                }
+            }, 800);
+        })();
+    </script>
+</body>
+</html>

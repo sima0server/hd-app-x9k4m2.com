@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HD™ Team & Agent Center</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #0a0c10;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 414px;
+            padding: 24px 20px 80px;
+            background: #0a0c10;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #14181f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6b7280;
+            cursor: pointer;
+            border: none;
+        }
+
+        .add-member-btn {
+            background: #dcb95e;
+            color: #0a0c10;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Agent Profile Card */
+        .agent-profile {
+            background: linear-gradient(145deg, #1a1e26, #11141a);
+            border-radius: 24px;
+            border: 1px solid #2a303a;
+            padding: 24px 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #dcb95e;
+            margin-bottom: 16px;
+        }
+
+        .profile-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .profile-uid {
+            font-size: 14px;
+            color: #dcb95e;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .profile-location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .profile-phone {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        /* Referral Link Section */
+        .referral-section {
+            background: #0e1117;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 8px;
+        }
+
+        .referral-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .referral-link-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1a1e26;
+            border-radius: 10px;
+            padding: 8px 12px;
+            border: 1px solid #2a303a;
+        }
+
+        .referral-link {
+            flex: 1;
+            font-size: 12px;
+            color: #c9d1d9;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .copy-link-btn {
+            background: #dcb95e;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #0a0c10;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #11141a;
+            border-radius: 12px;
+            border: 1px solid #1f242c;
+            padding: 12px 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #dcb95e;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        /* Level Tabs */
+        .level-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .level-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.2s;
+            background: #11141a;
+            border: 1px solid #1f242c;
+        }
+
+        .level-tab.active {
+            background: #dcb95e;
+            color: #0a0c10;
+            border-color: #dcb95e;
+        }
+
+        .level-tab .count {
+            font-size: 10px;
+            margin-left: 4px;
+            opacity: 0.8;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Referral List */
+        .referral-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .referral-card {
+            background: #11141a;
+            border-radius: 14px;
+            border: 1px solid #1f242c;
+            padding: 14px;
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #1a1e26;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .level-badge {
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .level-badge.b {
+            background: rgba(220, 185, 94, 0.15);
+            color: #dcb95e;
+            border: 1px solid rgba(220, 185, 94, 0.3);
+        }
+
+        .level-badge.c {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .level-badge.d {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .trading-badge {
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .trading-badge.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .trading-badge.inactive {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .user-details {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .referrer-info {
+            font-size: 11px;
+            color: #4a4b52;
+            margin-bottom: 10px;
+            padding: 6px 10px;
+            background: #1a1e26;
+            border-radius: 8px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #1f242c;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item-label {
+            font-size: 9px;
+            color: #6b7280;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .stat-item-value {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .join-date {
+            font-size: 10px;
+            color: #4a4b52;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        /* Bonus Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 2000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-sheet {
+            background: #11141a;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px;
+            width: 100%;
+            max-width: 414px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-top: 1px solid #2a303a;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #dcb95e;
+        }
+
+        .close-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #1a1e26;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #6b7280;
+            border: none;
+        }
+
+        .bonus-stats {
+            background: #1a1e26;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .bonus-total {
+            font-size: 28px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 4px;
+        }
+
+        .bonus-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .bonus-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bonus-item {
+            background: #1a1e26;
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid #2a303a;
+        }
+
+        .bonus-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .bonus-amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .bonus-level {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 600;
+            background: #dcb95e;
+            color: #0a0c10;
+        }
+
+        .bonus-details {
+            font-size: 11px;
+            color: #6b7280;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .bonus-from {
+            color: #c9d1d9;
+        }
+
+        .bonus-date {
+            color: #4a4b52;
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        /* Loading */
+        .loading-row {
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .loading-spinner {
+            width: 28px;
+            height: 28px;
+            border: 2px solid #1f242c;
+            border-top-color: #dcb95e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Access Denied */
+        .access-denied {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .access-denied .material-symbols-outlined {
+            font-size: 64px;
+            color: #ef4444;
+            margin-bottom: 20px;
+        }
+
+        .access-denied h2 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .access-denied p {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: #0a0c10;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 20px;
+            border-top: 1px solid #1f242c;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #6b7280;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-item.active {
+            color: #dcb95e;
+        }
+
+        .nav-item span {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .nav-item .material-symbols-outlined {
+            font-size: 22px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <!-- Header -->
+    <header>
+        <div class="icon-btn" onclick="window.location.href='more.html'">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </div>
+        <div class="header-right">
+            <button class="add-member-btn" id="bonusHistoryBtn">
+                <span class="material-symbols-outlined" style="font-size: 18px;">savings</span>
+                Agent Bonus
+            </button>
+            <div class="icon-btn" id="registerBtn">
+                <span class="material-symbols-outlined">person_add</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div id="mainContent"></div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="material-symbols-outlined">candlestick_chart</span>
+            <span>Live</span>
+        </a>
+        <a href="market.html" class="nav-item">
+            <span class="material-symbols-outlined">add_shopping_cart</span>
+            <span>Market</span>
+        </a>
+        <a href="more.html" class="nav-item">
+            <span class="material-symbols-outlined">grid_view</span>
+            <span>More</span>
+        </a>
+    </nav>
+</div>
+
+<!-- Bonus History Modal -->
+<div class="modal" id="bonusModal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <h3>
+                <span class="material-symbols-outlined" style="vertical-align: middle;">savings</span>
+                Agent Bonuses
+            </h3>
+            <button class="close-btn" onclick="closeBonusModal()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div id="bonusModalContent">
+            <div class="loading-row">
+                <div class="loading-spinner"></div>
+                <div>Loading bonuses...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getFirestore, doc, getDoc, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",
+    authDomain: "newagefarmbase.firebaseapp.com",
+    projectId: "newagefarmbase"
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const EXCHANGE_RATE = 2600;
+const formatTZS = n => 'TZS ' + Number(n || 0).toLocaleString('en-US');
+const formatUSD = n => '$' + Number(n || 0).toFixed(2);
+const tzsToUsdt = (tzs) => tzs / EXCHANGE_RATE;
+
+const session = JSON.parse(localStorage.getItem('naf_session') || 'null');
+const currentUserDocId = session?.docId;
+
+let currentUser = null;
+let userReferralCode = '';
+let allUsers = [];
+let levelBUsers = [];
+let levelCUsers = [];
+let levelDUsers = [];
+let currentLevel = 'all';
+let bonusHistory = [];
+
+const mainContent = document.getElementById('mainContent');
+
+// Check session and role
+if (!currentUserDocId) {
+    mainContent.innerHTML = `
+        <div class="access-denied">
+            <span class="material-symbols-outlined">lock</span>
+            <h2>Session Expired</h2>
+            <p>Please sign in to continue</p>
+            <button class="add-member-btn" onclick="window.location.href='login.html'">Go to Login</button>
+        </div>
+    `;
+} else {
+    initDashboard();
+}
+
+async function initDashboard() {
+    try {
+        // Load current user
+        const userSnap = await getDoc(doc(db, 'users', currentUserDocId));
+        if (!userSnap.exists()) {
+            showAccessDenied('User not found');
+            return;
+        }
+        
+        currentUser = userSnap.data();
+        
+        // Check role - only agents can access
+        if (currentUser.role !== 'agent') {
+            showAccessDenied('This page is only accessible to agents. Please upgrade your account.');
+            return;
+        }
+        
+        userReferralCode = String(currentUser.uid || '000000').padStart(6, '0');
+        
+        // Load all users for referral tree
+        await loadAllUsers();
+        
+        // Build referral tree
+        buildReferralTree();
+        
+        // Render main dashboard
+        renderDashboard();
+        
+        // Setup event listeners
+        setupEventListeners();
+        
+    } catch (e) {
+        console.error('Init error:', e);
+        mainContent.innerHTML = `
+            <div class="empty-state">
+                <span class="empty-icon material-symbols-outlined">error</span>
+                <div class="empty-title">Error</div>
+                <div>Failed to load dashboard</div>
+            </div>
+        `;
+    }
+}
+
+function showAccessDenied(message) {
+    mainContent.innerHTML = `
+        <div class="access-denied">
+            <span class="material-symbols-outlined">gavel</span>
+            <h2>Access Denied</h2>
+            <p>${message}</p>
+            <button class="add-member-btn" onclick="window.location.href='more.html'">Go Back</button>
+        </div>
+    `;
+}
+
+async function loadAllUsers() {
+    const usersSnap = await getDocs(collection(db, 'users'));
+    allUsers = [];
+    usersSnap.forEach(doc => {
+        allUsers.push({ id: doc.id, ...doc.data() });
+    });
+}
+
+function buildReferralTree() {
+    levelBUsers = allUsers.filter(u => u.referral === userReferralCode);
+    
+    const levelBCodes = levelBUsers.map(u => String(u.uid));
+    levelCUsers = allUsers.filter(u => levelBCodes.includes(u.referral));
+    
+    const levelCCodes = levelCUsers.map(u => String(u.uid));
+    levelDUsers = allUsers.filter(u => levelCCodes.includes(u.referral));
+    
+    levelBUsers.forEach(u => {
+        u.level = 'B';
+        u.referrerName = currentUser?.username || 'You';
+    });
+    
+    levelCUsers.forEach(u => {
+        u.level = 'C';
+        const referrer = levelBUsers.find(b => String(b.uid) === u.referral);
+        u.referrerName = referrer?.username || 'Unknown';
+    });
+    
+    levelDUsers.forEach(u => {
+        u.level = 'D';
+        const referrer = levelCUsers.find(c => String(c.uid) === u.referral);
+        u.referrerName = referrer?.username || 'Unknown';
+    });
+}
+
+function calculateTotalEarned() {
+    // This will be updated when bonus history is loaded
+    return 0;
+}
+
+function renderDashboard() {
+    const avatarUrl = currentUser.profilePic || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + (currentUser.username || 'Agent');
+    const region = currentUser.region || 'Dar es Salaam';
+    const country = currentUser.country || 'Tanzania';
+    const baseUrl = window.location.origin;
+    
+    const html = `
+        <!-- Agent Profile Card -->
+        <div class="agent-profile">
+            <img src="${avatarUrl}" alt="Profile" class="profile-avatar">
+            <div class="profile-name">${currentUser.username || 'Agent'}</div>
+            <div class="profile-uid">ID: ${userReferralCode}</div>
+            <div class="profile-location">
+                <span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
+                <span>${region}, ${country}</span>
+            </div>
+            <div class="profile-phone">${currentUser.phone || '+255 --- --- ---'}</div>
+            
+            <div class="referral-section">
+                <div class="referral-label">Your Referral Link</div>
+                <div class="referral-link-box">
+                    <span class="referral-link" id="referralLink">${baseUrl}/register?ref=${userReferralCode}</span>
+                    <button class="copy-link-btn" id="copyLinkBtn">
+                        <span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span>
+                        Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="levelBCount">${levelBUsers.length}</div>
+                <div class="stat-label">Level B</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="levelCCount">${levelCUsers.length}</div>
+                <div class="stat-label">Level C</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="levelDCount">${levelDUsers.length}</div>
+                <div class="stat-label">Level D</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalEarned">$0</div>
+                <div class="stat-label">Earned</div>
+            </div>
+        </div>
+
+        <!-- Level Tabs -->
+        <div class="level-tabs">
+            <div class="level-tab active" data-level="all">
+                All <span class="count">(${levelBUsers.length + levelCUsers.length + levelDUsers.length})</span>
+            </div>
+            <div class="level-tab" data-level="B">
+                B <span class="count">(${levelBUsers.length})</span>
+            </div>
+            <div class="level-tab" data-level="C">
+                C <span class="count">(${levelCUsers.length})</span>
+            </div>
+            <div class="level-tab" data-level="D">
+                D <span class="count">(${levelDUsers.length})</span>
+            </div>
+        </div>
+
+        <!-- Section Header -->
+        <div class="section-header">
+            <h3 class="section-title" id="listTitle">All Referrals</h3>
+        </div>
+
+        <!-- Referral List -->
+        <div class="referral-list" id="referralList"></div>
+    `;
+    
+    mainContent.innerHTML = html;
+    renderReferralList();
+}
+
+function getUsersForCurrentLevel() {
+    switch(currentLevel) {
+        case 'B': return levelBUsers;
+        case 'C': return levelCUsers;
+        case 'D': return levelDUsers;
+        default: return [...levelBUsers, ...levelCUsers, ...levelDUsers];
+    }
+}
+
+function renderReferralList() {
+    const users = getUsersForCurrentLevel();
+    const container = document.getElementById('referralList');
+    const titleEl = document.getElementById('listTitle');
+    
+    const titles = {
+        'all': 'All Referrals',
+        'B': 'Level B - Direct Referrals',
+        'C': 'Level C - Indirect Referrals',
+        'D': 'Level D - Extended Network'
+    };
+    if (titleEl) titleEl.textContent = titles[currentLevel] || 'Referrals';
+    
+    if (!container) return;
+    
+    if (users.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <span class="empty-icon material-symbols-outlined">people</span>
+                <div class="empty-title">No ${currentLevel === 'all' ? '' : 'Level ' + currentLevel} referrals yet</div>
+                <div>Share your link to invite friends!</div>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    
+    users.forEach(user => {
+        const avatarUrl = user.profilePic || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`;
+        const joinDate = user.createdAt?.toDate ? user.createdAt.toDate() : new Date();
+        const levelClass = user.level.toLowerCase();
+        const tradedToday = user.lastTradeDate === new Date().toDateString();
+        
+        html += `
+            <div class="referral-card">
+                <div class="user-row">
+                    <img src="${avatarUrl}" class="user-avatar" alt="${user.username}">
+                    <div class="user-info">
+                        <div class="user-name-row">
+                            <span class="user-name">${user.username || 'User'}</span>
+                            <span class="level-badge ${levelClass}">Level ${user.level}</span>
+                            <span class="trading-badge ${tradedToday ? 'active' : 'inactive'}">
+                                ${tradedToday ? 'Active' : 'Inactive'}
+                            </span>
+                        </div>
+                        <div class="user-details">
+                            ${user.phone || 'No phone'} • UID: ${user.uid || 'N/A'}
+                        </div>
+                    </div>
+                </div>
+                
+                ${user.level !== 'B' ? `
+                    <div class="referrer-info">
+                        <span class="material-symbols-outlined" style="font-size: 12px; vertical-align: middle;">account_tree</span>
+                        Referred by: ${user.referrerName}
+                    </div>
+                ` : ''}
+                
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-item-label">Balance</div>
+                        <div class="stat-item-value">${formatTZS(user.balance || 0)}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item-label">Recharged</div>
+                        <div class="stat-item-value">${user.recharge === 'approved' ? 'Yes' : 'No'}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-item-label">Role</div>
+                        <div class="stat-item-value">${user.role || 'user'}</div>
+                    </div>
+                </div>
+                
+                <div class="join-date">
+                    Joined ${joinDate.toLocaleDateString()}
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+async function loadBonusHistory() {
+    try {
+        const q = query(
+            collection(db, 'commission_history'),
+            orderBy('createdAt', 'desc')
+        );
+        
+        const snap = await getDocs(q);
+        bonusHistory = [];
+        
+        snap.forEach(doc => {
+            const data = doc.data();
+            // Filter for commissions where this agent is a recipient
+            if (data.commissions) {
+                data.commissions.forEach(c => {
+                    if (c.userId === currentUserDocId) {
+                        bonusHistory.push({
+                            ...c,
+                            rechargeId: data.rechargeId,
+                            rechargeAmount: data.rechargeAmount,
+                            fromUser: data.userName,
+                            createdAt: data.createdAt
+                        });
+                    }
+                });
+            }
+        });
+        
+        renderBonusModal();
+    } catch (e) {
+        console.error('Failed to load bonuses:', e);
+        bonusHistory = [];
+        renderBonusModal();
+    }
+}
+
+function renderBonusModal() {
+    const content = document.getElementById('bonusModalContent');
+    
+    if (bonusHistory.length === 0) {
+        content.innerHTML = `
+            <div class="empty-state">
+                <span class="empty-icon material-symbols-outlined">savings</span>
+                <div class="empty-title">No Bonuses Yet</div>
+                <div>Bonuses from your referrals will appear here</div>
+            </div>
+        `;
+        return;
+    }
+    
+    const totalBonus = bonusHistory.reduce((sum, b) => sum + (b.bonus || 0), 0);
+    
+    let html = `
+        <div class="bonus-stats">
+            <div class="bonus-total">${formatTZS(totalBonus)}</div>
+            <div class="bonus-label">Total Bonuses Earned</div>
+        </div>
+        <div class="bonus-list">
+    `;
+    
+    bonusHistory.forEach(b => {
+        const date = b.createdAt?.toDate ? b.createdAt.toDate() : new Date();
+        const dateStr = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        
+        html += `
+            <div class="bonus-item">
+                <div class="bonus-header">
+                    <span class="bonus-amount">+${formatTZS(b.bonus || 0)}</span>
+                    <span class="bonus-level">Level ${b.level}</span>
+                </div>
+                <div class="bonus-details">
+                    <span class="bonus-from">From: ${b.fromUser || 'Referral'}</span>
+                    <span class="bonus-date">${dateStr} • Recharge: ${formatTZS(b.rechargeAmount || 0)}</span>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    content.innerHTML = html;
+    
+    // Update total earned in stats
+    const totalEarnedEl = document.getElementById('totalEarned');
+    if (totalEarnedEl) {
+        totalEarnedEl.textContent = formatUSD(tzsToUsdt(totalBonus));
+    }
+}
+
+function openBonusModal() {
+    document.getElementById('bonusModal').classList.add('active');
+    loadBonusHistory();
+}
+
+window.closeBonusModal = function() {
+    document.getElementById('bonusModal').classList.remove('active');
+};
+
+function setupEventListeners() {
+    // Register button (person_add icon) - opens register page
+    const registerBtn = document.getElementById('registerBtn');
+    if (registerBtn) {
+        registerBtn.addEventListener('click', () => {
+            window.location.href = `register.html?ref=${userReferralCode}`;
+        });
+    }
+    
+    // Bonus history button
+    const bonusBtn = document.getElementById('bonusHistoryBtn');
+    if (bonusBtn) {
+        bonusBtn.addEventListener('click', openBonusModal);
+    }
+    
+    // Copy link button
+    setTimeout(() => {
+        const copyBtn = document.getElementById('copyLinkBtn');
+        const referralLink = document.getElementById('referralLink');
+        if (copyBtn && referralLink) {
+            copyBtn.addEventListener('click', async () => {
+                const link = referralLink.textContent;
+                try {
+                    await navigator.clipboard.writeText(link);
+                    copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 14px;">check</span> Copied!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span> Copy';
+                    }, 2000);
+                } catch (e) {
+                    const input = document.createElement('input');
+                    input.value = link;
+                    document.body.appendChild(input);
+                    input.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(input);
+                    copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 14px;">check</span> Copied!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span> Copy';
+                    }, 2000);
+                }
+            });
+        }
+    }, 100);
+    
+    // Level tabs
+    setTimeout(() => {
+        document.querySelectorAll('.level-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentLevel = tab.dataset.level;
+                renderReferralList();
+            });
+        });
+    }, 100);
+    
+    // Modal close on outside click
+    document.getElementById('bonusModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('bonusModal')) {
+            closeBonusModal();
+        }
+    });
+    
+    // Nav active state
+    const navItems = document.querySelectorAll('.nav-item');
+    const currentPath = window.location.pathname;
+    navItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && currentPath.includes('agent')) {
+            item.classList.add('active');
+        }
+    });
+}
+
+// Expose for debugging
+window.currentUser = currentUser;
+</script>
+
+</body>
+</html>

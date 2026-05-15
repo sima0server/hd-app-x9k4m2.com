@@ -1,0 +1,2624 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HD™ Home Page</title>
+  <!-- Material Icons for Nav -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <!-- Material Icons for Theme Toggle -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <style>
+    :root{
+      --primary-bg: #f5f7fa;
+      --surface-bg: #ffffff;
+      --surface-alt: #f8fafc;
+      --card-bg: #ffffff;
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --accent-green: #38a169;
+      --accent-green-light: #48bb78;
+      --accent-green-glow: rgba(72, 187, 120, 0.3);
+      --accent-red: #e53e3e;
+      --accent-blue: #4299e1;
+      --accent-yellow: #d69e2e;
+      --border-color: #e2e8f0;
+      --border-light: #edf2f7;
+      --success-bg: #f0fff4;
+      --danger-bg: #fff5f5;
+      --warning-bg: #fffbeb;
+      --primary-gradient: linear-gradient(90deg, #38a169, #4299e1);
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --nav-bg: rgba(255, 255, 255, 0.98);
+      --nav-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08), 0 -1px 0 rgba(0, 0, 0, 0.04);
+      --nav-active-glow: 0 0 20px rgba(56, 161, 105, 0.3);
+    }
+    
+    /* DARK THEME */
+    body.theme-dark {
+      --primary-bg: #0d1117;
+      --surface-bg: #161b22;
+      --surface-alt: #21262d;
+      --card-bg: #161b22;
+      --text-primary: #f0f6fc;
+      --text-secondary: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent-green: #238636;
+      --accent-green-light: #2ea043;
+      --accent-green-glow: rgba(46, 160, 67, 0.4);
+      --accent-red: #f85149;
+      --accent-blue: #58a6ff;
+      --accent-yellow: #d29922;
+      --border-color: #30363d;
+      --border-light: #21262d;
+      --success-bg: rgba(35, 134, 54, 0.15);
+      --danger-bg: rgba(248, 81, 73, 0.15);
+      --warning-bg: rgba(210, 153, 34, 0.15);
+      --primary-gradient: linear-gradient(90deg, #238636, #58a6ff);
+      --glass-bg: rgba(22, 27, 34, 0.95);
+      --nav-bg: rgba(22, 27, 34, 0.98);
+      --nav-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3), 0 -1px 0 rgba(255, 255, 255, 0.05);
+      --nav-active-glow: 0 0 20px rgba(35, 134, 54, 0.4);
+    }
+    
+    /* GREEN THEME */
+    body.theme-green {
+      --primary-bg: #f0fff4;
+      --surface-bg: #ffffff;
+      --surface-alt: #f7faf7;
+      --card-bg: #ffffff;
+      --text-primary: #1a202c;
+      --text-secondary: #2d3748;
+      --text-muted: #718096;
+      --accent-green: #276749;
+      --accent-green-light: #2f855a;
+      --accent-green-glow: rgba(47, 133, 90, 0.3);
+      --accent-red: #c53030;
+      --accent-blue: #2b6cb0;
+      --accent-yellow: #975a16;
+      --border-color: #c6f6d5;
+      --border-light: #e6fffa;
+      --success-bg: rgba(39, 103, 73, 0.08);
+      --danger-bg: rgba(197, 48, 48, 0.08);
+      --warning-bg: rgba(151, 90, 22, 0.08);
+      --primary-gradient: linear-gradient(90deg, #276749, #38a169);
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --nav-bg: rgba(255, 255, 255, 0.98);
+      --nav-shadow: 0 -4px 20px rgba(39, 103, 73, 0.1), 0 -1px 0 rgba(39, 103, 73, 0.05);
+      --nav-active-glow: 0 0 20px rgba(39, 103, 73, 0.3);
+    }
+    
+    *{box-sizing:border-box}
+    body{
+      font-family:system-ui, -apple-system, Roboto, "Helvetica Neue", Arial; 
+      margin:0;
+      background:var(--primary-bg);
+      color:var(--text-primary);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      padding-bottom: 50px; /* Space for bottom nav */
+    }
+    
+    /* header / top nav */
+    header.site-header{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      background:var(--surface-bg);
+      box-shadow:0 1px 0 var(--border-color);
+      z-index:50;
+      transition:transform .22s ease
+    }
+    .header-inner{
+      max-width:980px;
+      margin:0 auto;
+      padding:10px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px
+    }
+    
+    /* Brand with Aurora Animation */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      position: relative;
+    }
+    
+    .brand-text {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-green-light), var(--accent-green));
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: auroraFlow 6s ease-in-out infinite;
+      position: relative;
+      letter-spacing: -0.5px;
+    }
+    
+    /* Aurora animation */
+    @keyframes auroraFlow {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+    
+    /* Pulsing glow effect */
+    .brand-text::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 140%;
+      border-radius: 50%;
+      z-index: -1;
+      opacity: 0.5;
+          }
+    
+
+    
+    .header-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-shrink: 0;
+    }
+    
+    /* Online Users Counter */
+    .online-counter {
+      font-size: 13px;
+      color: var(--accent-green);
+      background: var(--surface-alt);
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+    
+    .online-counter:hover {
+      background: var(--success-bg);
+      border-color: var(--accent-green);
+      transform: translateY(-1px);
+    }
+    
+    /* User Profile Picture Button */
+    .user-profile-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-alt);
+      overflow: hidden;
+      position: relative;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .user-profile-btn:hover {
+      border-color: var(--accent-green);
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--accent-green-glow);
+    }
+    
+    .user-profile-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .user-profile-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    .user-profile-btn .profile-initial {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      z-index: 1;
+    }
+    
+    /* Material Design Icons */
+    .material-icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: var(--surface-alt);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    
+    .material-icon-btn:hover {
+      background: var(--success-bg);
+      color: var(--accent-green);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .material-icon-btn:active {
+      transform: translateY(0);
+    }
+    
+    .material-icon-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: var(--accent-green-glow);
+      transition: width 0.3s, height 0.3s;
+    }
+    
+    .material-icon-btn:hover::after {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .material-icon-btn .material-icons,
+    .material-icon-btn .material-symbols-outlined {
+      font-size: 20px;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+    
+    /* Theme Toggle Button */
+    .theme-toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: var(--surface-alt);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    
+    .theme-toggle-btn:hover {
+      background: var(--success-bg);
+      color: var(--accent-green);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .theme-toggle-btn:active {
+      transform: translateY(0);
+    }
+    
+    .theme-toggle-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: var(--accent-green-glow);
+      transition: width 0.3s, height 0.3s;
+    }
+    
+    .theme-toggle-btn:hover::after {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .theme-toggle-btn .material-icons {
+      font-size: 20px;
+      z-index: 1;
+    }
+    
+    /* Container */
+    main.container{
+      max-width:760px;
+      margin:66px auto 90px; /* Account for fixed header */
+      padding:0 12px;
+    }
+    
+    /* Real Posts Section */
+    #realPostsContainer {
+      margin-bottom: 30px;
+    }
+    
+    /* AI Feed Section */
+    #aiFeedContainer {
+      padding-top: 20px;
+    }
+    
+    /* Posts styling */
+    #feed{display:flex;flex-direction:column;gap:12px}
+    .post{
+      background:var(--card-bg);
+      border-radius:10px;
+      padding:12px;
+      box-shadow:0 1px 2px rgba(0,0,0,.04);
+      overflow:hidden;
+      border: 1px solid var(--border-light);
+      margin-top: 12px;
+    }
+    
+    /* Post header styles */
+    /* Post header styles */
+.post-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.profile-pic {
+  width: 44px;
+  height: 44px;
+  min-width: 44px; /* Prevent shrinking */
+  min-height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the image */
+}
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* Remove any extra space below image */
+}
+    
+    /* Responsive adjustments */
+    @media (max-width: 560px) {
+      .header-inner {
+        padding: 8px 12px;
+      }
+      
+      .brand-text {
+        font-size: 18px;
+      }
+      
+      .online-counter {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+      
+      .user-profile-btn,
+      .material-icon-btn,
+      .theme-toggle-btn {
+        width: 36px;
+        height: 36px;
+      }
+      
+      .user-profile-btn .profile-initial {
+        font-size: 16px;
+      }
+      
+      .material-icon-btn .material-icons,
+      .material-icon-btn .material-symbols-outlined,
+      .theme-toggle-btn .material-icons {
+        font-size: 18px;
+      }
+      
+      main.container {
+        margin-top: 62px;
+        padding: 0 10px;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .brand-text {
+        font-size: 16px;
+      }
+      
+      .online-counter {
+        display: none; /* Hide counter on very small screens */
+      }
+      
+      .header-actions {
+        gap: 6px;
+      }
+      
+      .user-profile-btn,
+      .material-icon-btn,
+      .theme-toggle-btn {
+        width: 34px;
+        height: 34px;
+      }
+      
+      .user-profile-btn .profile-initial {
+        font-size: 15px;
+      }
+      
+      .material-icon-btn .material-icons,
+      .material-icon-btn .material-symbols-outlined,
+      .theme-toggle-btn .material-icons {
+        font-size: 17px;
+      }
+    }
+    
+    /* Keep the rest of your existing styles... */
+    
+    /* The rest of your CSS remains exactly the same from previous version */
+    .user-info{font-size:13px}
+    .username{font-weight:700; color: var(--text-primary)}
+    .region{color:var(--text-muted);font-size:12px}
+    .post-image{
+      width:100%;
+      margin-top:8px;
+      border-radius:8px;
+      display:block;
+      max-height:420px;
+      object-fit:cover
+    }
+    .post-text{
+      margin-top:8px;
+      font-size:14px;
+      line-height:1.35;
+      color: var(--text-primary);
+    }
+    .post-actions{
+      display:flex;
+      gap:12px;
+      margin-top:8px;
+      color:var(--text-secondary);
+      font-size:13px
+    }
+    .screenshot img{width:100%;border-radius:8px;display:block}
+    .muted{color:var(--text-muted);font-size:12px;margin-top:6px}
+    .btn{
+      display:block;
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:0;
+      background:var(--accent-green);
+      color:#fff;
+      font-weight:700;
+      margin:16px 0;
+      cursor:pointer
+    }
+    .small-btn{
+      padding:6px 10px;
+      border-radius:6px;
+      border:1px solid var(--border-color);
+      background:var(--surface-bg);
+      cursor:pointer;
+      color: var(--text-primary);
+    }
+    
+    /* Real posts specific styles */
+    .post .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px
+    }
+    .author{
+      display:flex;
+      gap:10px;
+      align-items:center
+    }
+.author img {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Also fix the profile-default div for user posts */
+.profile-default {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--primary-gradient);
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+
+    .meta{font-size:12px;color:var(--text-muted)}
+    .badge{
+      background:var(--accent-yellow);
+      color:#000;
+      padding:4px 8px;
+      border-radius:8px;
+      font-weight:600;
+      font-size:11px
+    }
+    .post img{
+      max-width:100%;
+      border-radius:8px;
+      /*margin-top:10px*/
+    }
+    .actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:10px;
+      color:var(--text-muted)
+    }
+    .likes{font-weight:600}
+    .trashBtn{
+      background: none;
+      border: none;
+      color: var(--accent-red);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+    }
+    
+    /* Comments for real posts */
+    /* Comments for real posts */
+.comments{margin-top:10px}
+.comment{
+  border-top:1px solid var(--border-light);
+  padding-top:8px;
+  margin-top:8px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.comment .metaSmall{font-size:11px;color:var(--text-muted)}
+
+/* Comment profile picture - SMALL AND ROUND */
+.c-avatar {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  background: var(--surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+/* Comment body */
+.c-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Username in comments - BOLD AND SMALL */
+.c-user {
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 2px;
+}
+
+/* AI Post comments styling */
+.c-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.comment-input{
+  display:flex;
+  gap:8px;
+  margin-top:8px
+}
+    .comment-input input{
+      flex:1;
+      padding:8px;
+      border-radius:8px;
+      border:1px solid var(--border-color);
+      background:var(--surface-bg);
+      color:var(--text-primary)
+    }
+    .comment-submit{
+      padding: 8px 12px;
+      background: var(--accent-green);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    
+    /* Create Post Modal */
+    .create-post-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+    .create-post-modal.show {
+      display: flex;
+    }
+    .create-post-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 40px rgba(2,6,23,.25);
+    }
+    .create-post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .create-post-header h3 {
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 16px;
+    }
+    .close-modal-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+    }
+    .post-composer {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .post-composer textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--surface-bg);
+      color: var(--text-primary);
+      font-size: 14px;
+      resize: vertical;
+    }
+    .post-composer textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .file-upload-area {
+      border: 2px dashed var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    .file-upload-area:hover {
+      border-color: var(--accent-green);
+    }
+    .file-upload-area input {
+      display: none;
+    }
+    .upload-icon {
+      font-size: 32px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .file-upload-area p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .image-preview {
+      max-height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+    .modal-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .modal-btn.cancel {
+      background: var(--surface-alt);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+    .modal-btn.post {
+      background: var(--accent-green);
+      color: white;
+    }
+    
+    /* modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(2,6,23,0.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:100
+    }
+    .modal.show{display:flex}
+    .modal-card{
+      background:var(--card-bg);
+      padding:16px;
+      border-radius:10px;
+      max-width:720px;
+      width:100%;
+      box-shadow:0 8px 40px rgba(2,6,23,.25);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+    .form-row{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin:8px 0
+    }
+    .form-row label{
+      min-width:160px;
+      color:var(--text-muted);
+      font-size:13px
+    }
+    .form-row input[type="number"],
+    .form-row input[type="text"],
+    .form-row select{
+      flex:1;
+      padding:8px;
+      border:1px solid var(--border-color);
+      border-radius:8px;
+      background: var(--surface-alt);
+      color: var(--text-primary);
+    }
+    .muted-note{font-size:12px;color:var(--text-muted);margin-top:6px}
+    
+    /* ========== PREMIUM BOTTOM NAVIGATION ========== */
+    .bottom-navigation {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-color);
+      box-shadow: var(--nav-shadow);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+      padding: 0;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      height: 100%;
+      min-width: 0;
+      padding: 8px 4px;
+      text-decoration: none;
+      color: var(--text-muted);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 0;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Animated indicator for active item - MOVED UP */
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 3px;
+      background: var(--accent-green);
+      border-radius: 0 0 3px 3px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .nav-item.active::before {
+      opacity: 1;
+    }
+    
+    /* Floating icon container - REMOVED transform on active */
+    .nav-icon-container {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2px;
+      border-radius: 8px;
+      background: transparent;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .nav-icon {
+      font-size: 18px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--text-muted);
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Active state styling - REMOVED scale transform */
+    .nav-item.active {
+      color: var(--accent-green);
+    }
+    
+    .nav-item.active .nav-icon-container {
+      background: var(--success-bg);
+      box-shadow: none;
+    }
+    
+    .nav-item.active .nav-icon {
+      color: var(--accent-green);
+      font-variation-settings: 'FILL' 1;
+    }
+    
+    /* REMOVED label text (showing only icons) */
+    .nav-label {
+      display: none;
+    }
+    
+    /* small utilities */
+    .hidden{display:none}
+    .centerNote{padding:20px;text-align:center;color:var(--text-muted)}
+    
+    @media (max-width: 360px) {
+      .nav-icon {
+        font-size: 16px;
+      }
+      .nav-icon-container {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  
+  
+  
+  
+/* Remove gaps between real posts and AI feed */
+#realPostsContainer,
+#aiFeedContainer  {
+  margin: 0;
+  padding: 0;
+}
+.theme-toggle-btn {
+  display: none;
+}
+#aiFeedContainer h3 {
+  margin-top: 4px;   /* small breathing room, adjust to your liking (0 for no gap) */
+}
+
+/* Remove margin from last post inside realPostsContainer */
+#postsList .post:last-child {
+  margin-bottom: 0;
+}
+
+/* Ensure empty state doesn't create extra space */
+#emptyNote.hidden {
+  margin-bottom: 0;
+}  
+.post-actions .small-btn {
+  display: none;
+}
+  </style>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-text">HD™ Home</div>
+      </div>
+
+      <div class="header-actions">
+        <div class="online-counter">
+          <span>Online: <strong id="userCount">0</strong></span>
+        </div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Change Theme">
+          <span class="material-icons">palette</span>
+        </button>
+        <button class="user-profile-btn" id="userProfileBtn" title="Create Post">
+          <div class="profile-initial">U</div>
+        </button>
+        <button class="material-icon-btn" id="settingsBtn" title="Settings">
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Real Posts Section (always at top) -->
+    <div id="realPostsContainer">
+      <h3 style="color: var(--text-primary); margin-bottom: 12px; font-size: 14px;">Investorst Content</h3>
+      
+      <!-- Real posts list -->
+      <div id="postsList"></div>
+      <div id="emptyNote" class="centerNote hidden">Please login First.</div>
+    </div>
+    
+    <!-- AI Feed Section (below real posts) -->
+    <div id="aiFeedContainer">
+      <h3 style="color: var(--text-primary); margin-bottom: 12px; font-size: 14px;">Community Posts</h3>
+      <div id="feed"></div>
+      <button id="loadMore" class="btn">Load more posts</button>
+    </div>
+  </main>
+
+  <!-- Create Post Modal -->
+  <div class="create-post-modal" id="createPostModal">
+    <div class="create-post-card">
+      <div class="create-post-header">
+        <h3>Create Post</h3>
+        <button class="close-modal-btn" id="closePostModal">×</button>
+      </div>
+      
+      <div class="post-composer">
+        <textarea id="postText" placeholder="What's on your mind?"></textarea>
+        
+        <div class="file-upload-area" id="fileUploadArea">
+          <div class="upload-icon">📷</div>
+          <p>Click to add photo</p>
+          <input type="file" id="postImageFile" accept="image/*">
+        </div>
+        
+        <div id="imagePreview" class="image-preview hidden"></div>
+        
+        <div class="modal-actions">
+          <button class="modal-btn cancel" id="cancelPostBtn">Cancel</button>
+          <button class="modal-btn post" id="submitPostBtn">Post</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Theme Selection Modal -->
+  <div class="modal" id="themeModal">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <h3>Select Theme</h3>
+      <div style="display: grid; gap: 12px; margin-top: 16px;">
+        <button class="theme-option" data-theme="light" style="
+          padding: 12px;
+          border-radius: 8px;
+          border: 2px solid var(--border-color);
+          background: var(--surface-alt);
+          color: var(--text-primary);
+          cursor: pointer;
+          text-align: left;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        ">
+          <div style="width: 24px; height: 24px; border-radius: 4px; background: linear-gradient(135deg, #f5f7fa, #ffffff);"></div>
+          <div>
+            <div style="font-weight: 600;">Modern Light</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Clean & bright interface</div>
+          </div>
+        </button>
+        
+        <button class="theme-option" data-theme="dark" style="
+          padding: 12px;
+          border-radius: 8px;
+          border: 2px solid var(--border-color);
+          background: var(--surface-alt);
+          color: var(--text-primary);
+          cursor: pointer;
+          text-align: left;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        ">
+          <div style="width: 24px; height: 24px; border-radius: 4px; background: linear-gradient(135deg, #0d1117, #161b22);"></div>
+          <div>
+            <div style="font-weight: 600;">Dark Board</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Professional trading view</div>
+          </div>
+        </button>
+        
+        <button class="theme-option" data-theme="green" style="
+          padding: 12px;
+          border-radius: 8px;
+          border: 2px solid var(--border-color);
+          background: var(--surface-alt);
+          color: var(--text-primary);
+          cursor: pointer;
+          text-align: left;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        ">
+          <div style="width: 24px; height: 24px; border-radius: 4px; background: linear-gradient(135deg, #276749, #38a169);"></div>
+          <div>
+            <div style="font-weight: 600;">Fixed Green</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Farm & agriculture style</div>
+          </div>
+        </button>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:20px">
+        <button class="small-btn" id="themeCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal" id="settingsModal">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <h3>Content Configuration</h3>
+      <div class="form-row">
+        <label>Total posts to generate</label>
+        <input type="number" id="cfgTotalPosts" min="20" max="5000" value="460">
+      </div>
+      <div class="form-row">
+        <label>Initial load count</label>
+        <input type="number" id="cfgInitialLoad" min="10" max="500" value="80">
+      </div>
+      <div class="form-row">
+        <label>Posts per "Load more"</label>
+        <input type="number" id="cfgPerLoad" min="5" max="500" value="40">
+      </div>
+
+      <div style="margin-top:10px;font-weight:700">Type probabilities (must sum ~100)</div>
+      <div class="form-row">
+        <label>Transaction %</label>
+        <input type="number" id="probTx" min="0" max="100" value="70">
+      </div>
+      <div class="form-row">
+        <label>Selling %</label>
+        <input type="number" id="probSell" min="0" max="100" value="15">
+      </div>
+      <div class="form-row">
+        <label>Testimonial %</label>
+        <input type="number" id="probTest" min="0" max="100" value="15">
+      </div>
+
+      <div class="form-row">
+        <label>Enable Community comments</label>
+        <select id="cfgComments">
+          <option value="1" selected>On</option>
+          <option value="0">Off</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Header hide on scroll</label>
+        <select id="cfgHideHeader">
+          <option value="1" selected>Enable</option>
+          <option value="0">Disable</option>
+        </select>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button class="small-btn" id="settingsCancel">Cancel</button>
+        <button class="small-btn" id="settingsApply">Apply</button>
+      </div>
+      <div class="muted-note">Apply community content using current settings.</div>
+    </div>
+  </div>
+
+  <!-- Premium Bottom Navigation -->
+  <nav class="bottom-navigation">
+    <a href="index.html" class="nav-item active" data-title="Home">
+      <div class="nav-icon-container">
+        <span class="nav-icon material-symbols-outlined">home</span>
+      </div>
+      <span class="nav-label">Home</span>
+    </a>
+    <a href="activetrade.html" class="nav-item" data-title="Trade">
+      <div class="nav-icon-container">
+        <span class="nav-icon material-symbols-outlined">receipt</span>
+      </div>
+      <span class="nav-label">Trade</span>
+    </a>
+    <a href="market.html" class="nav-item" data-title="Market">
+      <div class="nav-icon-container">
+        <span class="nav-icon material-symbols-outlined">candlestick_chart</span>
+      </div>
+      <span class="nav-label">Market</span>
+    </a>
+    <a href="history.html" class="nav-item" data-title="Records">
+      <div class="nav-icon-container">
+        <span class="nav-icon material-symbols-outlined">trending_up</span>
+      </div>
+      <span class="nav-label">Records</span>
+    </a>
+
+    <a href="more.html" class="nav-item" data-title="Menu">
+      <div class="nav-icon-container">
+        <span class="nav-icon material-symbols-outlined">grid_view</span>
+      </div>
+      <span class="nav-label">Menu</span>
+    </a>
+  </nav>
+
+  <!-- Firebase SDK -->
+<script type="module">
+  // Import Firebase functions
+  import { initializeApp as firebaseInitialize, getApps } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { 
+    getFirestore, doc, getDoc, setDoc, collection, addDoc, serverTimestamp, 
+    query, orderBy, onSnapshot, deleteDoc, getDocs 
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",
+    authDomain: "newagefarmbase.firebaseapp.com",
+    projectId: "newagefarmbase"
+  };
+
+  // Initialize Firebase
+  let firebaseApp;
+  if (!getApps().length) firebaseApp = firebaseInitialize(firebaseConfig);
+  else firebaseApp = getApps()[0];
+  const db = getFirestore(firebaseApp);
+
+  // Session management
+  let session = null;
+  try { 
+    session = JSON.parse(localStorage.getItem("naf_session")); 
+  } catch(e){ 
+    session = null; 
+  }
+
+  // ========== THEME MANAGEMENT ==========
+  function applyTheme(theme) {
+    document.body.className = '';
+    if (theme === 'dark') {
+      document.body.classList.add('theme-dark');
+    } else if (theme === 'green') {
+      document.body.classList.add('theme-green');
+    }
+    if (session && session.docId) {
+      updateUserThemeInFirebase(theme);
+    }
+  }
+
+  async function updateUserThemeInFirebase(theme) {
+    try {
+      await setDoc(doc(db, 'users', session.docId), {
+        theme: theme,
+        lastThemeUpdate: new Date().toISOString()
+      }, { merge: true });
+    } catch (error) {
+      console.error('Error updating theme:', error);
+    }
+  }
+
+  async function loadThemeFromFirebase() {
+    if (!session || !session.docId) {
+      const savedTheme = localStorage.getItem('farmbase_theme') || 'light';
+      applyTheme(savedTheme);
+      return;
+    }
+
+    try {
+      const userDoc = await getDoc(doc(db, 'users', session.docId));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const theme = userData.theme || 'light';
+        applyTheme(theme);
+        localStorage.setItem('farmbase_theme', theme);
+      } else {
+        applyTheme('light');
+      }
+    } catch (error) {
+      const savedTheme = localStorage.getItem('farmbase_theme') || 'light';
+      applyTheme(savedTheme);
+    }
+  }
+
+
+  // ========== USER PROFILE PICTURE ==========
+  let currentUserData = null;
+
+  async function loadUserProfile(userProfileBtn) {
+    if (!session || !session.docId) return;
+    
+    try {
+      const uRef = doc(db, "users", session.docId);
+      const snap = await getDoc(uRef);
+      if(!snap.exists()) return;
+      
+      const u = snap.data();
+      currentUserData = u;
+      
+      // Clear the button content first
+      userProfileBtn.innerHTML = '';
+      
+      if(u.profilePic){
+        // Create image element
+        const img = document.createElement('img');
+        img.src = u.profilePic;
+        img.alt = 'Profile';
+        userProfileBtn.appendChild(img);
+        
+        // Create initial as fallback (hidden by default)
+        const initialDiv = document.createElement('div');
+        initialDiv.className = 'profile-initial';
+        initialDiv.textContent = (u.username||'U').charAt(0).toUpperCase();
+        initialDiv.style.display = 'none'; // Hide initial when image loads
+        userProfileBtn.appendChild(initialDiv);
+        
+        // Hide initial if image loads successfully
+        img.onload = () => {
+          initialDiv.style.display = 'none';
+        };
+        
+        // Show initial if image fails to load
+        img.onerror = () => {
+          img.style.display = 'none';
+          initialDiv.style.display = 'flex';
+        };
+      } else {
+        // No profile picture, show initial
+        const initial = (u.username||'U').charAt(0).toUpperCase();
+        const initialDiv = document.createElement('div');
+        initialDiv.className = 'profile-initial';
+        initialDiv.textContent = initial;
+        userProfileBtn.appendChild(initialDiv);
+      }
+      
+      if(u.theme) {
+        applyTheme(u.theme);
+      }
+    } catch(e){ 
+      console.error('loadUserProfile', e); 
+      // Set default initial on error
+      userProfileBtn.innerHTML = '<div class="profile-initial">U</div>';
+    }
+  }
+
+  // ========== CREATE POST MODAL ==========
+  function setupPostModal(userProfileBtn, createPostModal, closePostModalBtn, cancelPostBtn, submitPostBtn, postTextEl, postImageFileEl, fileUploadArea, imagePreview) {
+    let selectedImageFile = null;
+
+    // Open modal when profile button is clicked
+    userProfileBtn.addEventListener('click', () => {
+      if (!session || !session.docId) {
+        alert('Please login to create a post');
+        return;
+      }
+      createPostModal.classList.add('show');
+    });
+
+    // Close modal
+    function closePostModal() {
+      createPostModal.classList.remove('show');
+      postTextEl.value = '';
+      imagePreview.innerHTML = '';
+      imagePreview.classList.add('hidden');
+      selectedImageFile = null;
+    }
+
+    closePostModalBtn.addEventListener('click', closePostModal);
+    cancelPostBtn.addEventListener('click', closePostModal);
+
+    // File upload handling
+    fileUploadArea.addEventListener('click', () => {
+      postImageFileEl.click();
+    });
+
+    postImageFileEl.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        selectedImageFile = file;
+        
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          imagePreview.innerHTML = `<img src="${event.target.result}" alt="Preview">`;
+          imagePreview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Cloudinary upload helper
+    const CLOUD_NAME = "dinwv2dux";
+    const POST_PRESET = "post_uploads";
+    
+    async function uploadToCloudinary(file, preset){
+      const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('upload_preset', preset);
+      const res = await fetch(url, { method: 'POST', body: fd });
+      const data = await res.json();
+      if(data.error) throw new Error(data.error.message || 'Upload failed');
+      return data;
+    }
+
+    // Submit post
+    submitPostBtn.addEventListener('click', async ()=>{
+      if (!session || !session.docId) {
+        alert('Please login to post');
+        return;
+      }
+      
+      const text = postTextEl.value.trim();
+      const file = selectedImageFile;
+      if(!text && !file){ 
+        alert('Add text or image to post'); 
+        return; 
+      }
+
+      submitPostBtn.disabled = true; 
+      submitPostBtn.textContent = 'Posting...';
+      
+      try {
+        let imageUrl = '';
+        if(file){
+          const allowed = ['image/jpeg','image/png','image/webp','image/jpg'];
+          if(!allowed.includes(file.type)) throw new Error('File format not allowed');
+          const up = await uploadToCloudinary(file, POST_PRESET);
+          imageUrl = up.secure_url || up.url || '';
+        }
+        
+        await addDoc(collection(db, 'posts'), {
+          authorId: session.docId,
+          text,
+          imageUrl,
+          createdAt: serverTimestamp()
+        });
+        
+        closePostModal();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch(e){
+        console.error('post error', e);
+        alert('Post failed: ' + (e.message || e));
+      } finally {
+        submitPostBtn.disabled = false; 
+        submitPostBtn.textContent = 'Post';
+      }
+    });
+  }
+
+  // ========== REAL POSTS MANAGEMENT ==========
+  function setupRealPosts(postsList, emptyNote) {
+    // Utility functions
+    function getMillis(v){ 
+      if(!v) return Date.now(); 
+      if(typeof v === 'number') return v; 
+      if(v.seconds !== undefined) return v.seconds*1000; 
+      if(v.toDate) return v.toDate().getTime(); 
+      return new Date(v).getTime(); 
+    }
+    
+    function hoursAgo(ms){ 
+      const diff = Date.now()-ms; 
+      const hrs = Math.floor(diff/3600000); 
+      if(hrs<=0) return 'just now'; 
+      if(hrs===1) return '1 hour ago'; 
+      if(hrs<24) return `${hrs} hours ago`; 
+      const d=Math.floor(hrs/24); 
+      return d===1? '1 day ago' : `${d} days ago`; 
+    }
+    
+    function deterministicLikes(s){ 
+      let h=0; 
+      for(let i=0;i<s.length;i++){ 
+        h=(h<<5)-h + s.charCodeAt(i); 
+        h |= 0; 
+      } 
+      h=Math.abs(h); 
+      return (h%250)+3; 
+    }
+
+    // Create real post element
+    async function createRealPostElement(postDoc){
+      const post = postDoc.data();
+      const id = postDoc.id;
+      const authorId = post.authorId;
+      
+      // Fetch author data
+      const aSnap = await getDoc(doc(db, 'users', authorId));
+      const author = aSnap.exists() ? aSnap.data() : { 
+        username: 'Unknown', 
+        profilePic: '', 
+        region: '', 
+        vipLevel: null 
+      };
+
+      const createdMs = getMillis(post.createdAt);
+      const isOwner = session && session.docId === authorId;
+      const vipBadge = (author.vipLevel && Number(author.vipLevel) > 0) ? 
+        `<span class="badge">VIP</span>` : '';
+
+      const el = document.createElement('div');
+      el.className = 'post';
+      el.innerHTML = `
+        <div class="top">
+          <div class="author">
+            ${ author.profilePic ? 
+              `<img src="${author.profilePic}" alt="pf">` : 
+              `<div class="profile-default" style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--primary-gradient);color:white">
+                ${(author.username||'U').charAt(0).toUpperCase()}
+              </div>` 
+            }
+            <div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <strong>${author.username || 'Unknown'}</strong>
+                ${vipBadge}
+              </div>
+              <div class="meta">${author.region || ''} • ${hoursAgo(createdMs)}</div>
+            </div>
+          </div>
+          <div>
+            ${ isOwner ? `<button class="trashBtn" data-id="${id}">🗑️</button>` : '' }
+          </div>
+        </div>
+
+        <div class="body">
+          ${ post.imageUrl ? `<img src="${post.imageUrl}" alt="post image">` : '' }
+          <div style="margin-top:8px;font-size:13px">${(post.text||'').replace(/\n/g,'<br>')}</div>
+          <div class="actions">
+            <div class="likes">❤️ ${deterministicLikes(id + String(createdMs))} likes</div>
+            <div class="meta">• ${new Date(createdMs).toLocaleString()}</div>
+          </div>
+
+          <div class="comments" id="comments-area-${id}">
+            <strong>Comments</strong>
+            <div id="comment-list-${id}" style="margin-top:8px"></div>
+
+            <div class="comment-input">
+              <input type="text" id="comment-input-${id}" placeholder="Write a comment...">
+              <button data-postid="${id}" class="comment-submit">Send</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Delete handler
+      if(isOwner){
+        const btn = el.querySelector('.trashBtn');
+        btn.addEventListener('click', async ()=>{
+          if(!confirm('Delete this post?')) return;
+          try {
+            // Delete comments first
+            const cs = await getDocs(collection(db, 'posts', id, 'comments'));
+            const deletes = [];
+            cs.forEach(d => deletes.push(deleteDoc(doc(db, 'posts', id, 'comments', d.id))));
+            await Promise.all(deletes);
+            // Delete post
+            await deleteDoc(doc(db, 'posts', id));
+            el.remove();
+          } catch(e){ 
+            console.error(e); 
+            alert('Delete failed'); 
+          }
+        });
+      }
+
+      // Comment handler
+      const commentBtn = el.querySelector('.comment-submit');
+      const commentInput = el.querySelector(`#comment-input-${id}`);
+      
+      if (session && session.docId) {
+        commentBtn.addEventListener('click', async ()=>{
+          const text = (commentInput.value || '').trim();
+          if(!text) return;
+          commentBtn.disabled = true;
+          try {
+            await addDoc(collection(db, 'posts', id, 'comments'), {
+              authorId: session.docId,
+              authorName: currentUserData?.username || session.docId,
+              text,
+              createdAt: serverTimestamp()
+            });
+            commentInput.value = '';
+          } catch(e){ 
+            console.error(e); 
+            alert('Comment failed'); 
+          }
+          commentBtn.disabled = false;
+        });
+      } else {
+        commentInput.placeholder = "Login to comment";
+        commentInput.disabled = true;
+        commentBtn.disabled = true;
+      }
+
+      // Live comments listener
+      const commentsListEl = el.querySelector(`#comment-list-${id}`);
+      const commentsQ = query(collection(db, 'posts', id, 'comments'), orderBy('createdAt','asc'));
+      const unsub = onSnapshot(commentsQ, snap => {
+        commentsListEl.innerHTML = '';
+        snap.forEach(cdoc => {
+          const c = cdoc.data();
+          const cms = getMillis(c.createdAt);
+          const node = document.createElement('div');
+          node.className = 'comment';
+          node.innerHTML = `
+            <div style="font-weight:600">${c.authorName || c.authorId || 'User'}</div>
+            <div style="font-size:13px;color:var(--text-secondary)">${c.text}</div>
+            <div class="metaSmall">${hoursAgo(cms)}</div>`;
+          commentsListEl.appendChild(node);
+        });
+      }, err => {
+        console.error('comments snapshot err', err);
+      });
+
+      el._unsubComments = unsub;
+      return el;
+    }
+
+    // Load real posts
+    const realPostElements = new Map();
+    if (session && session.docId) {
+      const postsQuery = query(collection(db, 'posts'), orderBy('createdAt','desc'));
+      
+      onSnapshot(postsQuery, async snap => {
+        // Clean up old posts
+        const newIds = new Set(snap.docs.map(d => d.id));
+        for(const [id, el] of realPostElements.entries()){
+          if(!newIds.has(id)){
+            if(el._unsubComments) el._unsubComments();
+            el.remove();
+            realPostElements.delete(id);
+          }
+        }
+
+        if(snap.empty){
+          postsList.innerHTML = '';
+          emptyNote.classList.remove('hidden');
+          return;
+        } else {
+          emptyNote.classList.add('hidden');
+        }
+
+        // Render posts in order
+        postsList.innerHTML = '';
+        for(const docSnap of snap.docs){
+          try {
+            const el = await createRealPostElement(docSnap);
+            postsList.appendChild(el);
+            realPostElements.set(docSnap.id, el);
+          } catch(e){ 
+            console.error('create post element error', e); 
+          }
+        }
+      }, err => {
+        console.error('posts snapshot error', err);
+        postsList.innerHTML = `<div class="centerNote">Failed to load posts</div>`;
+      });
+    } else {
+      // Guest mode - show empty note
+      emptyNote.classList.remove('hidden');
+    }
+  }
+
+  // ========== DYNAMIC USER COUNTER ==========
+function setupUserCounter(userCountEl) {
+  let baseUserCount = 500;
+  
+  function updateUserCounter() {
+    if (!userCountEl) return;
+    
+    // Random variation between -20 and +20
+    const variation = Math.floor(Math.random() * 41) - 20;
+    const newCount = Math.max(1, baseUserCount + variation);
+    
+    // Update display instantly (no smooth transition)
+    userCountEl.textContent = newCount.toLocaleString();
+    
+    // Update base count occasionally to keep range realistic
+    if (Math.random() < 0.1) {
+      baseUserCount = Math.max(400, Math.min(600, newCount));
+    }
+    
+    // Schedule next update in 500ms
+    setTimeout(updateUserCounter, 900);
+  }
+
+  updateUserCounter();
+}
+  // ========== THEME MODAL HANDLING ==========
+  function setupThemeModal(themeToggleBtn, themeModal, themeCancel, themeOptions) {
+    themeToggleBtn.addEventListener('click', () => {
+      themeModal.classList.add('show');
+    });
+
+    themeCancel.addEventListener('click', () => {
+      themeModal.classList.remove('show');
+    });
+
+    themeOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const theme = option.dataset.theme;
+        applyTheme(theme);
+        localStorage.setItem('farmbase_theme', theme);
+        themeModal.classList.remove('show');
+      });
+    });
+  }
+
+  // ========== SETTINGS MODAL HANDLING ==========
+  function setupSettingsModal(settingsBtn, settingsModal, settingsCancel, settingsApply) {
+    settingsBtn.addEventListener('click', () => {
+      settingsModal.classList.add('show');
+    });
+
+    settingsCancel.addEventListener('click', () => {
+      settingsModal.classList.remove('show');
+    });
+
+    settingsApply.addEventListener('click', () => {
+      console.log('AI settings applied');
+      settingsModal.classList.remove('show');
+    });
+  }
+
+  // ========== BOTTOM NAVIGATION ==========
+  function setupBottomNavigation() {
+    const navItems = document.querySelectorAll('.nav-item');
+    const currentPage = window.location.pathname.split('/').pop() || 'home';
+    
+    navItems.forEach(item => {
+      const href = item.getAttribute('href').replace('/', '');
+      if (href === currentPage || (currentPage === '' && href === 'home')) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+    
+    navItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        if (this.getAttribute('href').replace('/', '') === currentPage) {
+          e.preventDefault();
+          return;
+        }
+        
+        navItems.forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  }
+
+  // ========== MODAL CLOSE HANDLERS ==========
+  function setupModalCloseHandlers() {
+    // Close modals when clicking outside
+    document.querySelectorAll('.modal, .create-post-modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('show');
+      });
+    });
+  }
+
+  // ========== MAIN INITIALIZATION ==========
+  function startApplication() {
+    // Get all DOM elements
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const createPostModal = document.getElementById('createPostModal');
+    const closePostModalBtn = document.getElementById('closePostModal');
+    const cancelPostBtn = document.getElementById('cancelPostBtn');
+    const submitPostBtn = document.getElementById('submitPostBtn');
+    const postTextEl = document.getElementById('postText');
+    const postImageFileEl = document.getElementById('postImageFile');
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const imagePreview = document.getElementById('imagePreview');
+    
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeModal = document.getElementById('themeModal');
+    const themeCancel = document.getElementById('themeCancel');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const settingsCancel = document.getElementById('settingsCancel');
+    const settingsApply = document.getElementById('settingsApply');
+    
+    const postsList = document.getElementById('postsList');
+    const emptyNote = document.getElementById('emptyNote');
+    const userCountEl = document.getElementById('userCount');
+
+// Setup guest mode - hide post creation and investor content if not logged in
+const realPostsContainer = document.getElementById('realPostsContainer');
+
+if (!session || !session.docId) {
+  userProfileBtn.style.display = 'none';
+  if (realPostsContainer) realPostsContainer.style.display = 'none';
+} else {
+  if (realPostsContainer) realPostsContainer.style.display = 'block';
+}
+
+// Load theme
+loadThemeFromFirebase();
+
+// Load user profile if logged in
+if (session && session.docId) {
+  loadUserProfile(userProfileBtn);
+}
+
+// Setup all components
+setupPostModal(
+  userProfileBtn,
+  createPostModal,
+  closePostModalBtn,
+  cancelPostBtn,
+  submitPostBtn,
+  postTextEl,
+  postImageFileEl,
+  fileUploadArea,
+  imagePreview
+);
+
+if (session && session.docId) {
+  setupRealPosts(postsList, emptyNote);
+}
+
+setupUserCounter(userCountEl);
+setupThemeModal(themeToggleBtn, themeModal, themeCancel, themeOptions);
+setupSettingsModal(settingsBtn, settingsModal, settingsCancel, settingsApply);
+setupBottomNavigation();
+setupModalCloseHandlers();
+    
+    console.log('FarmBase application initialized');
+  }
+
+  // Wait for DOM to be ready before starting
+  document.addEventListener('DOMContentLoaded', startApplication);
+</script>
+
+  <!-- Your existing FarmBase AI Feed Script can go here -->
+
+<script>
+  /**************************************************************************
+   * FarmBase — final ready-to-go feed with realistic network messages
+   **************************************************************************/
+  document.addEventListener('DOMContentLoaded', function() {
+    // --------- paths & defaults ----------
+    const PROFILE_BASE = "assets/profilepicture/"; // adjust if needed
+    const SCREENSHOT_W = 540;
+    const SCREENSHOT_H = 210;
+    const DEFAULTS = {
+      totalPosts: 460,
+      initialLoad: 80,
+      perLoad: 40,
+      prob: { tx:70, sell:15, test:15 },
+      commentsEnabled: true,
+      hideHeaderOnScroll: true
+    };
+
+    // UI elements
+    const feedEl = document.getElementById('feed');
+    const loadMoreBtn = document.getElementById('loadMore');
+    const userCountEl = document.getElementById('userCount');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const settingsApply = document.getElementById('settingsApply');
+    const settingsCancel = document.getElementById('settingsCancel');
+    const createBtn = document.getElementById('postBtn');
+    const createModal = document.getElementById('createModal');
+    const createCancel = document.getElementById('createCancel');
+    const createSubmit = document.getElementById('createSubmit');
+    const createType = document.getElementById('createType');
+    const createText = document.getElementById('createText');
+    const createImage = document.getElementById('createImage');
+    const imageRow = document.getElementById('imageRow');
+    const siteHeader = document.getElementById('siteHeader');
+
+    // Check if required elements exist
+    if (!feedEl || !loadMoreBtn) {
+      console.error('Required AI feed elements not found');
+      return;
+    }
+
+    // settings inputs
+    const cfgTotalPosts = document.getElementById('cfgTotalPosts');
+    const cfgInitialLoad = document.getElementById('cfgInitialLoad');
+    const cfgPerLoad = document.getElementById('cfgPerLoad');
+    const probTx = document.getElementById('probTx');
+    const probSell = document.getElementById('probSell');
+    const probTest = document.getElementById('probTest');
+    const cfgComments = document.getElementById('cfgComments');
+    const cfgHideHeader = document.getElementById('cfgHideHeader');
+
+    // local runtime state
+    let aiUsers = [];
+    let posts = [];          // master list
+    let queue = [];          // display queue (shuffled)
+    let idCounter = 1;
+    let config = JSON.parse(JSON.stringify(DEFAULTS));
+
+    // helper utils
+    function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+    function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
+    function pad(n,len=2){ return String(n).padStart(len,'0'); }
+
+    // data pools
+    const BASE_NAMES = ["Musa","Sele","Neema","Wema","Asha","Juma","Hamisi","Fatma","Hassan","Peter","Grace","Zainab","Sammy","Johnson","Rehema","Aziza","Omari","Bahati","Sali","Khadija","Deogratius","Salma","Elias","Rahma","Fred","Noel","Patricia","Geoffrey","Rose","Aneth","Steve","Mboya","Hussein","Shaban","Evelyn","Tito","Zuri","Furaha","Magreth","Mapenzi","Kingston","Emmanuel","Davina","Blessing","Ruth","Edwin","Joel","Lillian","Joseph","Mercy"];
+    const REGIONS = ["Dar es Salaam","Mwanza","Arusha","Mbeya","Dodoma","Morogoro","Tanga","Kilimanjaro","Iringa","Shinyanga","Kagera","Tabora","Singida","Rukwa","Kigoma","Pwani","Lindi","Mtwara","Ruvuma","Manyara","Geita","Simiyu","Katavi","Njombe"];
+    const COMMENT_BANK = ["Ninaweza kununua kiasi kidogo?","Bei gani kwa kilo?","Unasafirisha mpaka wapi?","Je una punguzo ukiagiza tani?","Tumia asilimia ya banc","Nafaa kwa biashara yangu, DM tafadhali","Sampuli ipo?","Unaweza kulipwa bila malipo ya usafirishaji?","Ukiwa karibu niko tayari kuangalia","Mazao yameonekana mazuri sana!","Hapo kwenye picha ipo ubora","Ninataka kuongea kuhusu bei ya jumla","Je una uwezo wa kutoa hotuba?","Nimekuona pia ukatangaza mara nyingine","Huu ni ushahidi halali!","Unaweza kutuma namba ya simu?"];
+
+    const CROP_DATA = {
+      'Mchele': { chance: 30, images: 21, descriptions: [ "Mchele wangu bora, nimepanda kwa umakini na dawa za asili. Nipo tayari kukuhudumia.", "Mchele wa aina ya Super, nina kilo 100 tayari kwa usafirishaji. Ubora wa hali ya juu.", "Mchele safi bila uchafu, nzuri kwa familia yako. Nimepanda kwenye udongo mzuri wa Morogoro.", "Mchele wa pilau, unafaa kwa hoteli na mikahawa. Bei nafuu kwa wauzaji wakubwa.", "Nina mchele mzuri wa masika, ninaweza kukupatia kiasi unachotaka. Mazao yamekua vizuri sana." ] },
+      'Mahindi': { chance: 40, images: 18, descriptions: [ "Mahindi mazuri yaliyolimwa hivi karibuni, nzuri kwa ugali na lishe bora.", "Mahindi ya aina ya Kitale, nina kilo 200 tayari kwa mauzo. Yamekua vizuri huku Shinyanga.", "Mahindi safi kabisa, yaliyokua kwenye udongo mzuri. Ninaweza kukupatia kiasi unachohitaji.", "Nina mahindi mengi, nipo tayari kukuhudumia. Mazao yamekua vizuri huku Mwanza.", "Mahindi yaliyokaushwa vizuri, yanaweza kuhifadhiwa kwa muda mrefu. Ubora wa hali ya juu." ] },
+      'Viazi': { chance: 5, images: 23, descriptions: [ "Viazi vitamu vya aina ya Mayai, vimekua vizuri na ni tamu sana. Nipo tayari kukuhudumia.", "Viazi vikubwa na vizuri, ninaweza kukupatia kiasi unachohitaji. Mazao safi kabisa.", "Viazi vya aina ya Kenya, bora kwa chipsi na vyakula mbalimbali. Yamekua vizuri huku Arusha.", "Nina viazi vitamu vingi, bei nafuu kwa wauzaji wa jumla. Nimepanda kwa umakini.", "Viazi vilivyolimwa jana, safi na bora kwa familia yako. Ubora wa hali ya juu." ] },
+      'Mihogo': { chance: 10, images: 10, descriptions: [ "Mihogo mizuri ya aina ya Kiroba, nzuri kwa ugali na lishe bora.", "Mihogo iliyokaushwa vizuri, inaweza kuhifadhiwa kwa miezi mingi. Nipo tayari kukuhudumia.", "Nina mihogo mizuri, ninaweza kukupatia kiasi unachohitaji. Mazao yamekua vizuri huku Kagera.", "Mihogo safi kabisa, nina kilo 150 tayari kwa usafirishaji. Ubora wa hali ya juu.", "Mihogo bora kutoka Shinyanga, nzuri kwa biashara yako. Nimepanda kwa umakini." ] },
+      'Alizeti': { chance: 10, images: 4, descriptions: [ "Alizeti bora ya kupikia, nzuri kwa kupika na lishe bora. Nipo tayari kukuhudumia.", "Alizeti safi kabisa, ninaweza kukupatia kiasi unachotaka. Mazao yamekua vizuri huku Dodoma.", "Alizeti ya aina ya Sungura, bora kwa biashara ya mafuta. Ubora wa hali ya juu.", "Nina alizeti nyingi, nipo tayari kukuhudumia. Nimepanda kwa umakini na dawa za asili.", "Alizeti zilizokaushwa vizuri, zinaweza kuhifadhiwa kwa muda mrefu. Mazao safi kabisa." ] },
+      'Viazivitamu': { chance: 5, images: 12, descriptions: [ "Viazi vitamu vikubwa na vizuri, bora kwa chipsi na vyakula mbalimbali.", "Viazi vitamu vya aina ya Beauregard, tamu na yenye vitamini nyingi. Nipo tayari kukuhudumia.", "Nina viazi vitamu vingi, bei nafuu kwa wauzaji wa jumla. Mazao yamekua vizuri huku Mbeya.", "Viazi vitamu vilivyolimwa jana, safi na bora kwa familia yako. Ubora wa hali ya juu.", "Viazi vitamu vya ubora wa hali ya juu, nzuri kwa biashara yako. Nimepanda kwa umakini." ] }
+    };
+
+    const PROVIDED_MESSAGES = [
+      "AMKEEEEEEEEEENIIIIIIIIIIIIIIIIIII Fungua account ukishindwa njoo nikuelekeze inbox chapu hii inaitwa sako kwa bako Usiogope kazi uliyo amua kuifanya hapa ndio online JISAJILI HAPA UPATE bonas BURE👇👇 PLAY STORE AND APP STORE APP DONE ✅✅😋🔥😍🔥 farmbase Chat daily",
+      "Tunamshukuru Mungu kwa kutupa uhai, afya na nafasi nyingine ya kuona siku mpya. Eh Mungu, tuongoze leo, uwe mbele yetu, kati yetu na nyuma yetu. Katika kila jambo tunalopitia, uwe nguvu yetu, faraja yetu, na mwanga wetu. Leo uko hai, una pumzi, una nafasi ya kubadilisha maisha yako hiyo peke yake ni sababu kubwa ya KUSEMA AHSANTE MUNGU 🙏Baraka na amani za Mungu ziandamane nawe siku nzima. Uwe na siku yenye mafanikio, furaha na utulivu",
+      "simu ndio mtaji pekee utkaokufanya uanze kutengeneza faida kila siku Usibaki nyuma kuwa miongoni mwa vijana kama hawa TYPE KIVP*😉",
+      "Wakati wewe bado unalalamika kila siku... Wenzako wanatumia muda huo huo kujifunza na kujiingizia pesa kupitia simu zao 📱💸 My dear, uko ulimwengu upi? Maisha hayasubiri!",
+      "Unajua, ukiwa na pesa una nafasi, heshima, na uhuru wa kuchagua wapi uishi na uende... Usibaki nyuma tena. Hizo account unazoziona zenye mafanikio zilianzia pale pale ulipo sasa tofauti ni kwamba wao waliamua kuchukua hatua! Leo naenda na wanao enda kama uko serious unahitaji uanze safari ya mafanikio type Nipe link",
+      "BIASHARA UKO INALIPA ICHANGAMKIE BRO😹😹 ICHANGAMKIE SIS𝐓𝐄𝐑😹 BUSINESS IZ NOT EMOTIONAL SASA NIPO KUKUFUNZA KITU IKO INALIPA NA INATREND HUKU ONLINE 🥳🥳 SI nyngne ni NETWORK MARKETING 🥳 SASA KUNA KITU KIPYA KWA MARKET KINAENDELEA KUBAMBA DONT MISS TO BE PART OF MY EARNING TEAM TODAY TYPE ADD",
+      "Vuta picha unatumia simu kudate online na husemi utapeli😁 📌Simu hiyo hiyo unatumia kufanya shopping online na husemi utapeli🌚 📌Simu hiyo unatumia kusomea online na kuomba ajira husemi utapeli🧏‍♀️ Ila ukiambiwa kuwa unaweza Ingiza pesa kupitia hiyo simu yako,unaimba ni utapeli😂😂💔 JITATHMINI MWENYEWE FANYA UWAMUZI TYPE NIFUNZE🦦",
+      "🎁📚KUFANIKIWA NI MAAMUZI JE, MPAKA SASA UNAUMIZA KICHWA KUWA UTAINGIZAJE PESA KILA SIKU👌?? SULUHISHO LIMEKUJA, KWA KUTUMIA SIMU YAKO TU NA 1000TZS NA HII NI UHAKIKA 🔑🫂 _CHANGAMKIA FURSA MAPEMA_"
+    ];
+
+    // ---------- Formatting and network templates ----------
+    function formatAmount(value, decimals = 2){
+      const n = typeof value === 'number' ? value : Number(String(value).replace(/[^0-9.-]+/g,'') || 0);
+      const fixed = n.toFixed(decimals);
+      const parts = fixed.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return parts.join('.');
+    }
+
+    function formatDateForNetwork(dateObj, type){
+      const y = dateObj.getFullYear();
+      const m = pad(dateObj.getMonth()+1);
+      const d = pad(dateObj.getDate());
+      const hh = pad(dateObj.getHours());
+      const mm = pad(dateObj.getMinutes());
+      const ss = pad(dateObj.getSeconds());
+      if(type === "vodacom"){
+        const yy = String(y).slice(-2);
+        const hour12 = ((dateObj.getHours()+11)%12)+1;
+        const ampm = dateObj.getHours() >= 12 ? "PM" : "AM";
+        return `${d}/${m}/${yy} saa ${hour12}:${mm} ${ampm}`;
+      } else if(type === "airtel"){
+        // compact short date used in sample (we'll include day+month+yy + dot + HHMM)
+        return `${pad(d)}${pad(m)}${String(y).slice(-2)}.${hh}${mm}`;
+      } else {
+        return `${y}/${m}/${d} ${hh}:${mm}:${ss}`;
+      }
+    }
+
+    // helper used by renderer
+    function roundRect(ctx, x, y, w, h, r, fill, stroke){
+      if (typeof r === 'number') r = {tl:r,tr:r,br:r,bl:r};
+      ctx.beginPath();
+      ctx.moveTo(x + r.tl, y);
+      ctx.lineTo(x + w - r.tr, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r.tr);
+      ctx.lineTo(x + w, y + h - r.br);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r.br, y + h);
+      ctx.lineTo(x + r.bl, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r.bl);
+      ctx.lineTo(x, y + r.tl);
+      ctx.quadraticCurveTo(x, y, x + r.tl, y);
+      ctx.closePath();
+      if(fill){ ctx.fill(); }
+      if(stroke){ ctx.stroke(); }
+    }
+
+    function wrapText(ctx, text, maxWidth){
+      if(!text) return [''];
+      const words = String(text).split(' ');
+      const lines = [];
+      let line = "";
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + " ";
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+          lines.push(line.trim());
+          line = words[n] + " ";
+        } else {
+          line = testLine;
+        }
+      }
+      lines.push((line||'').trim());
+      return lines;
+    }
+
+    // ------------------- network templates (realistic) -------------------
+    const networks = [
+      {
+        id: "vodacom",
+        display: "M-Pesa (Vodacom)",
+        template: (p) => {
+          const amt = formatAmount(p.amount, 2);
+          const bal = formatAmount(p.balance, 2);
+          const code = p.code || '';
+          const dateStr = formatDateForNetwork(p.pastDate || new Date(), 'vodacom');
+          // match sample: no space after Tsh (as provided by user)
+          return `${code} Imethibitishwa. Umepokea Tsh${amt} kutoka ${p.phone} - ${p.sender} mnamo ${dateStr}. Salio lako la M-Pesa ni Tsh${bal}`;
+        }
+      },
+      {
+        id: "airtel",
+        display: "Airtel Money",
+        template: (p) => {
+          const amt = formatAmount(p.amount, 2);
+          const bal = formatAmount(p.balance, 2);
+          const shortDate = formatDateForNetwork(p.pastDate || new Date(), 'airtel');
+          const tid = p.tid || ("CI" + (randInt(200000,999999)));
+          const mid = p.mid || ("M" + randInt(10000,99999));
+          // sample: "Umepokea Tsh 3,000.00 kutoka HALOTEL - NEEMA SELEMANI - 616903001.Salio Tsh 3,010.68. TID:CI250913.1857.M63609"
+          // We will keep service/prefix fields flexible; include phone.
+          return `Umepokea Tsh ${amt} kutoka ${p.service || 'HALOTEL'} - ${p.sender} - ${p.phone}. Salio Tsh ${bal}. TID:${tid}.${shortDate}.${mid}`;
+        }
+      },
+      {
+        id: "halotel",
+        display: "Halotel",
+        template: (p) => {
+          const amt = formatAmount(p.amount, 2);
+          const bal = formatAmount(p.balance, 2);
+          const txid = p.txid || String(randInt(1000000000,9999999999));
+          const when = formatDateForNetwork(p.pastDate || new Date(), 'halotel');
+          return `Utambulisho wa Muamala: ${txid}. Umepokea TSH ${amt} kutoka ${p.sender}, namba ${p.phone}, wakati ${when}. Salio lako jipya ni TSH ${bal}. Ahsante!`;
+        }
+      }
+    ];
+
+    // ------------------- payload & transaction generator -------------------
+    function genTransactionPayload(){
+      const amount = randInt(100, 120000); // integer TSH
+      // make balance at least amount, with random fractional cents sometimes
+      // We'll make balance an integer plus a random cents part for realism
+      const balanceWhole = amount + randInt(0, 50000);
+      // sometimes include cents .68 etc for airtel-like messages; but formatting will show two decimals
+      const balance = balanceWhole + (Math.random() < 0.4 ? (Math.floor(Math.random()*100)/100) : 0);
+      const sender = pick(BASE_NAMES) + " " + pick(["MBISE","SELEMANI","CHAMBUSO","SIFAELI","WEMA","HASANI","KAZE"]);
+      const phone = "2557" + String(randInt(10000000,99999999)).slice(1);
+      const now = new Date();
+      const past = new Date(now.getTime() - randInt(0, 30*24*60*60*1000)); // within last 30 days
+      const code = Math.random().toString(36).slice(2,10).toUpperCase();
+      const txid = String(randInt(1000000000,9999999999));
+      const tid = "CI" + String(randInt(200000,999999));
+      const mid = String(randInt(10000,99999));
+      const service = pick(["HALOTEL","AIRTEL","VODACOM","MPESA"]);
+      return {
+        amount,
+        balance,
+        sender,
+        phone,
+        pastDate: past,
+        code,
+        txid,
+        tid,
+        mid,
+        service
+      };
+    }
+
+    function genTransactionPost(userOverride){
+      const user = userOverride || pick(aiUsers);
+      const net = pick(networks);
+      const payload = genTransactionPayload();
+      return {
+        id: 'tx-' + (Date.now().toString(36)) + '-' + Math.floor(Math.random()*1e6),
+        _idx: idCounter++,
+        type: 'transaction',
+        user,
+        payload,
+        net,
+        caption: pick(["Ushahidi wa malipo", "Miamala mpya", "Imethibitishwa"]),
+        time: (randInt(0,48)) + " hours ago"
+      };
+    }
+
+    // ---------- AI users ----------
+    function generateAIUsers(count=500){
+      const pics = Array.from({length:count},(_,i)=>i+1).sort(()=>Math.random()-0.5);
+      const users = [];
+      for(let i=0;i<count;i++){
+        const name = BASE_NAMES[Math.floor(Math.random()*BASE_NAMES.length)];
+        const username = name.toLowerCase() + (Math.floor(Math.random()*9000)+1);
+        users.push({ id:i+1, username, displayName:name, profilePic:PROFILE_BASE + pics[i] + ".jpg", region: pick(REGIONS) });
+      }
+      return users;
+    }
+
+    // ---------- post generators ----------
+    function getRandomCrop(){
+      const totalChance = Object.values(CROP_DATA).reduce((s,c)=>s+c.chance,0);
+      let r = Math.random()*totalChance;
+      for(const k in CROP_DATA){
+        r -= CROP_DATA[k].chance;
+        if(r <= 0) return k;
+      }
+      return "Mahindi";
+    }
+    function genSellingPost(userOverride){
+      const crop = getRandomCrop();
+      const info = CROP_DATA[crop];
+      const imageIndex = randInt(1, info.images);
+      const description = pick(info.descriptions);
+      const user = userOverride || pick(aiUsers);
+      const engagement = { likes: randInt(5,80) };
+      const commentCount = config.commentsEnabled ? randInt(0,4) : 0;
+      const comments = [];
+      for(let i=0;i<commentCount;i++){
+        const cu = pick(aiUsers);
+        comments.push({ user: cu, text: pick(COMMENT_BANK) });
+      }
+      return {
+        id: 'sell-' + (Date.now().toString(36)) + '-' + Math.floor(Math.random()*1e6),
+        _idx: idCounter++,
+        type: 'selling',
+        user,
+        crop,
+        image: `assets/${crop.toLowerCase()}/${imageIndex}.jpg`,
+        description,
+        likes: engagement.likes,
+        comments,
+        time: (randInt(0,48)) + " hours ago"
+      };
+    }
+
+    function genTestimonialPost(userOverride){
+      const text = pick(PROVIDED_MESSAGES);
+      const user = userOverride || pick(aiUsers);
+      const commentCount = config.commentsEnabled ? randInt(0,3) : 0;
+      const comments = [];
+      for(let i=0;i<commentCount;i++){
+        const cu = pick(aiUsers);
+        comments.push({ user: cu, text: pick(COMMENT_BANK) });
+      }
+      return {
+        id: 'test-' + (Date.now().toString(36)) + '-' + Math.floor(Math.random()*1e6),
+        _idx: idCounter++,
+        type: 'testimonial',
+        user,
+        text,
+        vibe: "mixed",
+        length: (text.length>200 ? 'long' : 'medium'),
+        comments,
+        time: (randInt(0,48)) + " hours ago"
+      };
+    }
+
+    // Weighted choice
+    function chooseTypeWeighted(prob){
+      const total = prob.tx + prob.sell + prob.test;
+      const r = Math.random()*total;
+      if(r < prob.tx) return 'transaction';
+      if(r < prob.tx + prob.sell) return 'selling';
+      return 'testimonial';
+    }
+
+    // Build posts according to config.totalPosts and weights
+    function buildPosts(){
+      posts = []; idCounter = 1;
+      const n = clamp(parseInt(config.totalPosts,10) || DEFAULTS.totalPosts, 20, 20000);
+      for(let i=0;i<n;i++){
+        const t = chooseTypeWeighted(config.prob);
+        if(t === 'transaction') posts.push(genTransactionPost());
+        else if(t === 'selling') posts.push(genSellingPost());
+        else posts.push(genTestimonialPost());
+      }
+      // shuffle into queue
+      queue = shuffle(posts.slice());
+    }
+
+    // ---------- Beautiful renderer (complex) ----------
+    async function renderScreenshotToDataURL(user, net, payload, theme = "random", width = SCREENSHOT_W, height = SCREENSHOT_H) {
+      return new Promise((res, rej) => {
+        try{
+          const canvas = document.createElement("canvas");
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext("2d");
+
+          const lightPairs = [
+            { bg: "#FFFFFF", bubble: "#F0F0F0" },
+            { bg: "#F8F9FA", bubble: "#E9ECEF" },
+            { bg: "#F5F5F5", bubble: "#E0E0E0" },
+            { bg: "#FFFFFF", bubble: "#E3F2FD" },
+            { bg: "#FAFAFA", bubble: "#EDE7F6" }
+          ];
+          const darkPairs = [
+            { bg: "#121212", bubble: "#2D2D2D" },
+            { bg: "#000000", bubble: "#1C1C1E" },
+            { bg: "#0D0D0D", bubble: "#252525" },
+            { bg: "#121212", bubble: "#1E3A5F" },
+            { bg: "#000000", bubble: "#2A2D57" }
+          ];
+
+          const accents = ["#007AFF", "#34C759", "#5856D6", "#FF2D55", "#FF9500"];
+          const fonts = [
+            "Inter, Arial",
+            "Roboto, Arial",
+            "'Segoe UI', Arial",
+            "Georgia",
+            "'Courier New'",
+            "'Lucida Console'",
+            "'Trebuchet MS'",
+            "'Palatino Linotype'",
+            "Garamond",
+            "Impact"
+          ];
+          function pickLocal(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+          let useDark;
+          if (theme === "random") useDark = Math.random() > 0.5;
+          else useDark = (theme === "dark");
+          const pair = useDark ? pickLocal(darkPairs) : pickLocal(lightPairs);
+          const accent = pickLocal(accents);
+          const chosenFont = pickLocal(fonts);
+
+          function isHexDark(hex) {
+            const c = String(hex).replace('#', '');
+            const r = parseInt(c.length === 3 ? c[0] + c[0] : c.substring(0, 2), 16);
+            const g = parseInt(c.length === 3 ? c[1] + c[1] : c.substring(2, 4), 16);
+            const b = parseInt(c.length === 3 ? c[2] + c[2] : c.substring(4, 6), 16);
+            const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            return lum < 140;
+          }
+
+          const textPrimary = useDark ? "#E6EEF7" : "#0B1220";
+          const textMuted = useDark ? "#9AA4B2" : "#6B7280";
+
+          // base
+          ctx.fillStyle = pair.bg;
+          ctx.fillRect(0, 0, width, height);
+
+          // header date (from payload.fullDate / pastDate)
+          function formatHeaderDateFromPayload(payload){
+            const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+            let d = new Date();
+            try {
+              if (payload && payload.pastDate) {
+                d = payload.pastDate instanceof Date ? payload.pastDate : new Date(payload.pastDate);
+              } else if(payload && payload.fullDate){
+                const m = String(payload.fullDate).match(/(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
+                if(m) d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+              }
+            } catch (e) {}
+            return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+          }
+
+          const headerText = formatHeaderDateFromPayload(payload || {});
+          ctx.font = `600 14px ${chosenFont}`;
+          ctx.fillStyle = textPrimary;
+          ctx.textAlign = 'center';
+          ctx.fillText(headerText, width / 2, 28);
+          ctx.textAlign = 'start';
+
+          // message bubble
+          const messageFontSize = Math.floor(12 + Math.random() * 3);
+          const messageFontSpec = `${messageFontSize}px ${chosenFont}`;
+          ctx.font = messageFontSpec;
+
+          // message via network template (guard if net/template missing)
+          const safeNet = net && typeof net.template === 'function' ? net : { template: (p)=>`Umepokea Tsh ${p.amount}.00` };
+          const message = safeNet.template(payload || {});
+          const bubbleMaxWBase = Math.min(420, width - 120);
+          const widthVariance = randInt(-40, 40);
+          const bubbleMaxW = Math.max(140, bubbleMaxWBase + widthVariance);
+          const leftExtra = 44 + 12 + 36;
+
+          const lines = wrapText(ctx, message, bubbleMaxW - leftExtra - 24);
+          const bubblePaddingH = 12;
+          const bubblePaddingV = 12;
+          const computedTextW = Math.max(...lines.map(l => ctx.measureText(l).width), 0);
+          const bubbleW = Math.min(bubbleMaxW, Math.max(120, computedTextW + bubblePaddingH * 2 + leftExtra));
+          const bubbleH = lines.length * 18 + bubblePaddingV * 2;
+
+          const topY = 36;
+          const remainingH = height - topY - 28;
+          const jitterY = randInt(-8, 8);
+          const bubblePosY = topY + Math.round((remainingH - bubbleH) * 0.5) + jitterY;
+
+const horizontalVariant = randInt(1, 2); // 1 = center, 2 = right
+let bubblePosX;
+
+const leftMargin = 52;
+const rightMargin = 28;
+
+if (horizontalVariant === 2) {
+  bubblePosX = width - bubbleW - rightMargin + randInt(-6, 6);
+} else {
+  bubblePosX = Math.round((width - bubbleW) / 2) + randInt(-8, 8);
+}
+
+bubblePosX = Math.max(leftMargin, Math.min(bubblePosX, width - bubbleW - rightMargin));
+          
+          function extractTimeOnly(payload){
+            if(payload && payload.pastDate){
+              const d = payload.pastDate instanceof Date ? payload.pastDate : new Date(payload.pastDate);
+              return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+            if(payload && payload.date){
+              const tMatch = String(payload.date).match(/(\d{1,2}:\d{2}(?::\d{2})?\s?(?:AM|PM|am|pm)?)/);
+              if(tMatch) return tMatch[1].replace(/\s?(AM|PM|am|pm)/,'');
+              const hhmm = String(payload.date).match(/(\d{1,2}:\d{2})/);
+              if(hhmm) return hhmm[1];
+            }
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          }
+          const timeText = extractTimeOnly(payload || {});
+          const initialLetter = (net && net.id) ? String(net.id)[0].toUpperCase() : (user && user.username ? user.username[0].toUpperCase() : 'U');
+          const initialUseAccent = Math.random() > 0.45;
+          const initialNeutral = useDark ? '#111827' : '#E5E7EB';
+          const initialBg = initialUseAccent ? accent : initialNeutral;
+
+          const initialSize = 36;
+          const initialX = bubblePosX - (initialSize + 12);
+          const initialY = bubblePosY;
+          ctx.beginPath();
+          ctx.fillStyle = initialBg;
+          ctx.arc(initialX + initialSize / 2, initialY + initialSize / 2, initialSize / 2, 0, Math.PI * 2);
+          ctx.fill();
+
+          function getContrastingText(hex){ return isHexDark(hex) ? '#FFFFFF' : '#0B1220'; }
+          ctx.fillStyle = getContrastingText(initialBg);
+          ctx.font = `700 14px ${chosenFont}`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(initialLetter, initialX + initialSize / 2, initialY + initialSize / 2);
+          ctx.textAlign = 'start';
+          ctx.textBaseline = 'alphabetic';
+
+          // halo
+          ctx.save();
+          if (useDark) {
+            ctx.globalAlpha = 0.06; ctx.fillStyle = '#FFFFFF';
+            roundRect(ctx, bubblePosX, bubblePosY + 3, bubbleW, bubbleH, 12, true, false);
+          } else {
+            ctx.globalAlpha = 0.08; ctx.fillStyle = '#000000';
+            roundRect(ctx, bubblePosX, bubblePosY + 3, bubbleW, bubbleH, 12, true, false);
+          }
+          ctx.restore();
+
+          // bubble
+          ctx.fillStyle = pair.bubble;
+          roundRect(ctx, bubblePosX, bubblePosY, bubbleW, bubbleH, 12, true, false);
+
+          // bubble text
+          const bubbleTextColor = isHexDark(pair.bubble) ? '#FFFFFF' : '#0B1220';
+          ctx.fillStyle = bubbleTextColor;
+          ctx.font = messageFontSpec;
+          let cursorY = bubblePosY + bubblePaddingV + (messageFontSize + 2);
+          const textStartX = bubblePosX + bubblePaddingH;
+          for (const L of lines) {
+            ctx.fillText(L, textStartX, cursorY);
+            cursorY += 18;
+          }
+
+// Place timestamp inside the bubble, bottom-right corner
+ctx.font = `11px ${chosenFont}`;
+ctx.fillStyle = textMuted;
+
+const paddingRight = 8;
+const timeX = bubblePosX + bubbleW - paddingRight - ctx.measureText(timeText).width;
+const timeY = bubblePosY + bubbleH - 6; // 6px from bottom edge
+
+ctx.fillText(timeText, timeX, timeY);
+          
+// Optional: ensure time doesn't overflow canvas edge
+const measured = ctx.measureText(timeText);
+if (timeX + measured.width > width) {
+    // If it would go off canvas, shift left inside bubble or wrap; but normally there's space
+    // We'll just draw it slightly left if needed
+    ctx.fillText(timeText, width - measured.width - 4, timeY);
+} else {
+    ctx.fillText(timeText, timeX, timeY);
+}
+          res(canvas.toDataURL('image/png'));
+        } catch (err){
+          console.error('renderScreenshotToDataURL error:', err);
+          rej(err);
+        }
+      });
+    }
+
+    // ---------- render Post ----------
+    async function renderPost(post){
+      const card = document.createElement('div'); card.className = 'post';
+      // header
+      const header = document.createElement('div'); header.className = 'post-header';
+      const picWrap = document.createElement('div'); picWrap.className = 'profile-pic';
+      const img = document.createElement('img'); img.src = post.user.profilePic; img.alt = post.user.displayName;
+      img.onerror = ()=>{ img.src = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='88' height='88'><rect width='100%' height='100%' fill='#ddd'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='14' fill='#666'>${post.user.displayName.slice(0,2)}</text></svg>`) }
+      picWrap.appendChild(img);
+      const info = document.createElement('div'); info.className='user-info';
+      const uname = document.createElement('div'); uname.className='username'; uname.textContent = '@' + post.user.username;
+      const region = document.createElement('div'); region.className='region'; region.textContent = 'From ' + post.user.region + ' • ' + (post.time || '');
+      info.appendChild(uname); info.appendChild(region);
+      header.appendChild(picWrap); header.appendChild(info);
+      card.appendChild(header);
+
+      // body by type
+      if(post.type === 'selling'){
+        const imgEl = document.createElement('img'); imgEl.className = 'post-image'; imgEl.src = post.image;
+        imgEl.onerror = ()=>{ imgEl.style.display = 'none'; }
+        card.appendChild(imgEl);
+        const txt = document.createElement('div'); txt.className = 'post-text'; txt.textContent = post.description;
+        card.appendChild(txt);
+        const actions = document.createElement('div'); actions.className = 'post-actions';
+        actions.innerHTML = `<div>Like ${post.likes}</div><div>Comments ${post.comments.length}</div><div>Share</div>`;
+        card.appendChild(actions);
+        if(post.comments && post.comments.length){
+          const cWrap = document.createElement('div'); cWrap.className='comments';
+          post.comments.forEach(c=>{
+            const row = document.createElement('div'); row.className='comment';
+const a = document.createElement('div'); a.className='c-avatar';
+const ai = document.createElement('img'); ai.src = c.user.profilePic; 
+// REMOVE inline styles and let CSS handle it
+ai.onerror = ()=>{ a.textContent = c.user.username.slice(0,2) }
+a.appendChild(ai);
+const b = document.createElement('div'); b.className='c-body';
+const un = document.createElement('div'); un.className='c-user'; 
+un.textContent = c.user.username; // AI username will be bold and small
+const tx = document.createElement('div'); 
+tx.style.fontSize = '13px'; // Regular text size
+tx.style.color = 'var(--text-secondary)';
+tx.textContent = c.text;
+b.appendChild(un); b.appendChild(tx);
+row.appendChild(a); row.appendChild(b);
+            cWrap.appendChild(row);
+          });
+          card.appendChild(cWrap);
+        }
+      } else if(post.type === 'testimonial'){
+        const txt = document.createElement('div'); txt.className = 'post-text'; txt.textContent = post.text;
+        card.appendChild(txt);
+        const meta = document.createElement('div'); meta.className='muted'; meta.textContent = `${post.length.toUpperCase()} • vibe: ${post.vibe}`;
+        card.appendChild(meta);
+        const actions = document.createElement('div'); actions.className = 'post-actions';
+        actions.innerHTML = `<div class="small-btn" style="padding:6px 8px">Copy</div><div class="small-btn" style="padding:6px 8px">Preview</div>`;
+        card.appendChild(actions);
+        if(post.comments && post.comments.length){
+          const cWrap = document.createElement('div'); cWrap.className='comments';
+          post.comments.forEach(c=>{
+            const row = document.createElement('div'); row.className='comment';
+            const a = document.createElement('div'); a.className='c-avatar';
+            const ai = document.createElement('img'); ai.src = c.user.profilePic; ai.style.width='100%'; ai.style.height='100%'; ai.style.objectFit='cover';
+            ai.onerror = ()=>{ a.textContent = c.user.username.slice(0,2) }
+            a.appendChild(ai);
+            const b = document.createElement('div'); b.className='c-body';
+            const un = document.createElement('div'); un.className='c-user'; un.textContent = c.user.username;
+            const tx = document.createElement('div'); tx.textContent = c.text;
+            b.appendChild(un); b.appendChild(tx);
+            row.appendChild(a); row.appendChild(b);
+            cWrap.appendChild(row);
+          });
+          card.appendChild(cWrap);
+        }
+      } else if(post.type === 'transaction'){
+        // generate screenshot (async)
+        const imgWrap = document.createElement('div'); imgWrap.className='screenshot';
+        const loader = document.createElement('div'); loader.style.padding='18px'; loader.style.textAlign='center'; loader.style.color='#9aa4b2'; loader.textContent='Generating image...';
+        imgWrap.appendChild(loader);
+        card.appendChild(imgWrap);
+        const desc = document.createElement('div'); desc.className='post-text'; desc.textContent = post.caption || '';
+        card.appendChild(desc);
+        const meta = document.createElement('div'); meta.className='muted'; meta.textContent = `Posted ${post.time}`;
+        card.appendChild(meta);
+
+        // use local renderer
+        try {
+          const url = await renderScreenshotToDataURL(post.user, post.net || networks[0], post.payload || {amount:100,phone:'25570000000'});
+          imgWrap.innerHTML = '';
+          const finalImg = document.createElement('img'); finalImg.src = url; finalImg.style.width='100%';
+          imgWrap.appendChild(finalImg);
+        } catch(e){
+          console.error('Transaction render failed:', e);
+          imgWrap.innerHTML = '<div style="padding:14px;color:#c0392b">Failed to render image</div>';
+        }
+      }
+
+      feedEl.appendChild(card);
+      return card;
+    }
+
+    // display the next n posts
+    async function displayNext(n){
+      loadMoreBtn.disabled = true;
+      const next = [];
+      for(let i=0;i<n && queue.length;i++){
+        next.push(queue.shift());
+      }
+      for(const p of next){
+        await renderPost(p);
+      }
+      loadMoreBtn.disabled = false;
+      if(queue.length === 0) loadMoreBtn.style.display = 'none';
+      else loadMoreBtn.style.display = 'block';
+    }
+
+    // build posts & start
+    function prepareAndStart(){
+      // update UI
+      if (userCountEl) {
+        userCountEl.textContent = aiUsers.length;
+      }
+      feedEl.innerHTML = '';
+      // build posts
+      buildPosts();
+      // initial display
+      displayNext(config.initialLoad);
+    }
+
+    // ---------- settings UI ----------
+    if (settingsBtn && settingsModal && settingsApply && settingsCancel) {
+      settingsBtn.addEventListener('click', ()=> {
+        // populate controls from current config
+        if (cfgTotalPosts) cfgTotalPosts.value = config.totalPosts;
+        if (cfgInitialLoad) cfgInitialLoad.value = config.initialLoad;
+        if (cfgPerLoad) cfgPerLoad.value = config.perLoad;
+        if (probTx) probTx.value = config.prob.tx;
+        if (probSell) probSell.value = config.prob.sell;
+        if (probTest) probTest.value = config.prob.test;
+        if (cfgComments) cfgComments.value = config.commentsEnabled ? "1" : "0";
+        if (cfgHideHeader) cfgHideHeader.value = config.hideHeaderOnScroll ? "1" : "0";
+        settingsModal.classList.add('show');
+      });
+      
+      settingsCancel.addEventListener('click', ()=> settingsModal.classList.remove('show'));
+      
+      settingsApply.addEventListener('click', ()=>{
+        // read values and update config
+        config.totalPosts = clamp(parseInt(cfgTotalPosts.value,10)||DEFAULTS.totalPosts, 20, 20000);
+        config.initialLoad = clamp(parseInt(cfgInitialLoad.value,10)||DEFAULTS.initialLoad, 1, config.totalPosts);
+        config.perLoad = clamp(parseInt(cfgPerLoad.value,10)||DEFAULTS.perLoad, 1, config.totalPosts);
+        // probabilities: normalize if they don't sum to 100
+        const tx = clamp(parseInt(probTx.value,10)||0,0,100);
+        const sell = clamp(parseInt(probSell.value,10)||0,0,100);
+        const test = clamp(parseInt(probTest.value,10)||0,0,100);
+        let total = tx + sell + test;
+        if(total <= 0){ // fallback
+          config.prob = { tx:70, sell:15, test:15 };
+        } else {
+          // normalize to percentages keeping ratio
+          config.prob.tx = (tx/total)*100;
+          config.prob.sell = (sell/total)*100;
+          config.prob.test = (test/total)*100;
+        }
+        config.commentsEnabled = cfgComments.value === "1";
+        config.hideHeaderOnScroll = cfgHideHeader.value === "1";
+        // apply header hide behaviour
+        setupHeaderScrollBehaviour(config.hideHeaderOnScroll);
+        // regenerate posts
+        settingsModal.classList.remove('show');
+        prepareAndStart();
+      });
+    }
+
+    // ---------- header hide on scroll ----------
+    let lastScroll = window.scrollY || 0;
+    function setupHeaderScrollBehaviour(enabled){
+      if(!enabled){
+        if (siteHeader) siteHeader.style.transform = 'translateY(0)';
+        window.removeEventListener('scroll', headerScrollHandler);
+        return;
+      }
+      window.addEventListener('scroll', headerScrollHandler);
+    }
+    
+    function headerScrollHandler(){
+      if (!siteHeader) return;
+      const current = window.scrollY || 0;
+      if(current > lastScroll + 10){ // scrolling down
+        siteHeader.style.transform = 'translateY(-88px)';
+      } else if(current < lastScroll - 10){ // scrolling up
+        siteHeader.style.transform = 'translateY(0)';
+      }
+      lastScroll = current;
+    }
+
+    // ---------- load more ----------
+    loadMoreBtn.addEventListener('click', ()=> displayNext(config.perLoad));
+
+    // ---------- init ----------
+    function init(){
+      // initial config values in inputs
+      if (cfgTotalPosts) cfgTotalPosts.value = DEFAULTS.totalPosts;
+      if (cfgInitialLoad) cfgInitialLoad.value = DEFAULTS.initialLoad;
+      if (cfgPerLoad) cfgPerLoad.value = DEFAULTS.perLoad;
+      if (probTx) probTx.value = DEFAULTS.prob.tx;
+      if (probSell) probSell.value = DEFAULTS.prob.sell;
+      if (probTest) probTest.value = DEFAULTS.prob.test;
+      if (cfgComments) cfgComments.value = DEFAULTS.commentsEnabled ? "1" : "0";
+      if (cfgHideHeader) cfgHideHeader.value = DEFAULTS.hideHeaderOnScroll ? "1" : "0";
+
+      // generate ai users
+      aiUsers = generateAIUsers(500);
+      if (userCountEl) {
+        userCountEl.textContent = aiUsers.length;
+      }
+
+      // set config from defaults
+      config = JSON.parse(JSON.stringify(DEFAULTS));
+      setupHeaderScrollBehaviour(config.hideHeaderOnScroll);
+
+      // build posts and start
+      buildPosts();
+      // initial display
+      displayNext(config.initialLoad);
+    }
+
+    // Initialize AI feed
+    init();
+
+    // ---------- small protections ----------
+    document.addEventListener('copy', (e)=> { e.preventDefault(); });
+    document.addEventListener('contextmenu', (e)=> { if(e.target.closest && e.target.closest('.container')) e.preventDefault(); });
+
+    // expose some internals for debugging in console (optional)
+    window.FB_DEBUG = { aiUsers, posts, queue, config };
+  });
+</script>
+  <script>
+  // This is where you can add your existing FarmBase AI feed code
+  console.log('FarmBase AI Feed system ready for integration');
+  </script>
+</body>
+</html>

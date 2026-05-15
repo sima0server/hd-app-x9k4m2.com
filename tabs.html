@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>HD™ Trades</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #0b0e11;
+            --surface-bg: #161b22;
+            --surface-alt: #21262d;
+            --card-bg: #161b22;
+            --text-primary: #f0f6fc;
+            --text-secondary: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-gold: #f0b90b;
+            --accent-green: #238636;
+            --accent-red: #f85149;
+            --accent-blue: #58a6ff;
+            --accent-yellow: #d29922;
+            --border-color: #30363d;
+            --border-light: #21262d;
+            --primary-gradient: linear-gradient(90deg, #238636, #58a6ff);
+            --glass-bg: rgba(22, 27, 34, 0.95);
+            --nav-bg: rgba(22, 27, 34, 0.98);
+            --nav-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3), 0 -1px 0 rgba(255, 255, 255, 0.05);
+            --overlay-opacity: 0;
+        }
+
+        body.theme-dark {
+            --primary-bg: #0a0c10;
+            --surface-bg: #161b22;
+            --surface-alt: #21262d;
+            --card-bg: #161b22;
+            --text-primary: #f0f6fc;
+            --text-secondary: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-green: #238636;
+            --accent-red: #f85149;
+            --accent-blue: #58a6ff;
+            --accent-yellow: #d29922;
+            --border-color: #30363d;
+            --border-light: #21262d;
+            --primary-gradient: linear-gradient(90deg, #238636, #58a6ff);
+            --glass-bg: rgba(22, 27, 34, 0.95);
+            --nav-bg: rgba(22, 27, 34, 0.98);
+            --nav-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3), 0 -1px 0 rgba(255, 255, 255, 0.05);
+            --overlay-opacity: 0;
+        }
+
+        body.theme-green {
+            --primary-bg: #f0fff4;
+            --surface-bg: #ffffff;
+            --surface-alt: #f7faf7;
+            --card-bg: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --text-muted: #718096;
+            --accent-green: #276749;
+            --accent-red: #c53030;
+            --accent-blue: #2b6cb0;
+            --accent-yellow: #975a16;
+            --border-color: #c6f6d5;
+            --border-light: #e6fffa;
+            --primary-gradient: linear-gradient(90deg, #276749, #38a169);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --nav-bg: rgba(255, 255, 255, 0.98);
+            --nav-shadow: 0 -4px 20px rgba(39, 103, 73, 0.1), 0 -1px 0 rgba(39, 103, 73, 0.05);
+            --overlay-opacity: 0.75;
+        }
+
+        body.theme-light {
+            --primary-bg: #f5f7fa;
+            --surface-bg: #ffffff;
+            --surface-alt: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --accent-green: #38a169;
+            --accent-red: #e53e3e;
+            --accent-blue: #4299e1;
+            --accent-yellow: #d69e2e;
+            --border-color: #e2e8f0;
+            --border-light: #edf2f7;
+            --primary-gradient: linear-gradient(90deg, #38a169, #4299e1);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --nav-bg: rgba(255, 255, 255, 0.98);
+            --nav-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08), 0 -1px 0 rgba(0, 0, 0, 0.04);
+            --overlay-opacity: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            font-size: 12px;
+            font-family: 'Montserrat', 'Inter', sans-serif;
+            position: relative;
+        }
+
+        /* Background image overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: var(--bg-image, none);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, var(--overlay-opacity));
+            z-index: -1;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 414px;
+            padding: 0 0 80px;
+            background: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-pill {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            gap: 7px;
+        }
+
+        .avatar {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            object-fit: cover;
+        }
+
+        .welcome-text {
+            font-size: 11px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .material-icons-outlined, .material-icons {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+
+        /* Balance Row */
+        .balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .user-id {
+            font-size: 9px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .balance-pill {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--accent-green);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            border: 1px solid var(--border-color);
+        }
+
+        .balance-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin: 0 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding-bottom: 10px;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .tab.active {
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        /* Trade Container */
+        .trade-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: calc(100vh - 220px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* Trade Status */
+        .trade-status {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .volume {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .active-indicator {
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .active-indicator .material-icons-outlined {
+            color: var(--accent-green);
+            font-size: 18px;
+        }
+
+        .expiry-timer {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--accent-yellow);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .status-desc {
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            padding: 0 30px;
+            font-weight: 500;
+        }
+
+        .cancel-link {
+            display: inline-block;
+            margin-top: 4px;
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 11px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: 600;
+        }
+
+        .cancel-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Details List - NO BOX */
+        .details-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .label {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .value {
+            text-align: right;
+            font-size: 11px;
+            font-weight: 600;
+            max-width: 60%;
+            word-break: break-all;
+            color: var(--text-primary);
+        }
+
+        .copy-icon {
+            font-size: 12px;
+            vertical-align: middle;
+            margin-left: 4px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .yield-blue {
+            color: var(--accent-blue);
+        }
+
+        .profit-green {
+            color: var(--accent-green);
+        }
+
+        /* History Records */
+        .records-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .records-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .records-subtitle {
+            font-size: 9px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stats-summary {
+            display: flex;
+            gap: 14px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+        }
+
+        .stat-value {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 8px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .record-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .record-card.expanded {
+            border-color: var(--accent-gold);
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .record-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .record-id {
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            word-break: break-all;
+        }
+
+        .record-package {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .record-time {
+            font-size: 8px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .record-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(210, 153, 34, 0.15);
+            color: var(--accent-yellow);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+        }
+
+        .status-won {
+            background: rgba(35, 134, 54, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(35, 134, 54, 0.3);
+        }
+
+        .status-lost {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+
+        .record-amount {
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .amount-positive {
+            color: var(--accent-green);
+        }
+
+        .amount-negative {
+            color: var(--accent-red);
+        }
+
+        .amount-neutral {
+            color: var(--text-primary);
+        }
+
+        .record-details {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-light);
+            gap: 8px;
+        }
+
+        .record-card.expanded .record-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .detail-item-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .detail-label {
+            font-size: 7px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 9px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            word-break: break-all;
+        }
+
+        .detail-value.highlight {
+            color: var(--accent-green);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .detail-row.total {
+            border-top: 1px solid var(--border-light);
+            margin-top: 5px;
+            padding-top: 8px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .empty-icon {
+            font-size: 36px;
+            color: var(--text-muted);
+            opacity: 0.4;
+        }
+
+        .empty-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .empty-message {
+            font-size: 10px;
+            color: var(--text-muted);
+            max-width: 250px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 8px 0;
+            border-top: 1px solid var(--border-color);
+            height: 52px;
+            z-index: 1000;
+            box-shadow: var(--nav-shadow);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-decoration: none;
+            flex: 1;
+            max-width: 70px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            color: var(--accent-green);
+        }
+
+        .nav-item .material-icons-outlined,
+        .nav-item .material-icons {
+            font-size: 20px;
+        }
+
+        .nav-item.active .material-icons-outlined,
+        .nav-item.active .material-icons {
+            color: var(--accent-green);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <header class="header">
+        <div class="welcome-pill">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dog&backgroundColor=b6e3f4" alt="Avatar" class="avatar">
+            <span class="welcome-text" id="headerUsername">Welcome 👋</span>
+        </div>
+        <div class="header-icons">
+            <button class="icon-btn" onclick="window.location.href='tabs.html'">
+                <span class="material-icons-outlined">receipt_long</span>
+            </button>
+            <button class="icon-btn" onclick="window.location.href='home.html'">
+                <span class="material-icons-outlined">storefront</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="balance-row">
+        <div class="user-info">
+            <div class="user-name" id="displayUsername">Loading...</div>
+            <div class="user-id" id="userId">UID: Loading...</div>
+        </div>
+        <div class="balance-pill" id="balanceBox">
+            TZS 0 <span class="balance-label">Balance</span>
+        </div>
+    </div>
+
+    <nav class="tabs">
+        <div class="tab active" data-tab="active">Active Trade</div>
+        <div class="tab" data-tab="history">History</div>
+    </nav>
+
+    <div class="trade-container" id="tradeContainer">
+        <div id="activeTradeTab" class="tab-content active"></div>
+        <div id="historyTab" class="tab-content"></div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="material-icons-outlined">candlestick_chart</span>
+            Live
+        </a>
+        <a href="market.html" class="nav-item">
+            <span class="material-icons-outlined">add_shopping_cart</span>
+            Market
+        </a>
+        <a href="more.html" class="nav-item">
+            <span class="material-icons-outlined">grid_view</span>
+            More
+        </a>
+    </nav>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tab');
+    const activeTab = document.getElementById('activeTradeTab');
+    const historyTab = document.getElementById('historyTab');
+
+    function setActiveTab(tabId) {
+        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+        activeTab.classList.toggle('active', tabId === 'active');
+        historyTab.classList.toggle('active', tabId === 'history');
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => setActiveTab(tab.dataset.tab));
+    });
+
+    const navItems = document.querySelectorAll('.nav-item');
+    const currentPath = window.location.pathname;
+    navItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && currentPath.includes(href.replace('.html', ''))) {
+            item.classList.add('active');
+        }
+    });
+});
+
+function applyTheme(theme) {
+    document.body.className = '';
+    if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+        document.documentElement.style.setProperty('--bg-image', 'none');
+    } else if (theme === 'green') {
+        document.body.classList.add('theme-green');
+        document.documentElement.style.setProperty('--overlay-opacity', '0.75');
+        const img = new Image();
+        img.onload = function() {
+            document.documentElement.style.setProperty('--bg-image', "url('404/bg.jpeg')");
+        };
+        img.onerror = function() {
+            console.log('Background image bg.png not found, using fallback color');
+            document.documentElement.style.setProperty('--bg-image', 'none');
+        };
+        img.src = '404/bg.jpeg';
+    } else if (theme === 'light') {
+        document.body.classList.add('theme-light');
+        document.documentElement.style.setProperty('--bg-image', 'none');
+    } else {
+        document.body.classList.add('theme-dark');
+        document.documentElement.style.setProperty('--bg-image', 'none');
+    }
+}
+window.applyTheme = applyTheme;
+</script>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {
+    getFirestore, collection, getDocs, doc, getDoc, query, where, orderBy,
+    runTransaction
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",
+    authDomain: "newagefarmbase.firebaseapp.com",
+    projectId: "newagefarmbase"
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const CANCEL_WINDOW_MS = 30 * 60 * 1000;
+const EXCHANGE_RATE = 2600;
+
+let cancelCheckInterval = null;
+let activeTimerInterval = null;
+
+const formatTZS = n => 'TZS ' + Number(n || 0).toLocaleString('en-US');
+const formatUSD = n => '$' + Number(n || 0).toLocaleString('en-US');
+const escapeHtml = s => String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function msToHHMMSS(ms) {
+    if (ms <= 0) return 'Expired';
+    const s = Math.floor(ms / 1000);
+    const hh = Math.floor(s / 3600), mm = Math.floor((s % 3600) / 60), ss = s % 60;
+    return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+}
+
+const session = JSON.parse(localStorage.getItem('naf_session') || 'null');
+const activeTabDiv = document.getElementById('activeTradeTab');
+const historyTabDiv = document.getElementById('historyTab');
+
+if (!session?.docId) {
+    const msg = '<div class="empty-state"><span class="empty-icon material-icons-outlined">lock</span><div class="empty-title">Session Expired</div><div class="empty-message">Please sign in to view your trades.</div></div>';
+    activeTabDiv.innerHTML = msg;
+    historyTabDiv.innerHTML = msg;
+} else {
+    loadPage();
+}
+
+async function loadPage() {
+    try {
+        // Always fetch fresh user data
+        const userSnap = await getDoc(doc(db, 'users', session.docId));
+        if (!userSnap.exists()) throw new Error('User not found');
+        const user = userSnap.data();
+
+        if (user.theme) {
+            applyTheme(user.theme);
+        } else {
+            applyTheme('dark');
+        }
+
+        document.getElementById('headerUsername').textContent = `Welcome ${user.username || 'User'} 👋`;
+        document.getElementById('displayUsername').textContent = user.username || 'User';
+        const uid = String(user.uid || '');
+        document.getElementById('userId').textContent = `UID: ${uid.length > 8 ? uid.substring(0,8)+'...' : uid}`;
+        
+        const balanceTZS = user.balance || 0;
+        document.getElementById('balanceBox').innerHTML = `${formatTZS(balanceTZS)} <span class="balance-label">Balance</span>`;
+
+        // Always fetch fresh orders
+        const ordersRef = collection(db, 'orders');
+        const q = query(
+            ordersRef,
+            where('userDoc', '==', session.docId),
+            orderBy('placedAt', 'desc')
+        );
+        const querySnap = await getDocs(q);
+        const orders = [];
+        querySnap.forEach(doc => {
+            orders.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Also fetch the package to get accurate expiry time
+        const activeOrder = orders.find(o => !o.settled);
+        let packageExpiryMs = null;
+        
+        if (activeOrder && activeOrder.packageId) {
+            try {
+                const pkgSnap = await getDoc(doc(db, 'packages', activeOrder.packageId));
+                if (pkgSnap.exists()) {
+                    const pkg = pkgSnap.data();
+                    if (pkg.createdAt?.toDate) {
+                        const pkgCreated = pkg.createdAt.toDate().getTime();
+                        packageExpiryMs = pkgCreated + (24 * 60 * 60 * 1000); // 24h from package creation
+                    }
+                }
+            } catch (e) {
+                console.warn('Could not fetch package:', e);
+            }
+        }
+
+        renderActiveTradeTab(orders, packageExpiryMs);
+        renderHistoryTab(orders);
+
+    } catch (e) {
+        console.error('Failed to load:', e);
+        const errMsg = `<div class="empty-state"><span class="empty-icon material-icons-outlined">error</span><div class="empty-title">Error</div><div class="empty-message">${escapeHtml(e.message)}</div></div>`;
+        activeTabDiv.innerHTML = errMsg;
+        historyTabDiv.innerHTML = errMsg;
+    }
+}
+
+function getPlacedTime(order) {
+    if (order.placedAt && typeof order.placedAt === 'object') {
+        if (typeof order.placedAt.toDate === 'function') {
+            return order.placedAt.toDate().getTime();
+        }
+        if (order.placedAt.seconds) {
+            return order.placedAt.seconds * 1000 + (order.placedAt.nanoseconds || 0) / 1000000;
+        }
+        if (order.placedAt._seconds) {
+            return order.placedAt._seconds * 1000;
+        }
+    }
+    if (typeof order.placedAt === 'string') {
+        const t = new Date(order.placedAt).getTime();
+        if (!isNaN(t)) return t;
+    }
+    if (typeof order.placedAt === 'number') {
+        return order.placedAt;
+    }
+    return Date.now();
+}
+
+function getTotalVolumeUSD(orders) {
+    const totalTZS = orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
+    return Math.round(totalTZS / EXCHANGE_RATE);
+}
+
+function renderActiveTradeTab(orders, packageExpiryMs) {
+    if (cancelCheckInterval) {
+        clearInterval(cancelCheckInterval);
+        cancelCheckInterval = null;
+    }
+    if (activeTimerInterval) {
+        clearInterval(activeTimerInterval);
+        activeTimerInterval = null;
+    }
+
+    const activeOrder = orders.find(o => !o.settled);
+    const totalVolumeUSD = getTotalVolumeUSD(orders);
+    
+    if (!activeOrder) {
+        activeTabDiv.innerHTML = `
+            <div class="trade-status">
+                <h1 class="volume">${formatUSD(totalVolumeUSD)} VOLUME</h1>
+                <div class="active-indicator">
+                    <span class="material-icons-outlined" style="font-size: 16px;">check_circle</span>
+                    No Active Trade
+                </div>
+                <p class="status-desc">You don't have any open trades at the moment.</p>
+            </div>
+            <div class="empty-state">
+                <span class="empty-icon material-icons-outlined">inbox</span>
+                <div class="empty-message">Place a trade from the Market to get started.</div>
+            </div>
+        `;
+        return;
+    }
+
+    const placedMs = getPlacedTime(activeOrder);
+    // Use package expiry if available, otherwise fall back to 24h from placed time
+    const expiresAt = packageExpiryMs || (placedMs + (24 * 60 * 60 * 1000));
+    const cancelDeadline = placedMs + CANCEL_WINDOW_MS;
+    const now = Date.now();
+    const canCancel = now < cancelDeadline;
+
+    const yieldPct = Number(activeOrder.chosenYield || 0);
+    const amount = Number(activeOrder.amount || 0);
+    const profit = Number((amount * (yieldPct / 100)).toFixed(2));
+    const totalReturn = Number((amount + profit).toFixed(2));
+    const placed = new Date(placedMs);
+
+    const html = `
+        <section class="trade-status">
+            <h1 class="volume">${formatUSD(totalVolumeUSD)} VOLUME</h1>
+            <div class="active-indicator">
+                <span class="material-icons-outlined" style="font-size: 16px;">trending_up</span>
+                Active Trade
+            </div>
+            <div class="expiry-timer" id="activeTimer">${msToHHMMSS(expiresAt - now)}</div>
+            <p class="status-desc">Your active trade performance is tracked and updated here instantly.</p>
+            ${canCancel ? `<button id="cancelBtn" class="cancel-link">Cancel trade now?</button>` : ''}
+        </section>
+
+        <section class="details-list">
+            <div class="detail-item">
+                <span class="label">Total Profit</span>
+                <span class="value profit-green">${formatTZS(totalReturn)}</span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Package</span>
+                <span class="value">${escapeHtml(activeOrder.packageTitle || '—')}</span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Receipt ID</span>
+                <span class="value">
+                    ${escapeHtml(activeOrder.id).substring(0, 16)}...
+                    <span class="material-icons-outlined copy-icon" onclick="navigator.clipboard.writeText('${escapeHtml(activeOrder.id)}')">content_copy</span>
+                </span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Amount</span>
+                <span class="value">${formatTZS(amount)}</span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Potential Profit</span>
+                <span class="value profit-green">${formatTZS(profit)}</span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Yield</span>
+                <span class="value yield-blue">${yieldPct.toFixed(2)}%</span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Date</span>
+                <span class="value">${placed.toLocaleDateString()} ${placed.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})}</span>
+            </div>
+        </section>
+    `;
+    
+    activeTabDiv.innerHTML = html;
+
+    // Timer uses the actual package expiry time
+    activeTimerInterval = setInterval(() => {
+        const remainingMs = Math.max(0, expiresAt - Date.now());
+        const timerEl = document.getElementById('activeTimer');
+        if (timerEl) {
+            timerEl.textContent = msToHHMMSS(remainingMs);
+        }
+    }, 1000);
+
+    if (canCancel) {
+        document.getElementById('cancelBtn').addEventListener('click', () => handleCancel(activeOrder));
+        cancelCheckInterval = setInterval(() => {
+            if (Date.now() >= cancelDeadline) {
+                clearInterval(cancelCheckInterval);
+                cancelCheckInterval = null;
+                loadPage();
+            }
+        }, 1000);
+    }
+}
+
+async function handleCancel(order) {
+    if (!confirm('Cancel this trade and receive a full refund?')) return;
+
+    const btn = document.getElementById('cancelBtn');
+    btn.textContent = 'Processing...';
+    btn.disabled = true;
+
+    try {
+        const orderRef = doc(db, 'orders', order.id);
+        const orderSnap = await getDoc(orderRef);
+        
+        if (!orderSnap.exists()) {
+            alert('Order no longer exists.');
+            loadPage();
+            return;
+        }
+        
+        const freshOrder = orderSnap.data();
+        if (freshOrder.settled === true) {
+            alert('This trade has already been settled.');
+            loadPage();
+            return;
+        }
+
+        const placedMs = getPlacedTime(freshOrder);
+        if (Date.now() > placedMs + CANCEL_WINDOW_MS) {
+            alert('Cancellation window expired.');
+            loadPage();
+            return;
+        }
+
+        await runTransaction(db, async (tx) => {
+            const userRef = doc(db, 'users', session.docId);
+            const userSnap = await tx.get(userRef);
+            if (!userSnap.exists()) throw new Error('User missing');
+            
+            const curBal = Number(userSnap.data().balance || 0);
+            const refund = Number(order.amount || 0);
+            tx.update(userRef, { balance: Number((curBal + refund).toFixed(2)) });
+            tx.delete(orderRef);
+        });
+
+        if (cancelCheckInterval) {
+            clearInterval(cancelCheckInterval);
+            cancelCheckInterval = null;
+        }
+        if (activeTimerInterval) {
+            clearInterval(activeTimerInterval);
+            activeTimerInterval = null;
+        }
+
+        loadPage();
+
+    } catch (e) {
+        console.error(e);
+        alert('Cancel failed: ' + e.message);
+        if (btn) {
+            btn.textContent = 'Cancel trade now?';
+            btn.disabled = false;
+        }
+    }
+}
+
+function renderHistoryTab(orders) {
+    if (orders.length === 0) {
+        historyTabDiv.innerHTML = `
+            <div class="empty-state">
+                <span class="empty-icon material-icons-outlined">receipt_long</span>
+                <div class="empty-title">No Trade Records</div>
+                <div class="empty-message">You haven't placed any trades yet.</div>
+            </div>
+        `;
+        return;
+    }
+
+    const total = orders.length;
+    const wins = orders.filter(o => o.settled && o.win).length;
+    const losses = orders.filter(o => o.settled && !o.win).length;
+    const pending = orders.filter(o => !o.settled).length;
+
+    const statsHtml = `
+        <div class="records-header">
+            <div>
+                <div class="records-title">Trade Records</div>
+                <div class="records-subtitle">All your trading history</div>
+            </div>
+            <div class="stats-summary">
+                <div class="stat-item"><div class="stat-value">${total}</div><div class="stat-label">Total</div></div>
+                <div class="stat-item"><div class="stat-value" style="color: var(--accent-green);">${wins}</div><div class="stat-label">Wins</div></div>
+                <div class="stat-item"><div class="stat-value" style="color: var(--accent-red);">${losses}</div><div class="stat-label">Losses</div></div>
+                <div class="stat-item"><div class="stat-value" style="color: var(--accent-yellow);">${pending}</div><div class="stat-label">Open</div></div>
+            </div>
+        </div>
+    `;
+
+    let cardsHtml = '<div class="records-list">';
+    orders.forEach(order => {
+        cardsHtml += renderOrderCard(order);
+    });
+    cardsHtml += '</div>';
+
+    historyTabDiv.innerHTML = statsHtml + cardsHtml;
+
+    document.querySelectorAll('#historyTab .record-card').forEach(card => {
+        const header = card.querySelector('.record-header');
+        if (header) {
+            header.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const wasExpanded = card.classList.contains('expanded');
+                document.querySelectorAll('#historyTab .record-card.expanded').forEach(c => c.classList.remove('expanded'));
+                if (!wasExpanded) card.classList.add('expanded');
+            });
+        }
+    });
+}
+
+function renderOrderCard(order) {
+    const placedMs = getPlacedTime(order);
+    const placed = new Date(placedMs);
+    const status = order.settled ? (order.win ? 'won' : 'lost') : 'pending';
+    
+    const chosenYield = Number(order.chosenYield || 0);
+    const principal = Number(order.amount || 0);
+    const potentialProfit = principal * (chosenYield / 100);
+    const potentialReturn = principal + potentialProfit;
+    const actualProfit = order.profit || 0;
+    const actualReturn = principal + actualProfit;
+
+    let amountClass = 'amount-neutral';
+    if (order.settled) amountClass = order.win ? 'amount-positive' : 'amount-negative';
+
+    return `
+        <div class="record-card" data-id="${escapeHtml(order.id)}">
+            <div class="record-header">
+                <div class="record-info">
+                    <div class="record-id">${escapeHtml(order.id).substring(0, 16)}...</div>
+                    <div class="record-package">${escapeHtml(order.packageTitle || order.packageId || '—')}</div>
+                    <div class="record-time">${placed.toLocaleDateString()} • ${placed.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
+                </div>
+                <div class="record-status">
+                    <div class="status-badge status-${status}">${status.toUpperCase()}</div>
+                    <div class="record-amount ${amountClass}">${formatTZS(principal)}</div>
+                </div>
+            </div>
+            <div class="record-details">
+                <div class="detail-grid">
+                    <div class="detail-item-mini">
+                        <div class="detail-label">Receipt ID</div>
+                        <div class="detail-value">${escapeHtml(order.id)}</div>
+                    </div>
+                    <div class="detail-item-mini">
+                        <div class="detail-label">Package</div>
+                        <div class="detail-value">${escapeHtml(order.packageTitle || '—')}</div>
+                    </div>
+                    <div class="detail-item-mini">
+                        <div class="detail-label">Placed At</div>
+                        <div class="detail-value">${placed.toLocaleString()}</div>
+                    </div>
+                    <div class="detail-item-mini">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value" style="color: ${order.settled ? (order.win ? 'var(--accent-green)' : 'var(--accent-red)') : 'var(--accent-yellow)'}; font-weight: 700;">
+                            ${status.toUpperCase()}
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-row"><span>Principal:</span><strong>${formatTZS(principal)}</strong></div>
+                <div class="detail-row"><span>Chosen Yield:</span><strong>${chosenYield.toFixed(2)}%</strong></div>
+                ${order.settled ? `
+                    <div class="detail-row"><span>Result:</span><strong style="color: ${order.win ? 'var(--accent-green)' : 'var(--accent-red)'}; font-weight: 700;">${order.win ? 'WIN' : 'LOSE'}</strong></div>
+                    ${order.win ? `
+                        <div class="detail-row"><span>Profit Credited:</span><strong class="detail-value highlight">${formatTZS(actualProfit)}</strong></div>
+                        <div class="detail-row total"><span>Total Return:</span><strong class="detail-value highlight">${formatTZS(actualReturn)}</strong></div>
+                    ` : `
+                        <div class="detail-row total"><span>Total Return:</span><strong style="color: var(--accent-red);">${formatTZS(principal)}</strong></div>
+                    `}
+                ` : `
+                    <div class="detail-row"><span>Potential Profit:</span><strong style="color: var(--accent-green);">${formatTZS(potentialProfit)}</strong></div>
+                    <div class="detail-row total"><span>Potential Return:</span><strong style="color: var(--accent-green);">${formatTZS(potentialReturn)}</strong></div>
+                `}
+            </div>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>

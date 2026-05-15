@@ -1,0 +1,481 @@
+
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Geopay - Payment</title>  
+    <script src="https://cdn.tailwindcss.com"></script>  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+    <style>  
+        body {  
+            background-color: #0f0f0f;  
+            background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);  
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        }  
+  
+        .step-line {  
+            position: absolute;  
+            left: 28px;  
+            top: 20px;  
+            bottom: 40px;  
+            width: 0;  
+            border-left: 2px dashed #d1d5db;  
+            z-index: 0;  
+        }  
+  
+        #copy-tooltip {  
+            position: fixed;  
+            z-index: 100;  
+            transition: opacity 0.3s ease, transform 0.3s ease;  
+            pointer-events: none;  
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));  
+        }  
+        .bubble-arrow::after {  
+            content: "";  
+            position: absolute;  
+            top: 100%;  
+            left: 50%;  
+            transform: translateX(-50%);  
+            border-width: 6px;  
+            border-style: solid;  
+            border-color: #e0f2fe transparent transparent transparent;  
+        }  
+        .bubble-arrow-success::after {  
+            border-color: #dcfce7 transparent transparent transparent;  
+        }  
+        .pop-in { transform: translateY(0) scale(1); }  
+        .pop-out { transform: translateY(-10px) scale(0.95); }  
+    </style>  
+</head>  
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8">  
+  
+    <div id="copy-tooltip" class="hidden opacity-0 bg-sky-100 text-sky-800 text-[11px] font-bold py-2 px-3 rounded-lg bubble-arrow whitespace-nowrap pop-out">  
+        Click here to copy number!  
+    </div>  
+  
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col">  
+          
+        <div class="bg-[#111] p-4 flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-zinc-800">  
+            <div class="bg-white px-3 py-1 rounded shadow-sm">  
+                <span class="font-bold text-xl italic text-black font-serif tracking-tight">Geopay</span>  
+            </div>  
+              
+            <div class="flex flex-col items-center sm:items-end">  
+                <span class="text-zinc-400 text-[10px] mb-1 uppercase tracking-widest font-semibold">Transaction expires later</span>  
+                <div class="flex gap-1 items-center">  
+                    <div id="timer-minutes" class="bg-[#222] text-white w-7 h-9 flex items-center justify-center rounded border border-zinc-700 font-mono text-sm">15</div>  
+                    <span class="text-white text-xs">:</span>  
+                    <div id="timer-seconds" class="bg-[#222] text-white w-7 h-9 flex items-center justify-center rounded border border-zinc-700 font-mono text-sm">00</div>  
+                    <span class="text-white text-xs">:</span>  
+                    <div id="timer-ms" class="bg-[#222] text-white w-7 h-9 flex items-center justify-center rounded border border-zinc-700 font-mono text-sm text-orange-500">00</div>  
+                </div>  
+            </div>  
+        </div>  
+  
+        <div class="p-6 md:p-10 relative flex-1">  
+            <div class="hidden md:block step-line"></div>  
+  
+            <!-- STEP 1: Copy & Pay -->  
+            <div class="relative flex flex-col md:flex-row gap-6 mb-10 group">  
+                <div class="hidden md:flex z-10 bg-slate-200 w-14 h-14 rounded-full items-center justify-center shrink-0 border-4 border-white shadow-sm">  
+                    <i class="fa-solid fa-credit-card text-slate-500 text-lg"></i>  
+                </div>  
+                  
+                <div class="flex-1">  
+                    <div class="flex items-center gap-3 mb-1 md:hidden">  
+                        <div class="bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center">  
+                            <i class="fa-solid fa-credit-card text-slate-500 text-xs"></i>  
+                        </div>  
+                        <h3 class="font-serif text-gray-800 uppercase text-sm tracking-wide font-bold">Copy & Pay</h3>  
+                    </div>  
+                    <h3 class="hidden md:block font-serif text-gray-800 uppercase text-sm tracking-wide font-bold mb-1">Copy & Pay</h3>  
+                      
+                    <p class="text-xs text-gray-500 mb-4 pl-1">Copy this <span class="text-red-600 font-bold" id="paymentMethodDisplay">MPESA</span> account and make payment</p>  
+                      
+                    <div class="bg-gray-50 rounded-lg p-6 border border-gray-100 shadow-sm">  
+                        <div class="mb-5">  
+                            <span class="text-[11px] text-gray-400 font-bold block mb-1">Total Amount:</span>  
+                            <span class="text-2xl font-bold text-orange-400 tracking-tight" id="displayAmount">TZS 0</span>  
+                        </div>  
+                          
+                        <div class="mb-5">  
+                            <span class="text-[11px] text-gray-400 font-bold block mb-1" id="accountLabel">MPESA Account:</span>  
+                            <div class="flex items-center gap-3">  
+                                <span class="text-2xl font-medium text-orange-400 tracking-tight" id="accountNumber">0756 964 981</span>  
+                                <button onclick="copyToClipboard('0756 964 981', this)" id="copy-icon-target" class="text-gray-400 hover:text-orange-500 transition-colors focus:outline-none active:scale-95">  
+                                    <i class="fa-regular fa-square-plus text-3xl"></i>  
+                                </button>  
+                            </div>  
+                        </div>  
+  
+                        <div>  
+                            <span class="text-[11px] text-gray-400 font-bold block mb-1">Account Name:</span>  
+                            <div class="flex items-center gap-3">  
+                                <span class="text-xl font-medium text-orange-400 uppercase tracking-tight" id="accountName">JUMANNE OMARY ISEMA</span>  
+                                <button onclick="copyToClipboard('JUMANNE OMARY ISEMA', this)" class="text-gray-400 hover:text-orange-500 transition-colors focus:outline-none active:scale-95">  
+                                    <i class="fa-regular fa-square-plus text-3xl"></i>  
+                                </button>  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+  
+            <!-- STEP 2: Payment Status Check -->  
+            <div class="relative flex flex-col md:flex-row gap-6 mb-10">  
+                <div class="hidden md:flex z-10 bg-slate-200 w-14 h-14 rounded-full items-center justify-center shrink-0 border-4 border-white shadow-sm">  
+                    <i class="fa-solid fa-rotate text-slate-500 text-lg"></i>  
+                </div>  
+  
+                <div class="flex-1">  
+                    <div class="flex items-center gap-3 mb-1 md:hidden">  
+                        <div class="bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center">  
+                            <i class="fa-solid fa-rotate text-slate-500 text-xs"></i>  
+                        </div>  
+                        <h3 class="font-serif text-gray-800 text-sm tracking-wide font-bold">Payment completed?</h3>  
+                    </div>  
+                    <h3 class="hidden md:block font-serif text-gray-800 text-sm tracking-wide font-bold mb-1">Payment completed?</h3>  
+                      
+                    <p class="text-xs text-gray-500 mb-4 pl-1">Click <span class="text-red-600 font-bold">"Refresh"</span> to check if it is successful</p>  
+                      
+                    <div class="bg-gray-50 rounded-lg p-6 border border-gray-100 shadow-sm transition-all duration-300" id="step2-box">  
+                        <span class="text-[11px] text-gray-400 font-bold block mb-1">Amount paid:</span>  
+                        <div class="flex justify-between items-center mb-2">  
+                            <span class="text-3xl font-bold text-gray-300" id="paidAmount">TZS 0</span>  
+                            <button onclick="checkPaymentStatus()" class="bg-[#e67e22] hover:bg-[#d35400] text-white px-6 py-2 rounded-lg text-sm font-medium shadow-md transition-colors">  
+                                Refresh  
+                            </button>  
+                        </div>  
+                        <p class="text-[10px] text-gray-400 italic">The payment is expected to be successful in 2-10 minutes. Click to refresh the results.</p>  
+  
+                        <div id="error-content" class="hidden mt-6 pt-4 border-t border-gray-200">  
+                            <p class="text-red-600 font-bold text-xs mb-4" id="statusMessage">* Payment not received. Please try again later.</p>  
+                              
+                            <h4 class="text-[#e67e22] font-bold text-sm mb-1">Get results faster!</h4>  
+                            <p class="text-[11px] font-bold text-gray-700 mb-2">Fill in the payment SMS or transaction ID</p>  
+                              
+                            <div class="mb-3">  
+                                <textarea id="smsText" class="w-full h-24 p-3 text-[11px] text-gray-400 border border-gray-300 rounded bg-white italic focus:outline-none focus:border-orange-400 resize-none leading-relaxed shadow-inner"   
+                                placeholder="payment SMS example:&#10;BL6XXXXXNFA Imethibitishwa TshXXX imetumwa kwa 255XXXXXX160 - MATSON ARON FUMBO Tarehe 6/12/24 saa 10:29 AM Jumla ya Ada TshXXX (M-Pesa Ada TshXXX + TOZO ya Serikali TshXXX). Salio lako ni TshXXX. ......"></textarea>  
+                            </div>  
+  
+                            <p class="text-red-600 text-[10px] font-medium mb-4">*Filling in the wrong payment SMS/transaction ID will result in payment loss.</p>  
+                              
+                            <button onclick="submitPaymentProof()" class="w-full sm:w-56 bg-[#e67e22] hover:bg-[#d35400] text-white py-2.5 px-5 rounded-full flex justify-between items-center group transition-all shadow-md cursor-pointer">  
+                                <span class="text-sm font-bold pl-2">Submit</span>  
+                                <div class="bg-white/20 rounded-full w-6 h-6 flex items-center justify-center group-hover:translate-x-1 transition-transform">  
+                                    <i class="fa-solid fa-chevron-right text-[10px]"></i>  
+                                </div>  
+                            </button>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+  
+            <!-- STEP 3: Your payment account -->  
+            <div class="relative flex flex-col md:flex-row gap-6">  
+                <div class="hidden md:flex z-10 bg-slate-200 w-14 h-14 rounded-full items-center justify-center shrink-0 border-4 border-white shadow-sm">  
+                    <i class="fa-solid fa-id-card text-slate-500 text-lg"></i>  
+                </div>  
+  
+                <div class="flex-1">  
+                    <div class="flex items-center gap-3 mb-1 md:hidden">  
+                        <div class="bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center">  
+                            <i class="fa-solid fa-id-card text-slate-500 text-xs"></i>  
+                        </div>  
+                        <h3 class="font-serif text-gray-800 text-sm tracking-wide font-bold">Your payment account:</h3>  
+                    </div>  
+                    <h3 class="hidden md:block font-serif text-gray-800 text-sm tracking-wide font-bold">Your payment account:</h3>  
+                    <span class="text-orange-400 font-bold text-sm block mt-1 pl-1" id="userPhoneNumber">+255</span>  
+                </div>  
+            </div>  
+  
+        </div>  
+    </div>  
+  
+    <script>  
+        // ========== HELPER FUNCTIONS ==========  
+        function formatNumber(num) {  
+            return Number(num).toLocaleString('en-US');  
+        }  
+  
+        // ========== PAYMENT METHOD CONFIG ==========  
+        const methodConfig = {  
+            'mpesa': { name: 'M-Pesa', label: 'MPESA Account:', account: '0756 964 981', accountName: 'JUMANNE OMARY ISEMA' },  
+            'tigo': { name: 'Tigo Pesa', label: 'Tigo Pesa Account:', account: '0756 964 981', accountName: 'JUMANNE OMARY ISEMA' },  
+            'halopesa': { name: 'HaloPesa', label: 'HaloPesa Account:', account: '0756 964 981', accountName: 'JUMANNE OMARY ISEMA' },  
+            'airtel': { name: 'Airtel Money', label: 'Airtel Money Account:', account: '0756 964 981', accountName: 'JUMANNE OMARY ISEMA' },  
+            'bank': { name: 'Bank Transfer', label: 'Bank Account:', account: '0756 964 981', accountName: 'JUMANNE OMARY ISEMA' },  
+            'card': { name: 'Credit Card', label: 'Card Number:', account: '**** **** **** 1234', accountName: 'JUMANNE OMARY ISEMA' }  
+        };  
+  
+        // ========== READ FROM LOCALSTORAGE ==========  
+        const pendingRecharge = JSON.parse(localStorage.getItem('naf_pending_recharge'));  
+        const nafSession = JSON.parse(localStorage.getItem('naf_session') || 'null');  
+  
+        if (!pendingRecharge || !pendingRecharge.amount) {  
+            alert('No pending recharge found. Please start over.');  
+            window.location.href = 'recharge.html';  
+        }  
+  
+        const amount = pendingRecharge.amount;  
+        const method = pendingRecharge.method || 'mpesa';  
+        const config = methodConfig[method] || methodConfig['mpesa'];  
+        const userPhone = pendingRecharge.phoneNumber || pendingRecharge.phone || localStorage.getItem('userNumber') || '+255';  
+        const userId = nafSession?.uid || pendingRecharge.uid || null;  
+        const userDocId = nafSession?.docId || pendingRecharge.userDocId || null;  
+  
+        // Display data  
+        document.getElementById('displayAmount').textContent = `TZS ${formatNumber(amount)}`;  
+        document.getElementById('paidAmount').textContent = `TZS ${formatNumber(amount)}`;  
+        document.getElementById('paymentMethodDisplay').textContent = config.name;  
+        document.getElementById('accountLabel').textContent = config.label;  
+        document.getElementById('accountNumber').textContent = config.account;  
+        document.getElementById('accountName').textContent = config.accountName;  
+        document.getElementById('userPhoneNumber').textContent = userPhone;  
+  
+        // Ensure reference exists  
+        if (!pendingRecharge.reference) {  
+            pendingRecharge.reference = `NAF${Date.now().toString().slice(-8)}${Math.floor(Math.random() * 1000)}`;  
+            localStorage.setItem('naf_pending_recharge', JSON.stringify(pendingRecharge));  
+        }  
+        const reference = pendingRecharge.reference;  
+  
+        // ========== 15-MINUTE TIMER (VISUAL STYLE) ==========  
+        let timerSeconds = 15 * 60; // 900 seconds  
+        const minutesEl = document.getElementById('timer-minutes');  
+        const secondsEl = document.getElementById('timer-seconds');  
+        const msEl = document.getElementById('timer-ms');  
+        let timerInterval = null;  
+  
+        function updateTimerDisplay() {  
+            const mins = Math.floor(timerSeconds / 60);  
+            const secs = timerSeconds % 60;  
+            minutesEl.textContent = mins.toString().padStart(2, '0');  
+            secondsEl.textContent = secs.toString().padStart(2, '0');  
+            const ms = Math.floor(Math.random() * 99);  
+            msEl.textContent = ms.toString().padStart(2, '0');  
+        }  
+  
+        function clearRechargeStorageAndRedirect() {  
+            if (timerInterval) clearInterval(timerInterval);  
+            const keysToClear = [  
+                'naf_pending_recharge', 'rechargeAmount', 'userNumber', 'rechargeMethod',  
+                'selectedRechargeMethod', 'paymentMethod', 'currentRechargeMethod', 'naf_recharge_data'  
+            ];  
+            keysToClear.forEach(key => localStorage.removeItem(key));  
+            for (let i = 0; i < localStorage.length; i++) {  
+                const key = localStorage.key(i);  
+                if (key && (key.includes('recharge') || key.includes('naf_pending'))) {  
+                    localStorage.removeItem(key);  
+                }  
+            }  
+            alert('Transaction expired. Redirecting to recharge page...');  
+            window.location.href = 'recharge.html';  
+        }  
+  
+        function startTimer() {  
+            if (timerInterval) return;  
+            updateTimerDisplay();  
+            timerInterval = setInterval(() => {  
+                if (timerSeconds <= 1) {  
+                    clearInterval(timerInterval);  
+                    timerInterval = null;  
+                    clearRechargeStorageAndRedirect();  
+                } else {  
+                    timerSeconds--;  
+                    updateTimerDisplay();  
+                }  
+            }, 1000);  
+        }  
+        startTimer();  
+  
+        // ========== COPY & TOOLTIP LOGIC ==========  
+        const tooltip = document.getElementById('copy-tooltip');  
+        let isTooltipVisible = false;  
+  
+        function positionTooltip(element) {  
+            const rect = element.getBoundingClientRect();  
+            const left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2);  
+            const top = rect.top - tooltip.offsetHeight - 12;  
+            tooltip.style.left = `${left}px`;  
+            tooltip.style.top = `${top}px`;  
+        }  
+  
+        function copyToClipboard(text, btnElement) {  
+            navigator.clipboard.writeText(text).then(() => {  
+                positionTooltip(btnElement);  
+                tooltip.innerText = "Copied!";  
+                tooltip.classList.remove('bg-sky-100', 'text-sky-800', 'bubble-arrow');  
+                tooltip.classList.add('bg-green-100', 'text-green-800', 'bubble-arrow-success', 'opacity-100', 'pop-in');  
+                tooltip.classList.remove('hidden', 'pop-out');  
+                setTimeout(() => {  
+                    tooltip.classList.replace('opacity-100', 'opacity-0');  
+                    setTimeout(() => {  
+                        tooltip.classList.add('hidden');  
+                        tooltip.innerText = "Click here to copy number!";  
+                        tooltip.classList.remove('bg-green-100', 'text-green-800', 'bubble-arrow-success');  
+                        tooltip.classList.add('bg-sky-100', 'text-sky-800', 'bubble-arrow');  
+                    }, 300);  
+                }, 2000);  
+            });  
+        }  
+  
+        window.addEventListener('load', () => {  
+            setTimeout(() => {  
+                const target = document.getElementById('copy-icon-target');  
+                positionTooltip(target);  
+                tooltip.classList.remove('hidden');  
+                requestAnimationFrame(() => {  
+                    tooltip.classList.remove('pop-out');  
+                    tooltip.classList.add('opacity-100', 'pop-in');  
+                });  
+                isTooltipVisible = true;  
+  
+                const updatePos = () => { if(isTooltipVisible) positionTooltip(target); };  
+                window.addEventListener('scroll', updatePos);  
+                window.addEventListener('resize', updatePos);  
+  
+                setTimeout(() => {  
+                    tooltip.classList.remove('pop-in');  
+                    tooltip.classList.add('pop-out', 'opacity-0');  
+                    isTooltipVisible = false;  
+                    setTimeout(() => {  
+                        tooltip.classList.add('hidden');  
+                        window.removeEventListener('scroll', updatePos);  
+                        window.removeEventListener('resize', updatePos);  
+                    }, 300);  
+                }, 5000);  
+            }, 2000);  
+        });  
+  
+        // ========== FAKE CHECK ==========  
+        async function checkPaymentStatus() {  
+            const errorSection = document.getElementById('error-content');  
+            const statusMessage = document.getElementById('statusMessage');  
+            statusMessage.textContent = "* Payment not received. Please enter payment SMS/transaction ID to speed up verification.";  
+            statusMessage.className = "text-red-600 font-bold text-xs mb-4";  
+            errorSection.classList.remove('hidden');  
+        }  
+  
+        // ========== COOLDOWN CHECK ==========  
+        function isCooldownActive() {  
+            if (!userId) return false;  
+            const cooldownKey = `recharge_cooldown_${userId}_${amount}`;  
+            const cooldownData = localStorage.getItem(cooldownKey);  
+            if (!cooldownData) return false;  
+            const { expiry } = JSON.parse(cooldownData);  
+            return Date.now() < expiry;  
+        }  
+  
+        function setCooldown() {  
+            if (!userId) return;  
+            const cooldownKey = `recharge_cooldown_${userId}_${amount}`;  
+            const expiry = Date.now() + 60 * 60 * 1000; // 1 hour  
+            localStorage.setItem(cooldownKey, JSON.stringify({ expiry }));  
+        }  
+  
+        // ========== SUBMIT TO FIRESTORE ==========  
+        async function submitPaymentProof() {  
+            const smsText = document.getElementById('smsText').value.trim();  
+            const statusMessage = document.getElementById('statusMessage');  
+              
+            if (!smsText) {  
+                statusMessage.textContent = "* Please enter the payment SMS or transaction ID.";  
+                statusMessage.className = "text-red-600 font-bold text-xs mb-4";  
+                document.getElementById('error-content').classList.remove('hidden');  
+                return;  
+            }  
+              
+            if (isCooldownActive()) {  
+                statusMessage.textContent = "⚠️ Payment for this amount is already under review. Please wait.";  
+                statusMessage.className = "text-orange-600 font-bold text-xs mb-4";  
+                document.getElementById('error-content').classList.remove('hidden');  
+                setTimeout(() => {  
+                    window.location.href = 'recharge.html';  
+                }, 2000);  
+                return;  
+            }  
+              
+            statusMessage.textContent = "Submitting payment proof...";  
+            statusMessage.className = "text-blue-600 font-bold text-xs mb-4";  
+            document.getElementById('error-content').classList.remove('hidden');  
+  
+            // Prepare minimal payload  
+const payload = {
+  uid: userId,                  // ✅ ADD THIS (VERY IMPORTANT)
+  userDocId: userDocId,
+
+  amount: amount,
+
+  method: method,              // ✅ ADD THIS (for history + icons)
+  methodName: config.name,
+
+  phone: userPhone,
+
+  reference: reference,
+
+  status: 'pending',
+
+  smsText: smsText,
+
+  createdAt: new Date().toISOString()
+};
+  
+            try {  
+                if (window.firebaseApi && typeof window.firebaseApi.submitRechargeToFirestore === 'function') {  
+                    // Pass payload and optional document ID (we'll let the function handle composite ID)  
+                    await window.firebaseApi.submitRechargeToFirestore(payload, userDocId, reference);  
+                    setCooldown();  
+                    statusMessage.textContent = "✅ Payment proof submitted. Waiting for admin approval.";  
+                    statusMessage.className = "text-green-600 font-bold text-xs mb-4";  
+                    localStorage.removeItem('naf_pending_recharge');  
+                    setTimeout(() => {  
+                        window.location.href = 'recharge.html?tab=history';  
+                    }, 2000);  
+                } else {  
+                    throw new Error("Firebase API not available");  
+                }  
+            } catch (err) {  
+                console.error('Error submitting to Firestore', err);  
+                statusMessage.textContent = "❌ Failed to submit payment proof. Please try again later.";  
+                statusMessage.className = "text-red-600 font-bold text-xs mb-4";  
+            }  
+        }  
+    </script>  
+  
+    <!-- FIREBASE MODULE -->  
+    <script type="module">  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";  
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";  
+  
+    const firebaseConfig = {  
+      apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",  
+      authDomain: "newagefarmbase.firebaseapp.com",  
+      projectId: "newagefarmbase"  
+    };  
+  
+    const app = initializeApp(firebaseConfig);  
+    const db = getFirestore(app);  
+  
+    async function submitRechargeToFirestore(payload, userDocId, reference) {  
+      try {  
+        // Use document ID: userDocId_reference (ensures uniqueness and easy query by user)  
+        const docId = `${userDocId}_${reference}`;  
+        const payloadWithTs = {  
+          ...payload,  
+          createdAt: serverTimestamp()  
+        };  
+        await setDoc(doc(db, "recharges", docId), payloadWithTs);  
+        return docId;  
+      } catch (err) {  
+        console.error("submitRechargeToFirestore error:", err);  
+        throw err;  
+      }  
+    }  
+  
+    window.firebaseApi = { submitRechargeToFirestore };  
+    </script>  
+</body>  
+</html>

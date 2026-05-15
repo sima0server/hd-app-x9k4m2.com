@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HD™ Market</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #0a0c10;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 414px;
+            padding: 0 0 80px;
+            background: #0a0c10;
+        }
+
+        /* ========== ORIGINAL TOP BAR HEADER ========== */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #1a1d24;
+            border-bottom: 1px solid #2a2e39;
+            flex-shrink: 0;
+        }
+
+        .welcome-pill {
+            background-color: #234936;
+            display: flex;
+            align-items: center;
+            padding: 4px 12px 4px 4px;
+            border-radius: 40px;
+            gap: 8px;
+        }
+
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #ffd166;
+            object-fit: cover;
+        }
+
+        .welcome-text {
+            font-size: 12px;
+           /* font-weight: 700;*/
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', cursive, sans-serif;
+            color: white;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+        }
+
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: 'liga';
+            color: #ccc;
+        }
+
+        /* ========== USER PANEL ========== */
+        .user-panel {
+            background: #11141a;
+            border-bottom: 1px solid #1f242c;
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .user-name {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 400;
+        }
+
+        .user-id {
+            font-size: 10px;
+            color: #4a4b52;
+        }
+
+        .balance-card {
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .balance-amount {
+            font-size: 12px;
+            font-weight: 500;
+            color: #10b981;
+        }
+
+        .balance-label {
+            font-size: 10px;
+            color: #6b7280;
+        }
+
+        /* ========== ANIMATED MARKET TICKER ========== */
+        .market-ticker {
+            width: 100%;
+            background: #0e1117;
+            border-bottom: 1px solid #1f242c;
+            height: 36px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .ticker-header {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: #ef4444;
+            color: white;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 10;
+            min-width: 50px;
+            text-transform: uppercase;
+        }
+
+        .ticker-content {
+            position: absolute;
+            left: 50px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .ticker-track {
+            display: flex;
+            animation: tickerSlide 60s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes tickerSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 20px;
+            border-right: 1px solid #1f242c;
+            height: 36px;
+            font-size: 11px;
+            color: #c9d1d9;
+        }
+
+        .ticker-symbol {
+            font-weight: 600;
+            color: #fff;
+            min-width: 45px;
+        }
+
+        .ticker-price {
+            font-weight: 400;
+            min-width: 55px;
+            color: #6b7280;
+        }
+
+        .ticker-change {
+            font-weight: 500;
+            min-width: 65px;
+        }
+
+        .ticker-change.positive {
+            color: #10b981;
+        }
+
+        .ticker-change.negative {
+            color: #ef4444;
+        }
+
+        /* ========== MAIN CONTENT AREA ========== */
+        .main-content {
+            padding: 20px 16px;
+        }
+
+        /* Signal Banner */
+        .signal-banner {
+            background: linear-gradient(145deg, #1a1e26, #11141a);
+            border-radius: 16px;
+            border: 1px solid #2a303a;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .signal-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .signal-label .material-symbols-outlined {
+            color: #dcb95e;
+            font-size: 20px;
+        }
+
+        .signal-label span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .signal-timer {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #dcb95e;
+            background: #1a1e26;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        .signal-target {
+            font-size: 20px;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 4px;
+        }
+
+        .signal-note {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .section-badge {
+            background: #14181f;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* Market Grid */
+        .market-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .package-card {
+            background: #11141a;
+            border-radius: 16px;
+            border: 1px solid #1f242c;
+            padding: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .card-code {
+            font-size: 10px;
+            color: #6b7280;
+            background: #1a1e26;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .price-change {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .price-change.up {
+            color: #10b981;
+        }
+
+        .price-change.down {
+            color: #ef4444;
+        }
+
+        .price-tick {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .metric-label {
+            font-size: 9px;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .timer-display {
+            background: #1a1e26;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #dcb95e;
+            margin-bottom: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-outline {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #2a303a;
+            color: #6b7280;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: #dcb95e;
+            border: none;
+            color: #0a0c10;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Activity Panel */
+        .activity-panel {
+            background: #11141a;
+            border-radius: 16px;
+            border: 1px solid #1f242c;
+            padding: 16px;
+            margin-top: 8px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .clear-btn {
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            color: #6b7280;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .activity-feed {
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .feed-item {
+            display: flex;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #1f242c;
+            font-size: 12px;
+        }
+
+        .feed-item:last-child {
+            border-bottom: none;
+        }
+
+        .feed-time {
+            color: #6b7280;
+            min-width: 45px;
+        }
+
+        .feed-message {
+            color: #c9d1d9;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background-color: #1e2128;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 8px 0;
+            border-top: 1px solid #363a45;
+            height: 52px;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            flex: 1;
+            max-width: 70px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+           /* font-weight: 700;*/
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', cursive, sans-serif;
+        }
+
+        .nav-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            transition: background-color 0.2s;
+            padding: 4px 0;
+        }
+
+        .nav-item.active .nav-icon-wrapper .material-icons {
+            color: #4caf50;
+        }
+
+        .nav-item:not(.active) {
+            color: #848a97;
+        }
+
+        .nav-item .material-icons {
+            font-size: 20px;
+            color: currentColor;
+            font-family: 'Material Icons';
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 2000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-sheet {
+            background: #11141a;
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            width: 100%;
+            max-width: 414px;
+            border-top: 1px solid #2a303a;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1a1e26;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .yield-section {
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .yield-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .yield-option {
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            border-radius: 10px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .yield-option.selected {
+            background: rgba(220, 185, 94, 0.1);
+            border-color: #dcb95e;
+        }
+
+        .yield-value {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .yield-allocation {
+            font-size: 10px;
+            color: #6b7280;
+        }
+
+        .amount-container {
+            margin: 20px 0;
+        }
+
+        .amount-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .amount-input-wrapper {
+            position: relative;
+        }
+
+        .amount-input {
+            width: 100%;
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            color: #fff;
+            padding: 14px 50px 14px 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-currency {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .quick-amounts {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .quick-btn {
+            flex: 1;
+            padding: 10px;
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .preview-card {
+            background: #1a1e26;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        .preview-row.total {
+            border-top: 1px solid #2a303a;
+            margin-top: 8px;
+            padding-top: 12px;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-confirm {
+            background: #dcb95e;
+            color: #0a0c10;
+        }
+
+        .btn-cancel {
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            color: #6b7280;
+        }
+
+        /* Fullpage Loader */
+        .fullpage-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 12, 16, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .fullpage-loader.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .loader-content {
+            text-align: center;
+            padding: 20px;
+            max-width: 280px;
+        }
+
+        .loader-icon {
+            font-size: 48px !important;
+            color: #dcb95e;
+            margin-bottom: 20px;
+        }
+
+        .loader-text {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #dcb95e;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .loader-message {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 12px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        input, select, button {
+            outline: none;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1e26;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a303a;
+            border-radius: 2px;
+        }
+    
+    
+    
+    
+    
+    
+    .loader-logo {
+    width: 80px;   /* adjust size */
+    height: auto;
+    margin-bottom: 20px;
+}
+    </style>
+</head>
+<body>
+
+<!-- Full Page Loader -->
+<div class="fullpage-loader" id="fullpageLoader">
+    <div class="loader-content">
+        <img src="assets/HD.png" class="loader-logo">
+        <div class="loader-text" id="loaderText">Loading...</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="loader-message" id="loaderMessage">Please wait while we process your request</div>
+    </div>
+</div>
+
+<div class="app-container">
+    
+    <!-- Original Top Bar Header -->
+    <header class="top-bar">
+        <div class="welcome-pill">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dog&backgroundColor=b6e3f4" alt="Avatar" class="avatar">
+            <span class="welcome-text" id="headerUsername">Welcome to HD-Forge 👋</span>
+        </div>
+        <div class="header-icons">
+            <button class="icon-btn" onclick="window.location.href='tabs.html'">
+                <span class="material-icons">receipt_long</span>
+            </button>
+            <button class="icon-btn" onclick="window.location.href='home.html'">
+                <span class="material-icons">storefront</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- User Panel -->
+    <div class="user-panel">
+        <div class="user-info">
+            <div class="user-name" id="displayUsername">Loading...</div>
+            <div class="user-id" id="userId">UID: Loading...</div>
+        </div>
+        <div class="balance-card">
+            <div class="balance-amount" id="balanceBox">TZS 0</div>
+            <div class="balance-label">Balance</div>
+        </div>
+    </div>
+
+    <!-- Animated Market Ticker -->
+    <div class="market-ticker">
+        <div class="ticker-header">LIVE</div>
+        <div class="ticker-content">
+            <div class="ticker-track" id="tickerTrack"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Signal Banner -->
+        <div class="signal-banner">
+            <div class="signal-header">
+                <div class="signal-label">
+                    <span class="material-symbols-outlined">trending_up</span>
+                    <span>Admin Signal</span>
+                </div>
+                <div class="signal-timer" id="signalTimer">00:00:00</div>
+            </div>
+            <div class="signal-target" id="signal-target">—</div>
+            <div class="signal-note" id="signal-note">No active signal</div>
+        </div>
+
+        <!-- Section Header -->
+        <div class="section-header">
+            <h3 class="section-title">Trading Packages</h3>
+            <div class="section-badge" id="proj-count">0 Active</div>
+        </div>
+
+        <!-- Market Grid -->
+        <div class="market-grid" id="marketGrid">
+            <!-- Packages will be loaded here -->
+        </div>
+
+        <!-- Activity Panel -->
+        <div class="activity-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">history</span>
+                    Recent Activity
+                </div>
+                <button class="clear-btn" id="clearFeedBtn">Clear</button>
+            </div>
+            <div class="activity-feed" id="liveLogList">
+                <div class="feed-item">
+                    <span class="feed-time">--:--</span>
+                    <span class="feed-message">Welcome to NewAgeFarm Trading</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <div class="nav-icon-wrapper">
+                <span class="material-icons">candlestick_chart</span>
+            </div>
+            <span>Live</span>
+        </a>
+        <a href="market.html" class="nav-item active">
+            <div class="nav-icon-wrapper">
+                <span class="material-icons">add_shopping_cart</span>
+            </div>
+            <span>market</span>
+        </a>
+        <a href="more.html" class="nav-item">
+            <div class="nav-icon-wrapper">
+                <span class="material-icons">grid_view</span>
+            </div>
+            <span>more</span>
+        </a>
+    </nav>
+</div>
+
+<!-- Trade Modal -->
+<div class="modal" id="placeModal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <h3 id="modalTitle">Place Trade</h3>
+            <div class="close-btn" id="closeModal">
+                <span class="material-symbols-outlined">close</span>
+            </div>
+        </div>
+        
+        <div class="yield-section">
+            <div class="section-subtitle">Select Yield</div>
+            <div class="yield-options" id="allocGrid"></div>
+        </div>
+        
+        <div class="amount-container">
+            <div class="amount-label">Investment Amount</div>
+            <div class="amount-input-wrapper">
+                <input type="number" id="moneyInput" class="amount-input" placeholder="0" min="0" step="1000">
+                <div class="input-currency">TZS</div>
+            </div>
+        </div>
+        
+        <div class="quick-amounts">
+            <button class="quick-btn" data-amount="10000">10,000</button>
+            <button class="quick-btn" data-amount="50000">50,000</button>
+            <button class="quick-btn" data-amount="0">Max</button>
+        </div>
+        
+        <div class="preview-card">
+            <div class="preview-row">
+                <span>Principal</span>
+                <strong id="previewPrincipal">TZS 0</strong>
+            </div>
+            <div class="preview-row">
+                <span>Yield</span>
+                <strong id="previewPercent">0%</strong>
+            </div>
+            <div class="preview-row">
+                <span>Profit</span>
+                <strong style="color: #10b981;" id="previewProfit">TZS 0</strong>
+            </div>
+            <div class="preview-row total">
+                <span>Total Return</span>
+                <strong style="color: #10b981;" id="previewFinal">TZS 0</strong>
+            </div>
+        </div>
+        
+        <div class="modal-actions">
+            <button class="modal-btn btn-confirm" id="placeConfirmBtn">Confirm Trade</button>
+            <button class="modal-btn btn-cancel" id="placeCancelBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Firebase Script -->
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {
+    getFirestore, doc, getDoc, collection, getDocs, setDoc, runTransaction, query, where, orderBy, limit
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",
+    authDomain: "newagefarmbase.firebaseapp.com",
+    projectId: "newagefarmbase"
+};
+
+let app;
+if (!getApps().length) app = initializeApp(firebaseConfig);
+else app = getApps()[0];
+const db = getFirestore(app);
+
+// Session check
+const session = JSON.parse(localStorage.getItem('naf_session') || '{}');
+if (!session.docId || Date.now() > session.expires) {
+    localStorage.removeItem('naf_session');
+    window.location.href = 'login.html';
+}
+
+const userId = session.docId;
+let user = null;
+let userBalanceTZS = 0;
+let packages = [];
+let activePackage = null;
+let chosenYieldIndex = 0;
+let isLoading = false;
+
+const EXCHANGE_RATE = 2600;
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+// Loader Controller
+const loader = {
+    element: document.getElementById('fullpageLoader'),
+    progressBar: document.getElementById('progressBar'),
+    loaderText: document.getElementById('loaderText'),
+    loaderMessage: document.getElementById('loaderMessage'),
+    
+    show(message = 'Loading...', subMessage = 'Please wait...') {
+        this.element.classList.add('active');
+        this.loaderText.textContent = message;
+        this.loaderMessage.textContent = subMessage;
+        this.progressBar.style.width = '0%';
+        
+        let width = 0;
+        const interval = setInterval(() => {
+            if (width >= 90) {
+                clearInterval(interval);
+                return;
+            }
+            width += Math.random() * 15;
+            if (width > 90) width = 90;
+            this.progressBar.style.width = width + '%';
+        }, 200);
+        
+        this._progressInterval = interval;
+    },
+    
+    hide() {
+        this.progressBar.style.width = '100%';
+        if (this._progressInterval) clearInterval(this._progressInterval);
+        setTimeout(() => {
+            this.element.classList.remove('active');
+            this.progressBar.style.width = '0%';
+        }, 300);
+    }
+};
+
+// Utilities
+const formatTZS = n => 'TZS ' + Number(n || 0).toLocaleString('en-US');
+const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+// Feed Management
+const FEED_KEY = 'naf_feed';
+function loadLocalFeed() {
+    try { return JSON.parse(localStorage.getItem(FEED_KEY) || '[]'); } catch { return []; }
+}
+function saveLocalFeed(arr) { localStorage.setItem(FEED_KEY, JSON.stringify(arr)); }
+function addLocalFeed(msg) {
+    const a = loadLocalFeed();
+    a.unshift({ msg, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+    if (a.length > 50) a.length = 50;
+    saveLocalFeed(a);
+    renderLocalFeed();
+}
+function renderLocalFeed() {
+    const arr = loadLocalFeed();
+    const feedEl = document.getElementById('liveLogList');
+    if (!feedEl) return;
+    if (arr.length === 0) {
+        feedEl.innerHTML = '<div class="feed-item"><span class="feed-time">--:--</span><span class="feed-message">No activity yet</span></div>';
+        return;
+    }
+    feedEl.innerHTML = arr.map(e => `
+        <div class="feed-item">
+            <span class="feed-time">${e.time}</span>
+            <span class="feed-message">${escapeHtml(e.msg)}</span>
+        </div>
+    `).join('');
+}
+
+// Timer Helper
+function msToHHMMSS(ms) {
+    const s = Math.floor(ms / 1000);
+    if (s <= 0) return 'Expired';
+    const hh = Math.floor(s / 3600), mm = Math.floor((s % 3600) / 60), ss = s % 60;
+    return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+}
+
+// Load User Data
+async function loadUserData() {
+    try {
+        const userDoc = await getDoc(doc(db, 'users', userId));
+        if (!userDoc.exists()) {
+            window.location.href = 'login.html';
+            return;
+        }
+        user = userDoc.data();
+        userBalanceTZS = user.balance || 0;
+        
+        // Update header
+        document.getElementById('headerUsername').textContent = `Welcome ${user.username || 'User'} 👋`;
+        document.getElementById('displayUsername').textContent = user.username || 'User';
+        const uid = String(user.uid || '');
+        document.getElementById('userId').textContent = `UID: ${uid.length > 8 ? uid.substring(0, 8) + '...' : uid}`;
+        document.getElementById('balanceBox').textContent = formatTZS(userBalanceTZS);
+        
+        if (loadLocalFeed().length === 0) {
+            addLocalFeed('Welcome to NewAgeFarm Trading');
+            addLocalFeed(`Logged in as ${user.username || 'User'}`);
+        } else {
+            renderLocalFeed();
+        }
+    } catch (e) {
+        console.error('Load error:', e);
+    }
+}
+
+// Load Packages
+async function loadPackages() {
+    packages = [];
+    const snaps = await getDocs(collection(db, 'packages'));
+    snaps.forEach(s => {
+        const d = s.data();
+        if (!Array.isArray(d.allocations)) d.allocations = [];
+        while (d.allocations.length < 12) d.allocations.push({ percent: 0.01, yieldPercent: 1 });
+        packages.push({ id: s.id, ...d });
+    });
+    packages.forEach(p => {
+        if (!p.createdAt) p.createdAt = { toDate: () => new Date(Date.now() - ONE_DAY_MS / 2) };
+    });
+}
+
+// Render Market Grid
+function renderMarket() {
+    const grid = document.getElementById('marketGrid');
+    const countEl = document.getElementById('proj-count');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+    packages.forEach(p => {
+        const created = p.createdAt?.toDate ? p.createdAt.toDate().getTime() : (Date.now() - ONE_DAY_MS / 2);
+        const expiresAt = created + ONE_DAY_MS;
+        const remainingMs = Math.max(0, expiresAt - Date.now());
+
+        const yields = p.allocations.map(a => a.yieldPercent || 0);
+        const maxYield = yields.length ? Math.max(...yields) : 0;
+        const minYield = yields.length ? Math.min(...yields) : 0;
+        const avgYield = yields.length ? (yields.reduce((a, b) => a + b, 0) / yields.length) : 0;
+
+        const isUp = p.trend === 'up';
+        const change = p.change || 0;
+
+        const card = document.createElement('div');
+        card.className = 'package-card';
+        card.dataset.pkg = p.id;
+        card.innerHTML = `
+            <div class="card-header">
+                <div class="card-title">${escapeHtml(p.title || 'Package')}</div>
+                <div class="card-code">${p.code || p.id}</div>
+            </div>
+            <div class="price-row">
+                <div class="price-change ${isUp ? 'up' : 'down'}">${isUp ? '▲' : '▼'} ${Math.abs(change).toFixed(2)}%</div>
+                <div class="price-tick">${p.tick || 0}% tick</div>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-label">Range</div>
+                    <div class="metric-value">${minYield.toFixed(1)}-${maxYield.toFixed(1)}%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Avg</div>
+                    <div class="metric-value">${avgYield.toFixed(1)}%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Alloc</div>
+                    <div class="metric-value">${p.allocations.length}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Trend</div>
+                    <div class="metric-value" style="color: ${isUp ? '#10b981' : '#ef4444'}">${isUp ? 'Bullish' : 'Bearish'}</div>
+                </div>
+            </div>
+            <div class="timer-display" id="cd-${p.id}">${msToHHMMSS(remainingMs)}</div>
+            <div class="action-buttons">
+                <button class="btn-outline viewBtn" data-pkg="${p.id}">
+                    <span class="material-symbols-outlined" style="font-size: 14px;">visibility</span>
+                    View
+                </button>
+                <button class="btn-primary tradeBtn" data-pkg="${p.id}">
+                    <span class="material-symbols-outlined" style="font-size: 14px;">swap_horiz</span>
+                    Trade
+                </button>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+    countEl.textContent = `${packages.length} Active`;
+
+    document.querySelectorAll('.viewBtn').forEach(btn => {
+        btn.addEventListener('click', (e) => showPackageDetails(e.currentTarget.dataset.pkg));
+    });
+    document.querySelectorAll('.tradeBtn').forEach(btn => {
+        btn.addEventListener('click', (e) => openTradeModal(e.currentTarget.dataset.pkg));
+    });
+}
+
+// Show Package Details
+function showPackageDetails(packageId) {
+    const p = packages.find(x => x.id === packageId);
+    if (!p) return;
+    
+    document.getElementById('modalTitle').textContent = p.title || 'Package Details';
+    
+    const allocGrid = document.getElementById('allocGrid');
+    allocGrid.innerHTML = '';
+    p.allocations.forEach((a, idx) => {
+        const item = document.createElement('div');
+        item.className = 'yield-option';
+        item.innerHTML = `<div class="yield-value">${(a.yieldPercent || 0).toFixed(2)}%</div><div class="yield-allocation">${(a.percent * 100).toFixed(1)}% alloc</div>`;
+        item.addEventListener('click', () => {
+            chosenYieldIndex = idx;
+            activePackage = p;
+            document.querySelectorAll('.yield-option').forEach(b => b.classList.remove('selected'));
+            item.classList.add('selected');
+            updatePreview();
+            
+            document.getElementById('modalTitle').textContent = `Trade: ${p.title || 'Package'}`;
+            document.querySelector('.amount-container').classList.remove('hidden');
+            document.querySelector('.quick-amounts').classList.remove('hidden');
+            document.querySelector('.preview-card').classList.remove('hidden');
+            document.querySelector('.modal-actions').classList.remove('hidden');
+        });
+        allocGrid.appendChild(item);
+    });
+    
+    document.querySelector('.amount-container').classList.add('hidden');
+    document.querySelector('.quick-amounts').classList.add('hidden');
+    document.querySelector('.preview-card').classList.add('hidden');
+    document.querySelector('.modal-actions').classList.add('hidden');
+    
+    document.getElementById('placeModal').classList.add('active');
+}
+
+// Open Trade Modal
+function openTradeModal(packageId, preferIdx = 0) {
+    const p = packages.find(x => x.id === packageId);
+    if (!p) return alert('Package not found');
+    
+    const created = p.createdAt?.toDate ? p.createdAt.toDate().getTime() : (Date.now() - ONE_DAY_MS / 2);
+    if (Date.now() >= created + ONE_DAY_MS) {
+        addLocalFeed('Package expired – trading closed');
+        return;
+    }
+    
+    activePackage = p;
+    chosenYieldIndex = preferIdx;
+    
+    document.getElementById('modalTitle').textContent = `Trade: ${p.title || 'Package'}`;
+    
+    const allocGrid = document.getElementById('allocGrid');
+    allocGrid.innerHTML = '';
+    p.allocations.forEach((a, idx) => {
+        const btn = document.createElement('div');
+        btn.className = `yield-option ${idx === preferIdx ? 'selected' : ''}`;
+        btn.innerHTML = `<div class="yield-value">${(a.yieldPercent || 0).toFixed(2)}%</div><div class="yield-allocation">${(a.percent * 100).toFixed(1)}% alloc</div>`;
+        btn.addEventListener('click', () => {
+            chosenYieldIndex = idx;
+            document.querySelectorAll('.yield-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            updatePreview();
+        });
+        allocGrid.appendChild(btn);
+    });
+    
+    document.querySelector('.amount-container').classList.remove('hidden');
+    document.querySelector('.quick-amounts').classList.remove('hidden');
+    document.querySelector('.preview-card').classList.remove('hidden');
+    document.querySelector('.modal-actions').classList.remove('hidden');
+    
+    document.getElementById('moneyInput').value = '';
+    updatePreview();
+    document.getElementById('placeModal').classList.add('active');
+}
+
+// Update Preview
+function updatePreview() {
+    const amt = Number(document.getElementById('moneyInput')?.value || 0);
+    const alloc = activePackage?.allocations?.[chosenYieldIndex];
+    const yieldPct = alloc ? (alloc.yieldPercent || 0) : 0;
+    const profit = amt * (yieldPct / 100);
+    
+    document.getElementById('previewPrincipal').textContent = formatTZS(amt);
+    document.getElementById('previewPercent').textContent = yieldPct.toFixed(2) + '%';
+    document.getElementById('previewProfit').textContent = formatTZS(profit);
+    document.getElementById('previewFinal').textContent = formatTZS(amt + profit);
+}
+
+// Confirm Trade
+async function confirmPlace() {
+    if (!activePackage) return alert('No package selected');
+    if (isLoading) {
+        addLocalFeed('Please wait, another operation is in progress');
+        return;
+    }
+    
+    const amount = Number(document.getElementById('moneyInput')?.value || 0);
+    if (!Number.isFinite(amount) || amount <= 0) {
+        addLocalFeed('Enter valid amount');
+        return;
+    }
+    if (amount > userBalanceTZS) {
+        addLocalFeed('Insufficient balance');
+        return;
+    }
+
+    isLoading = true;
+    loader.show('Processing trade...', 'Please wait while we secure your transaction');
+    
+    try {
+        await runTransaction(db, async (tx) => {
+            const uRef = doc(db, 'users', userId);
+            const uSnap = await tx.get(uRef);
+            if (!uSnap.exists()) throw new Error('User missing');
+            const curBal = uSnap.data().balance || 0;
+            if (amount > curBal) throw new Error('Insufficient balance');
+            tx.update(uRef, { balance: Number((curBal - amount).toFixed(2)) });
+        });
+        
+        userBalanceTZS = Number((userBalanceTZS - amount).toFixed(2));
+        document.getElementById('balanceBox').textContent = formatTZS(userBalanceTZS);
+        
+        const orderId = Date.now().toString();
+        const alloc = activePackage.allocations[chosenYieldIndex];
+        const order = {
+            userDoc: userId,
+            userUid: user.uid,
+            packageId: activePackage.id,
+            packageTitle: activePackage.title,
+            chosenYield: alloc?.yieldPercent ?? 0,
+            chosenYieldIndex,
+            amount,
+            status: 'pending',
+            settled: false,
+            placedAt: new Date().toISOString()
+        };
+        
+        await setDoc(doc(db, 'orders', orderId), order);
+        
+        addLocalFeed(`Trade placed: ${formatTZS(amount)} on ${activePackage.title}`);
+        closeModal();
+        addLocalFeed('Trade executed successfully');
+        
+    } catch (e) {
+        addLocalFeed('Error: ' + e.message);
+        console.error(e);
+    }
+    
+    isLoading = false;
+    loader.hide();
+}
+
+// Close Modal
+function closeModal() {
+    document.getElementById('placeModal').classList.remove('active');
+    activePackage = null;
+}
+
+// Render Ticker with Animation
+function renderTicker() {
+    const tickerTrack = document.getElementById('tickerTrack');
+    if (!tickerTrack) return;
+    
+    // Double the items for seamless loop
+    const items = [...packages, ...packages];
+    let html = '';
+    items.forEach(p => {
+        const change = p.change || 0;
+        const changeClass = change >= 0 ? 'positive' : 'negative';
+        const changeSign = change >= 0 ? '+' : '';
+        html += `
+            <div class="ticker-item">
+                <span class="ticker-symbol">${p.code || p.id}</span>
+                <span class="ticker-price">${p.tick || 0}%</span>
+                <span class="ticker-change ${changeClass}">${changeSign}${change.toFixed(2)}%</span>
+            </div>
+        `;
+    });
+    tickerTrack.innerHTML = html;
+}
+
+    
+    // Load Admin Signal from announcements/admin_signal
+async function loadAdminSignal() {
+  try {
+    const signalDoc = await getDoc(doc(db, "announcements", "admin_signal"));
+    if (signalDoc.exists()) {
+      const data = signalDoc.data();
+      document.getElementById('signal-target').textContent = data.target || '—';
+      document.getElementById('signal-note').textContent = data.note || 'No active signal';
+      
+      // Handle countdown timer
+      if (data.expiresAt) {
+        const expiresMs = data.expiresAt.toDate ? data.expiresAt.toDate().getTime() : data.expiresAt;
+        startSignalCountdown(expiresMs);
+      }
+    } else {
+      document.getElementById('signal-target').textContent = '—';
+      document.getElementById('signal-note').textContent = 'No active signal';
+      document.getElementById('signalTimer').textContent = '00:00:00';
+    }
+  } catch(e) {
+    console.error('Signal error:', e);
+  }
+}
+
+let signalCountdownInterval = null;
+function startSignalCountdown(expiresMs) {
+  if (signalCountdownInterval) clearInterval(signalCountdownInterval);
+  
+  function update() {
+    const remaining = Math.max(0, expiresMs - Date.now());
+    document.getElementById('signalTimer').textContent = msToHHMMSS(remaining);
+    if (remaining <= 0 && signalCountdownInterval) {
+      clearInterval(signalCountdownInterval);
+      signalCountdownInterval = null;
+    }
+  }
+  
+  update();
+  signalCountdownInterval = setInterval(update, 1000);
+}
+    
+    
+// Initialize
+async function initApp() {
+    loader.show('Loading market data...', 'Fetching packages and prices');
+    
+    await loadUserData();
+    await loadAdminSignal();  // <-- ADD THIS LINE
+    await loadPackages();
+    renderMarket();
+    renderTicker();
+    
+    loader.hide();
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+    
+    document.getElementById('clearFeedBtn').addEventListener('click', () => {
+        localStorage.removeItem(FEED_KEY);
+        renderLocalFeed();
+        addLocalFeed('Feed cleared');
+    });
+    
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('placeCancelBtn').addEventListener('click', closeModal);
+    document.getElementById('placeConfirmBtn').addEventListener('click', confirmPlace);
+    
+    document.getElementById('placeModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('placeModal')) closeModal();
+    });
+    
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const amount = e.target.dataset.amount;
+            const input = document.getElementById('moneyInput');
+            if (!input) return;
+            if (amount === '0') input.value = Math.floor(userBalanceTZS || 0);
+            else input.value = amount;
+            updatePreview();
+        });
+    });
+    
+    document.getElementById('moneyInput')?.addEventListener('input', updatePreview);
+});
+
+// Countdown Timer
+setInterval(() => {
+    packages.forEach(p => {
+        const created = p.createdAt?.toDate ? p.createdAt.toDate().getTime() : (Date.now() - ONE_DAY_MS / 2);
+        const expiresAt = created + ONE_DAY_MS;
+        const remainingMs = Math.max(0, expiresAt - Date.now());
+        const cdEl = document.getElementById('cd-' + p.id);
+        if (cdEl) cdEl.textContent = msToHHMMSS(remainingMs);
+    });
+}, 1000);
+</script>
+
+</body>
+</html>

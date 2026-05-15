@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enter Number</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ========== YOUR ORIGINAL STYLES (UNCHANGED) ========== */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 50px auto;
+      padding: 25px 20px;
+      background: #2c2c2c;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00000055;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      max-width: 100px;
+      display: block;
+      margin: 0 auto;
+      /* remove any default focus/outline */
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .instructions {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .amount {
+      color: #fbd13c;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .method {
+      color: #3b82f6;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    input[type="tel"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      background: #fff;
+      color: #000;
+      box-sizing: border-box;
+    }
+
+    .error {
+      color: #ff5c5c;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .confirm-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      background: linear-gradient(to right, #fbd13c, #f6b500);
+      color: #000;
+      font-weight: bold;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .confirm-btn:hover {
+      opacity: 0.9;
+    }
+
+    .arrow {
+      margin-left: 10px;
+    }
+
+    /* ========== ADDED: FULL PAGE LOADER (COMPLETELY BLACK, NO TRANSPARENCY) ========== */
+    .fullpage-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;           /* solid black, no transparency */
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .fullpage-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* iOS‑style spinner (unchanged) */
+    .ios-loader {
+      position: relative;
+      width: 32px;
+      height: 32px;
+    }
+
+    .bar {
+      width: 8%;
+      height: 24%;
+      background: #ebebeb;
+      position: absolute;
+      left: 46%;
+      top: 40%;
+      opacity: 0;
+      border-radius: 50px;
+      animation: fade 1s linear infinite;
+    }
+
+    .bar:nth-child(1)  { transform: rotate(0deg) translate(0, -130%); animation-delay: 0s; }
+    .bar:nth-child(2)  { transform: rotate(30deg) translate(0, -130%); animation-delay: -0.9167s; }
+    .bar:nth-child(3)  { transform: rotate(60deg) translate(0, -130%); animation-delay: -0.833s; }
+    .bar:nth-child(4)  { transform: rotate(90deg) translate(0, -130%); animation-delay: -0.75s; }
+    .bar:nth-child(5)  { transform: rotate(120deg) translate(0, -130%); animation-delay: -0.667s; }
+    .bar:nth-child(6)  { transform: rotate(150deg) translate(0, -130%); animation-delay: -0.583s; }
+    .bar:nth-child(7)  { transform: rotate(180deg) translate(0, -130%); animation-delay: -0.5s; }
+    .bar:nth-child(8)  { transform: rotate(210deg) translate(0, -130%); animation-delay: -0.4167s; }
+    .bar:nth-child(9)  { transform: rotate(240deg) translate(0, -130%); animation-delay: -0.333s; }
+    .bar:nth-child(10) { transform: rotate(270deg) translate(0, -130%); animation-delay: -0.25s; }
+    .bar:nth-child(11) { transform: rotate(300deg) translate(0, -130%); animation-delay: -0.1667s; }
+    .bar:nth-child(12) { transform: rotate(330deg) translate(0, -130%); animation-delay: -0.0833s; }
+
+    @keyframes fade {
+      from { opacity: 1; }
+      to { opacity: 0.15; }
+    }
+
+    /* toast for secret feedback (optional) */
+    .secret-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2c2c2c;
+      color: #fbd13c;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 10001;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .secret-toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Full page loader (solid black) -->
+  <div id="smartLoader" class="fullpage-loader">
+    <div class="ios-loader">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+  </div>
+
+  <!-- Toast message for secret action -->
+  <div id="secretToast" class="secret-toast">🧹 Recharge data cleared. Redirecting...</div>
+
+  <!-- YOUR ORIGINAL PAYMENT PAGE CONTENT -->
+  <div class="container">
+    <div class="logo" id="logoContainer">
+      <img id="logoImg" src="assets/icons/agri.jpg" alt="Logo">
+    </div>
+    <div class="instructions">
+      Please fill in your <span class="method" id="paymentMethod">payment method</span> and the actual payment account you will use to make the payment.<br>
+      <br>
+      <strong>Payment Amount:</strong> <span class="amount" id="displayAmount">TZS 0</span>
+    </div>
+
+    <input type="tel" id="userNumber" placeholder="+254 723 Please enter your actual payment account " autocomplete="off">
+    <div class="error" id="errorText" style="display: none;">
+      Please fill in your payment account accurately, incorrect filling may result in the loss of the transferred funds.
+    </div>
+
+    <button class="confirm-btn" onclick="proceedToNext()">
+      Confirm <span class="arrow">→</span>
+    </button>
+  </div>
+
+  <script>
+    // ========== LOADER FUNCTIONS ==========
+    const loader = document.getElementById('smartLoader');
+    function showLoader() { if (loader) loader.classList.remove('hidden'); }
+    function hideLoader() { if (loader) loader.classList.add('hidden'); }
+    // Hide loader after 2 seconds on page launch
+    setTimeout(() => hideLoader(), 2000);
+
+    // ========== SECRET: 5 clicks on logo (within 1 sec) ==========
+    let clickCount = 0;
+    let clickTimer = null;
+    const logoImg = document.getElementById('logoImg');
+    function resetClickCount() {
+      clickCount = 0;
+      if (clickTimer) clearTimeout(clickTimer);
+      clickTimer = null;
+    }
+    logoImg.addEventListener('click', (e) => {
+      e.stopPropagation();
+      clickCount++;
+      if (clickTimer === null) {
+        clickTimer = setTimeout(() => {
+          resetClickCount();
+        }, 1000);
+      }
+      if (clickCount >= 5) {
+        resetClickCount();
+        clearRechargeStorage();   // trigger reset
+      }
+    });
+
+    // Function to clear recharge‑related localStorage and redirect
+    function clearRechargeStorage() {
+      const rechargeKeys = [
+        'naf_pending_recharge',
+        'rechargeAmount',
+        'userNumber',
+        'rechargeMethod',
+        'selectedRechargeMethod',
+        'paymentMethod',
+        'currentRechargeMethod',
+        'naf_recharge_data'
+      ];
+      let clearedCount = 0;
+      rechargeKeys.forEach(key => {
+        if (localStorage.getItem(key) !== null) {
+          localStorage.removeItem(key);
+          clearedCount++;
+        }
+      });
+      // Also clean any leftover keys that contain 'recharge' or 'naf_pending'
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.includes('recharge') || key.includes('naf_pending') || key === 'selectedMethod')) {
+          if (!rechargeKeys.includes(key)) {
+            localStorage.removeItem(key);
+            clearedCount++;
+          }
+        }
+      }
+      const toast = document.getElementById('secretToast');
+      toast.textContent = `🧹 Cleared ${clearedCount} recharge item(s). Redirecting...`;
+      toast.classList.add('show');
+      setTimeout(() => {
+        window.location.href = "recharge.html";
+      }, 800);
+    }
+
+    // ========== SMART NUMBER VALIDATION & FORMATTING ==========
+    function validateAndFormatNumber(raw) {
+      let cleaned = raw.trim().replace(/[^\d+]/g, '');
+      let numberPart = '';
+      let prefix = '';
+      
+      // Case 1: starts with +255
+      if (cleaned.startsWith('+255')) {
+        numberPart = cleaned.slice(4);
+        if (numberPart.length !== 9) return { valid: false, reason: 'Please fill in your payment account accurately, incorrect filling may result in the loss of the transferred funds. After +255 you must enter 9 digits.' };
+        if (!/^[67]\d{8}$/.test(numberPart)) {
+          return { valid: false, reason: 'Please fill in your payment account accurately, incorrect filling may result in the loss of the transferred funds. After +255, the number must start with 6 or 7 and be 9 digits.' };
+        }
+        prefix = '+255';
+      } 
+      // Case 2: starts with 0 (local format)
+      else if (cleaned.startsWith('0')) {
+        if (cleaned.length !== 10) return { valid: false, reason: 'Please fill in your payment account accurately, incorrect filling may result in the loss of the transferred funds. Local number must be exactly 10 digits starting with 0.' };
+        if (!/^0[67]\d{8}$/.test(cleaned)) {
+          return { valid: false, reason: 'Please fill in your payment account accurately, incorrect filling may result in the loss of the transferred funds. Local number must start with 07 or 06 and be 10 digits.' };
+        }
+        numberPart = cleaned.slice(1);
+        prefix = '+255';
+      }
+      // Case 3: exactly 9 digits and starts with 6 or 7
+      else if (/^[67]\d{8}$/.test(cleaned)) {
+        numberPart = cleaned;
+        prefix = '+255';
+      }
+      else {
+        return { valid: false, reason: 'Please fill in your payment account accurately, incorrect filling may result in the loss of the transferred funds. Invalid format. Use 07xxxxxxxx, 06xxxxxxxx, or +2557xxxxxxxx.' };
+      }
+      
+      const fullNumber = prefix + numberPart;
+      const last9 = numberPart;
+      // Fake number detection
+      if (/^0{9}$/.test(last9)) return { valid: false, reason: 'Please fill in your payment account accurately, incorrect filling may result in the loss of the transferred funds. Fake number detected (all zeros).' };
+      if (/^(\d)\1{8}$/.test(last9)) return { valid: false, reason: 'Please fill in your payment account accurately, incorrect filling may result in the loss of the transferred funds. Fake number detected (repeated digits).' };
+      const fakePatterns = ['0700000000', '0612345678', '0788888888', '0688888888', '0711111111', '0699999999'];
+      const rawLocal = cleaned.startsWith('0') ? cleaned : '0' + numberPart;
+      if (fakePatterns.includes(rawLocal)) return { valid: false, reason: 'Fake number detected.' };
+      
+      return { valid: true, formatted: fullNumber };
+    }
+
+    // ========== ORIGINAL SCRIPT (modified for smart number) ==========
+    const pendingRecharge = JSON.parse(localStorage.getItem('naf_pending_recharge'));
+    
+    let amount = 0;
+    if (pendingRecharge && pendingRecharge.amount) {
+      amount = pendingRecharge.amount;
+    } else {
+      amount = localStorage.getItem("rechargeAmount") || 0;
+    }
+    
+    if (!amount || amount === 0) window.location.href = "recharge.html";
+
+    document.getElementById("displayAmount").textContent = "TZS " + amount;
+    
+    let currentMethod = '';
+    if (pendingRecharge && pendingRecharge.method) {
+      const methodNames = {
+        'mpesa': 'M-Pesa',
+        'tigo_pesa': 'Tigo Pesa',
+        'halopesa': 'HaloPesa',
+        'airtel_money': 'Airtel Money'
+      };
+      currentMethod = pendingRecharge.method;
+      const methodName = methodNames[pendingRecharge.method] || pendingRecharge.methodName || 'Mobile Money';
+      document.getElementById("paymentMethod").textContent = methodName;
+    }
+
+    // Auto-format on blur (optional)
+    const numberInput = document.getElementById('userNumber');
+    numberInput.addEventListener('blur', function() {
+      const raw = this.value;
+      if (raw.trim() === '') return;
+      const result = validateAndFormatNumber(raw);
+      if (result.valid) {
+        this.value = result.formatted;
+      }
+    });
+
+    function proceedToNext() {
+      const rawNumber = numberInput.value.trim();
+      const errorDiv = document.getElementById("errorText");
+      
+      const validation = validateAndFormatNumber(rawNumber);
+      if (!validation.valid) {
+        errorDiv.style.display = "block";
+        errorDiv.textContent = validation.reason;
+        return;
+      }
+      errorDiv.style.display = "none";
+      
+      const formattedNumber = validation.formatted;
+      localStorage.setItem("userNumber", formattedNumber);
+      
+      if (pendingRecharge) {
+        pendingRecharge.phoneNumber = formattedNumber;
+        pendingRecharge.timestamp = new Date().toISOString();
+        pendingRecharge.status = 'pending';
+        localStorage.setItem('naf_pending_recharge', JSON.stringify(pendingRecharge));
+      }
+      
+      let redirectUrl = "payfast.html";
+      if (currentMethod === 'mpesa' || currentMethod === 'airtel_money') {
+        redirectUrl = "payfast.html";
+      } else if (currentMethod === 'halopesa' || currentMethod === 'tigo_pesa') {
+        redirectUrl = "payfast.html";
+      }
+      
+      showLoader();
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

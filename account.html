@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HD™ Account Settings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<style>
+/* ========== BASE RESET ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1.15;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.2px;
+}
+
+/* ========== THEME SYSTEM ========== */
+body {
+  --primary-bg: #f5f7fa;
+  --surface-bg: #ffffff;
+  --surface-alt: #f8fafc;
+  --card-bg: #ffffff;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --accent-green: #38a169;
+  --accent-red: #e53e3e;
+  --accent-blue: #4299e1;
+  --accent-yellow: #d69e2e;
+  --border-color: #e2e8f0;
+  --border-light: #edf2f7;
+  --success-bg: #f0fff4;
+  --danger-bg: #fff5f5;
+  --warning-bg: #fffbeb;
+  --primary-gradient: linear-gradient(90deg, #38a169, #4299e1);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --nav-bg: rgba(255, 255, 255, 0.98);
+  --nav-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08), 0 -1px 0 rgba(0, 0, 0, 0.04);
+  --footer-bg: #ffffff;
+  background: var(--primary-bg);
+  color: var(--text-primary);
+}
+
+body.theme-dark {
+  --primary-bg: #0a0c10;
+  --surface-bg: #161b22;
+  --surface-alt: #21262d;
+  --card-bg: #161b22;
+  --text-primary: #f0f6fc;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent-green: #238636;
+  --accent-red: #f85149;
+  --accent-blue: #58a6ff;
+  --accent-yellow: #d29922;
+  --border-color: #30363d;
+  --border-light: #21262d;
+  --success-bg: rgba(35, 134, 54, 0.15);
+  --danger-bg: rgba(248, 81, 73, 0.15);
+  --warning-bg: rgba(210, 153, 34, 0.15);
+  --primary-gradient: linear-gradient(90deg, #238636, #58a6ff);
+  --glass-bg: rgba(22, 27, 34, 0.95);
+  --nav-bg: rgba(22, 27, 34, 0.98);
+  --footer-bg: #161b22;
+  background: var(--primary-bg);
+}
+
+body.theme-green {
+  --primary-bg: #f0fff4;
+  --surface-bg: #ffffff;
+  --surface-alt: #f7faf7;
+  --card-bg: #ffffff;
+  --text-primary: #1a202c;
+  --text-secondary: #2d3748;
+  --text-muted: #718096;
+  --accent-green: #276749;
+  --accent-red: #c53030;
+  --accent-blue: #2b6cb0;
+  --accent-yellow: #975a16;
+  --border-color: #c6f6d5;
+  --border-light: #e6fffa;
+  --success-bg: rgba(39, 103, 73, 0.08);
+  --danger-bg: rgba(197, 48, 48, 0.08);
+  --warning-bg: rgba(151, 90, 22, 0.08);
+  --primary-gradient: linear-gradient(90deg, #276749, #38a169);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --nav-bg: rgba(255, 255, 255, 0.98);
+  --footer-bg: #ffffff;
+  background: var(--primary-bg);
+}
+
+/* ========== APP CONTAINER ========== */
+.app-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ========== HEADER ========== */
+.account-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--surface-bg);
+  border-bottom: 1px solid var(--border-color);
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: var(--border-light);
+  transform: translateX(-2px);
+}
+
+.header-content {
+  flex: 1;
+}
+
+.header-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.header-subtitle {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* ========== ACCOUNT CONTAINER ========== */
+.account-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ========== PROFILE SECTION ========== */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.profile-avatar {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 3px solid var(--surface-alt);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-default {
+  width: 100%;
+  height: 100%;
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.profile-upload-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 6px;
+  text-align: center;
+  font-size: 9px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile-avatar:hover .profile-upload-overlay {
+  opacity: 1;
+}
+
+.file-input {
+  display: none;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ========== EDITABLE FIELD ========== */
+.editable-field {
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.editable-field.editing {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.field-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.field-icon .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--accent-green);
+}
+
+.field-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.field-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.field-value {
+  font-size: 12px;
+  color: var(--text-primary);
+  font-weight: 400;
+  word-break: break-all;
+}
+
+.field-input {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 12px;
+  display: none;
+  font-family: inherit;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.editable-field.editing .field-value {
+  display: none;
+}
+
+.editable-field.editing .field-input {
+  display: block;
+}
+
+.field-hint {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ========== EDIT BUTTONS ========== */
+.edit-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-alt);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.edit-button:hover {
+  background: var(--border-light);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.edit-button .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.edit-actions {
+  display: none;
+  gap: 4px;
+}
+
+.editable-field.editing .edit-button {
+  display: none;
+}
+
+.editable-field.editing .edit-actions {
+  display: flex;
+}
+
+.btn-save, .btn-cancel {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-save {
+  background: var(--accent-green);
+  color: white;
+  border-color: var(--accent-green);
+}
+
+.btn-save:hover {
+  background: #2f855a;
+}
+
+.btn-cancel {
+  background: var(--surface-alt);
+  color: var(--text-secondary);
+}
+
+.btn-cancel:hover {
+  background: var(--danger-bg);
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+/* ========== PASSWORD SECTION ========== */
+.password-section {
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.password-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-title .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--accent-green);
+}
+
+.password-fields {
+  display: none;
+}
+
+.password-fields.show {
+  display: block;
+}
+
+.password-toggle-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+  background: var(--border-light);
+}
+
+.password-group {
+  margin-bottom: 12px;
+}
+
+.password-label {
+  display: block;
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-input {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 11px;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1);
+}
+
+.password-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.password-requirements {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--surface-alt);
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.password-requirements div {
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.password-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* ========== PREFERENCES SECTION ========== */
+.preferences-section {
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.pref-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pref-title .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--accent-green);
+}
+
+.pref-select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 11px;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.pref-select:focus {
+  outline: none;
+  border-color: var(--accent-green);
+}
+
+.pref-select:last-child {
+  margin-bottom: 0;
+}
+
+.pref-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--accent-green);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2f855a;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--surface-alt);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--border-light);
+}
+
+/* ========== FOOTER ========== */
+.account-footer {
+  padding: 16px;
+  background: var(--footer-bg);
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.footer-text {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.footer-brand {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========== NOTIFICATIONS ========== */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 16px;
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-size: 10px;
+  color: var(--text-primary);
+  z-index: 1000;
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.notification.success {
+  border-color: var(--accent-green);
+  background: var(--success-bg);
+}
+
+.notification.error {
+  border-color: var(--accent-red);
+  background: var(--danger-bg);
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 360px) {
+  .account-container {
+    padding: 16px 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .account-container {
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Header -->
+  <div class="account-header">
+    <button class="back-button" onclick="window.location.href='more.html'">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <div class="header-content">
+      <div class="header-title">Account Settings</div>
+      <div class="header-subtitle">Manage your profile and preferences</div>
+    </div>
+  </div>
+
+  <!-- Account Container -->
+  <div class="account-container">
+    
+    <!-- Profile Picture -->
+    <div class="profile-section">
+      <div class="profile-avatar" onclick="document.getElementById('profileFileInput').click()">
+        <img id="profileImage" class="profile-image" src="" alt="Profile" style="display: none;">
+        <div id="profileDefault" class="profile-default">U</div>
+        <div class="profile-upload-overlay">Change</div>
+      </div>
+      <input type="file" id="profileFileInput" class="file-input" accept="image/*">
+      <div class="profile-actions" id="profileActions" style="display: none;">
+        <button class="btn btn-primary btn-sm" onclick="saveProfilePic()">
+          <span class="material-symbols-outlined" style="font-size: 14px;">check</span>
+          Save
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="cancelProfilePic()">
+          <span class="material-symbols-outlined" style="font-size: 14px;">close</span>
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Username -->
+    <div class="editable-field" id="usernameField">
+      <div class="field-icon">
+        <span class="material-symbols-outlined">badge</span>
+      </div>
+      <div class="field-content">
+        <div class="field-label">Username</div>
+        <div class="field-value" id="usernameValue">-</div>
+        <input type="text" class="field-input" id="usernameInput" placeholder="Enter username">
+        <div class="field-hint">Can only be changed once every 7 days</div>
+      </div>
+      <button class="edit-button" onclick="startEdit('username')">
+        <span class="material-symbols-outlined">edit</span>
+      </button>
+      <div class="edit-actions">
+        <button class="btn-save" onclick="saveField('username')">
+          <span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+        </button>
+        <button class="btn-cancel" onclick="cancelEdit('username')">
+          <span class="material-symbols-outlined" style="font-size: 16px;">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="editable-field">
+      <div class="field-icon">
+        <span class="material-symbols-outlined">phone</span>
+      </div>
+      <div class="field-content">
+        <div class="field-label">Phone Number</div>
+        <div class="field-value" id="phoneValue">-</div>
+      </div>
+    </div>
+
+    <!-- Change Password -->
+    <div class="password-section">
+      <div class="password-title">
+        <span class="material-symbols-outlined">lock</span>
+        Change Password
+      </div>
+      
+      <button class="password-toggle-btn" id="passwordToggleBtn" onclick="togglePasswordForm()">
+        <span class="material-symbols-outlined" style="font-size: 14px;">expand_more</span>
+        Change Password
+      </button>
+      
+      <div class="password-fields" id="passwordFields">
+        <div class="password-group">
+          <label class="password-label">Current Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" class="password-input" id="currentPassword" placeholder="Enter current password">
+            <button class="password-eye" onclick="togglePasswordVisibility('currentPassword')">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="password-group">
+          <label class="password-label">New Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" class="password-input" id="newPassword" placeholder="Enter new password">
+            <button class="password-eye" onclick="togglePasswordVisibility('newPassword')">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="password-group">
+          <label class="password-label">Confirm New Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" class="password-input" id="confirmPassword" placeholder="Confirm new password">
+            <button class="password-eye" onclick="togglePasswordVisibility('confirmPassword')">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="password-requirements">
+          <div><span class="material-symbols-outlined" style="font-size: 12px;">check_circle</span> At least 8 characters</div>
+          <div><span class="material-symbols-outlined" style="font-size: 12px;">check_circle</span> Uppercase & lowercase letters</div>
+          <div><span class="material-symbols-outlined" style="font-size: 12px;">check_circle</span> At least one number</div>
+        </div>
+        
+        <div class="password-actions">
+          <button class="btn btn-primary" onclick="savePassword()" style="flex: 1;">
+            <span class="material-symbols-outlined" style="font-size: 14px;">save</span>
+            Update Password
+          </button>
+          <button class="btn btn-secondary" onclick="cancelPassword()">
+            <span class="material-symbols-outlined" style="font-size: 14px;">close</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferences -->
+    <div class="preferences-section">
+      <div class="pref-title">
+        <span class="material-symbols-outlined">settings</span>
+        Preferences
+      </div>
+      
+      <div class="pref-label">Language</div>
+      <select class="pref-select" id="languageSelect" onchange="savePreference('language', this.value)">
+        <option value="en">English</option>
+        <option value="sw">Swahili</option>
+      </select>
+      
+      <div class="pref-label">Theme</div>
+      <select class="pref-select" id="themeSelect" onchange="savePreference('theme', this.value)">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="green">Green</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="account-footer">
+    <div class="footer-text">HD™ Trading Platform</div>
+    <div class="footer-brand">Account Settings</div>
+  </div>
+</div>
+
+<!-- Notification -->
+<div id="notification" class="notification"></div>
+
+<script>
+// ========== GLOBAL UTILITY FUNCTIONS ==========
+
+function showNotification(message, type = 'success') {
+  const notification = document.getElementById('notification');
+  notification.textContent = message;
+  notification.className = `notification ${type}`;
+  notification.classList.add('show');
+  
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 3000);
+}
+
+function togglePasswordVisibility(inputId) {
+  const input = document.getElementById(inputId);
+  const button = input.nextElementSibling.querySelector('.material-symbols-outlined');
+  
+  if (input.type === 'password') {
+    input.type = 'text';
+    button.textContent = 'visibility_off';
+  } else {
+    input.type = 'password';
+    button.textContent = 'visibility';
+  }
+}
+
+// ========== INLINE EDITING FUNCTIONS ==========
+
+function startEdit(field) {
+  const fieldEl = document.getElementById(field + 'Field');
+  const input = document.getElementById(field + 'Input');
+  const valueEl = document.getElementById(field + 'Value');
+  
+  fieldEl.classList.add('editing');
+  input.value = valueEl.textContent !== '-' ? valueEl.textContent : '';
+  input.focus();
+}
+
+function cancelEdit(field) {
+  const fieldEl = document.getElementById(field + 'Field');
+  const input = document.getElementById(field + 'Input');
+  const valueEl = document.getElementById(field + 'Value');
+  
+  input.value = valueEl.textContent !== '-' ? valueEl.textContent : '';
+  fieldEl.classList.remove('editing');
+}
+
+function togglePasswordForm() {
+  const fields = document.getElementById('passwordFields');
+  const btn = document.getElementById('passwordToggleBtn');
+  const icon = btn.querySelector('.material-symbols-outlined');
+  
+  if (fields.classList.contains('show')) {
+    fields.classList.remove('show');
+    icon.textContent = 'expand_more';
+    btn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 14px;">expand_more</span> Change Password';
+  } else {
+    fields.classList.add('show');
+    icon.textContent = 'expand_less';
+    btn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 14px;">expand_less</span> Hide Password Form';
+  }
+}
+
+function cancelPassword() {
+  document.getElementById('currentPassword').value = '';
+  document.getElementById('newPassword').value = '';
+  document.getElementById('confirmPassword').value = '';
+  togglePasswordForm();
+}
+
+// ========== PROFILE PICTURE ==========
+let originalProfilePic = '';
+let tempProfilePic = null;
+
+document.getElementById('profileFileInput').addEventListener('change', function(e) {
+  if (e.target.files && e.target.files[0]) {
+    const file = e.target.files[0];
+    
+    if (!file.type.startsWith('image/')) {
+      showNotification('Please select an image file', 'error');
+      return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+      showNotification('Image size should be less than 5MB', 'error');
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const profileImage = document.getElementById('profileImage');
+      const profileDefault = document.getElementById('profileDefault');
+      
+      tempProfilePic = e.target.result;
+      profileImage.src = e.target.result;
+      profileImage.style.display = 'block';
+      profileDefault.style.display = 'none';
+      
+      document.getElementById('profileActions').style.display = 'flex';
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+function saveProfilePic() {
+  if (tempProfilePic && window.saveProfilePicToDB) {
+    window.saveProfilePicToDB(tempProfilePic);
+  }
+}
+
+function cancelProfilePic() {
+  tempProfilePic = null;
+  document.getElementById('profileFileInput').value = '';
+  
+  if (originalProfilePic) {
+    document.getElementById('profileImage').src = originalProfilePic;
+    document.getElementById('profileImage').style.display = 'block';
+    document.getElementById('profileDefault').style.display = 'none';
+  } else {
+    document.getElementById('profileImage').style.display = 'none';
+    document.getElementById('profileDefault').style.display = 'flex';
+  }
+  
+  document.getElementById('profileActions').style.display = 'none';
+}
+
+// These functions will be overridden by the module
+function saveField(field) { showNotification('Loading...', 'error'); }
+function savePassword() { showNotification('Loading...', 'error'); }
+function savePreference(key, value) { showNotification('Loading...', 'error'); }
+</script>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",
+  authDomain: "newagefarmbase.firebaseapp.com",
+  projectId: "newagefarmbase"
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const session = JSON.parse(localStorage.getItem("naf_session"));
+if (!session) { 
+  window.location.href = "/";
+}
+
+let userData = {};
+
+/* ========== THEME MANAGEMENT ========== */
+function applyTheme(theme) {
+  document.body.className = '';
+  if (theme === 'dark') {
+    document.body.classList.add('theme-dark');
+  } else if (theme === 'green') {
+    document.body.classList.add('theme-green');
+  }
+}
+
+/* ========== LOAD ACCOUNT DATA ========== */
+async function loadAccount() {
+  try {
+    const userRef = doc(db, "users", session.docId);
+    const userSnap = await getDoc(userRef);
+    
+    if (!userSnap.exists()) {
+      localStorage.removeItem("naf_session");
+      window.location.href = "/";
+      return;
+    }
+
+    const fullData = userSnap.data();
+    userData = {
+      username: fullData.username || '',
+      phone: fullData.phone || '',
+      profilePic: fullData.profilePic || '',
+      language: fullData.language || 'en',
+      theme: fullData.theme || 'dark',
+      lastUsernameChange: fullData.lastUsernameChange || 0
+    };
+    
+    applyTheme(userData.theme);
+    
+    // Set values
+    document.getElementById('usernameValue').textContent = userData.username || '-';
+    document.getElementById('usernameInput').value = userData.username || '';
+    document.getElementById('phoneValue').textContent = userData.phone || '-';
+    
+    // Profile picture
+    if (userData.profilePic) {
+      originalProfilePic = userData.profilePic;
+      document.getElementById('profileImage').src = userData.profilePic;
+      document.getElementById('profileImage').style.display = 'block';
+      document.getElementById('profileDefault').style.display = 'none';
+    }
+    
+    // Preferences
+    document.getElementById('languageSelect').value = userData.language || 'en';
+    document.getElementById('themeSelect').value = userData.theme || 'dark';
+    
+  } catch (error) {
+    console.error('Error loading account:', error);
+    showNotification('Failed to load account data', 'error');
+  }
+}
+
+/* ========== SAVE SINGLE FIELD ========== */
+window.saveField = async function(field) {
+  try {
+    const input = document.getElementById(field + 'Input');
+    const valueEl = document.getElementById(field + 'Value');
+    const newValue = input.value.trim();
+    const currentValue = userData[field] || '';
+    
+    if (newValue === currentValue) {
+      cancelEdit(field);
+      return;
+    }
+    
+    // Username validation
+    if (field === 'username') {
+      if (newValue.length < 3) {
+        showNotification('Username must be at least 3 characters', 'error');
+        return;
+      }
+      
+      const lastChange = userData.lastUsernameChange || 0;
+      const now = Date.now();
+      const sevenDays = 7 * 24 * 60 * 60 * 1000;
+      
+      if (now - lastChange < sevenDays) {
+        const daysLeft = Math.ceil((sevenDays - (now - lastChange)) / (24 * 60 * 60 * 1000));
+        showNotification(`Username can be changed in ${daysLeft} days`, 'error');
+        input.value = currentValue;
+        cancelEdit(field);
+        return;
+      }
+    }
+    
+    // Build update object with ONLY this field
+    const updates = {};
+    updates[field] = newValue;
+    
+    if (field === 'username') {
+      updates.lastUsernameChange = Date.now();
+    }
+    
+    // Update Firestore (only this field)
+    const userRef = doc(db, "users", session.docId);
+    await updateDoc(userRef, updates);
+    
+    // Update local data and UI
+    userData[field] = newValue;
+    if (field === 'username') {
+      userData.lastUsernameChange = Date.now();
+    }
+    
+    valueEl.textContent = newValue;
+    document.getElementById(field + 'Field').classList.remove('editing');
+    
+    showNotification('Updated successfully');
+    
+  } catch (error) {
+    console.error('Error saving field:', error);
+    showNotification('Failed to save changes', 'error');
+    cancelEdit(field);
+  }
+};
+
+/* ========== SAVE PROFILE PICTURE ========== */
+window.saveProfilePicToDB = async function(picData) {
+  try {
+    const updates = { profilePic: picData };
+    
+    const userRef = doc(db, "users", session.docId);
+    await updateDoc(userRef, updates);
+    
+    userData.profilePic = picData;
+    originalProfilePic = picData;
+    tempProfilePic = null;
+    
+    document.getElementById('profileFileInput').value = '';
+    document.getElementById('profileActions').style.display = 'none';
+    
+    showNotification('Profile picture updated');
+    
+  } catch (error) {
+    console.error('Error saving profile picture:', error);
+    showNotification('Failed to save profile picture', 'error');
+    cancelProfilePic();
+  }
+};
+
+/* ========== SAVE PASSWORD ========== */
+window.savePassword = async function() {
+  try {
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (!currentPassword) {
+      showNotification('Please enter your current password', 'error');
+      return;
+    }
+    
+    if (!newPassword) {
+      showNotification('Please enter a new password', 'error');
+      return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+      showNotification('New passwords do not match', 'error');
+      return;
+    }
+    
+    if (newPassword.length < 8) {
+      showNotification('Password must be at least 8 characters', 'error');
+      return;
+    }
+    
+    if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword)) {
+      showNotification('Password must contain uppercase and lowercase letters', 'error');
+      return;
+    }
+    
+    if (!/\d/.test(newPassword)) {
+      showNotification('Password must contain at least one number', 'error');
+      return;
+    }
+    
+    // Password verification requires server-side logic
+    showNotification('Password update requires server-side verification', 'error');
+    
+  } catch (error) {
+    console.error('Error saving password:', error);
+    showNotification('Failed to update password', 'error');
+  }
+};
+
+/* ========== SAVE PREFERENCES ========== */
+window.savePreference = async function(key, value) {
+  try {
+    if (value === (userData[key] || '')) {
+      return; // No change
+    }
+    
+    const updates = {};
+    updates[key] = value;
+    
+    const userRef = doc(db, "users", session.docId);
+    await updateDoc(userRef, updates);
+    
+    userData[key] = value;
+    
+    if (key === 'theme') {
+      applyTheme(value);
+    }
+    
+    showNotification(`${key.charAt(0).toUpperCase() + key.slice(1)} updated`);
+    
+  } catch (error) {
+    console.error('Error saving preference:', error);
+    showNotification('Failed to save preference', 'error');
+    // Revert select
+    document.getElementById(key + 'Select').value = userData[key] || '';
+  }
+};
+
+/* ========== ALLOW ENTER KEY TO SAVE ========== */
+document.getElementById('usernameInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    saveField('username');
+  } else if (e.key === 'Escape') {
+    cancelEdit('username');
+  }
+});
+
+/* ========== INITIALIZE ========== */
+if (session?.docId) {
+  loadAccount();
+} else {
+  window.location.href = "/";
+}
+</script>
+</body>
+</html>
