@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Fruit King · Attract & Idle Real Machine</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-size: 10px;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background: #1a1005;
+      background-image: linear-gradient(180deg, #332514 0%, #0a0602 100%);
+      font-family: 'Courier New', monospace;
+      color: #ffd700;
+      padding: 8px 6px;
+      display: block;
+      user-select: none;
+    }
+
+    .cabinet-top {
+      background: linear-gradient(180deg, #e0b348 0%, #7a5a1a 100%);
+      width: 100%;
+      border-radius: 8px 8px 0 0;
+      padding: 5px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: inset 0 2px 6px #fff3b0;
+    }
+    .machine-title {
+      font-weight: bold;
+      font-size: 11px;
+      color: #000;
+      text-shadow: 0 1px 1px white;
+      letter-spacing: 2px;
+    }
+    .coin-slot {
+      background: #222;
+      border: 2px solid #aa8833;
+      border-radius: 10px;
+      padding: 4px 10px;
+      color: #ffcc00;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #4a3a1a;
+    }
+    .coin-slot:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #3a2a10;
+    }
+
+    .glass-panel {
+      background: #0a1628;
+      background-image: radial-gradient(circle at 40% 30%, #1e3460, #030d1f);
+      border: 3px solid #b49450;
+      border-radius: 6px;
+      padding: 6px;
+      margin: 4px 0;
+      box-shadow: inset 0 0 20px black;
+    }
+
+    .display-strip {
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .display-unit {
+      text-align: center;
+      flex: 1;
+    }
+    .display-screen {
+      background: #0a0a0a;
+      border: 2px solid #b89b3b;
+      border-radius: 5px;
+      padding: 5px 3px;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+      background: #1a1000;
+      box-shadow: inset 0 0 8px black, 0 0 10px #ff9900;
+      letter-spacing: 2px;
+    }
+    .credit-screen { color: #ffdd44; text-shadow: 0 0 8px orange; }
+    .win-screen { color: #ff4444; text-shadow: 0 0 8px red; }
+    .bonus-screen { color: #ff88cc; text-shadow: 0 0 8px #ff44aa; }
+    .display-label {
+      font-size: 8px;
+      color: #ccaa55;
+      margin-top: 2px;
+      letter-spacing: 1px;
+    }
+
+    .ring-area {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 8px;
+      aspect-ratio: 1/1;
+      position: relative;
+    }
+    .circle-outer {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #1f2f4a, #070e1c);
+      border: 3px solid #c49a3b;
+      box-shadow: 0 0 28px #0a1830, inset 0 0 18px black;
+      position: relative;
+    }
+    .led-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    .led-bulb {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      background: radial-gradient(circle at 35% 35%, #5a607a, #131a2c);
+      border: 2px solid #8b7a4c;
+      color: #ddd;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 4px black;
+      transition: 0.06s;
+    }
+    .led-bulb.lit {
+      background: radial-gradient(circle at 30% 30%, #ffffdd, #ff9900);
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 25px #ffaa00, 0 0 12px #ff5500;
+      color: black;
+      transform: translate(-50%, -50%) scale(1.18);
+      z-index: 20;
+    }
+    .led-bulb.blinking {
+      animation: blinkFast 0.12s infinite alternate;
+    }
+    @keyframes blinkFast {
+      from { opacity: 1; }
+      to { opacity: 0.15; }
+    }
+
+    .diamond-art {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 55px;
+      height: 55px;
+      background: linear-gradient(145deg, #5ba0ff, #003d80);
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+      box-shadow: 0 0 25px #0088ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+    }
+    .diamond-inner {
+      background: #011a3a;
+      clip-path: polygon(50% 5%, 92% 38%, 78% 92%, 22% 92%, 8% 38%);
+      width: 46px;
+      height: 46px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mode-indicator {
+      text-align: center;
+      font-weight: bold;
+      color: #ffbb33;
+      letter-spacing: 2px;
+      margin: 3px 0;
+      font-size: 9px;
+      background: #00000050;
+      padding: 2px;
+      border-radius: 8px;
+    }
+
+    .buttons-panel {
+      background: #1e1508;
+      border: 2px solid #b49450;
+      border-radius: 6px;
+      padding: 8px 6px;
+      margin-top: 4px;
+      box-shadow: inset 0 0 12px black;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .bet-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+    }
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+    }
+    .btn {
+      background: linear-gradient(180deg, #4a4a4a, #1a1a1a);
+      border: 2px solid #b8943b;
+      border-radius: 22px;
+      color: #ffe69b;
+      font-weight: bold;
+      font-size: 10px;
+      padding: 7px 10px;
+      min-width: 48px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 0 #3b2e1a, 0 4px 8px black;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: 0.06s;
+    }
+    .btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #2a1e0e;
+    }
+    .bet-btn {
+      background: linear-gradient(180deg, #6b4f24, #2e1f08);
+      color: #ffd966;
+    }
+    .start-btn {
+      background: radial-gradient(circle at 30% 30%, #ff4040, #7a0000);
+      border-color: #ffbb00;
+      color: white;
+      font-size: 13px;
+      min-width: 70px;
+    }
+    .collect-btn {
+      background: #1f4720;
+      color: #ccff88;
+    }
+    .footer-note {
+      text-align: center;
+      color: #bb9944;
+      margin-top: 6px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="cabinet-top">
+    <span class="machine-title">🍒 FRUIT KING 777</span>
+    <button class="coin-slot" id="insertCoinBtn">🪙 INSERT COIN</button>
+  </div>
+
+  <div class="glass-panel">
+    <div class="display-strip">
+      <div class="display-unit">
+        <div class="display-screen credit-screen" id="creditDisplay">100</div>
+        <div class="display-label">CREDIT</div>
+      </div>
+      <div class="display-unit">
+        <div class="display-screen win-screen" id="winDisplay">0</div>
+        <div class="display-label">WINNER</div>
+      </div>
+      <div class="display-unit">
+        <div class="display-screen bonus-screen" id="bonusDisplay">50</div>
+        <div class="display-label">BONUS</div>
+      </div>
+    </div>
+
+    <div class="ring-area">
+      <div class="circle-outer" id="circleContainer">
+        <div class="led-layer" id="symbolsContainer"></div>
+        <div class="diamond-art">
+          <div class="diamond-inner">
+            <span style="font-size:12px;">💎</span>
+            <span style="font-weight:bold; font-size:9px; background:#00000070; padding:1px 4px; border-radius:6px;" id="centerJackpot">50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mode-indicator" id="modeDisplay">✨ ATTRACT MODE</div>
+  </div>
+
+  <div class="buttons-panel">
+    <div class="bet-buttons" id="betButtonsRow"></div>
+    <div class="action-buttons">
+      <button class="btn" id="bigBtn">BIG</button>
+      <button class="btn" id="smallBtn">SMALL</button>
+      <button class="btn start-btn" id="startBtn">▶ START</button>
+      <button class="btn" id="betMaxBtn">BET MAX</button>
+      <button class="btn collect-btn" id="collectBtn">💰 COLLECT</button>
+      <button class="btn" id="cancelBtn">↺ CANCEL</button>
+    </div>
+  </div>
+  <div class="footer-note">★ SUPER DIAMOND · ATTRACT SHOW ★</div>
+
+  <script>
+    (function() {
+      const SYMBOLS = [
+        { emoji: "🍎", name: "Apple", mult: 5 },
+        { emoji: "🍊", name: "Orange", mult: 5 },
+        { emoji: "🥭", name: "Mango", mult: 8 },
+        { emoji: "🔔", name: "Bell", mult: 10 },
+        { emoji: "🍉", name: "Watermelon", mult: 12 },
+        { emoji: "⭐", name: "Star", mult: 15 },
+        { emoji: "7️⃣", name: "77", mult: 20 },
+        { emoji: "🍫", name: "Bar", mult: 25 },
+        { emoji: "💎", name: "Diamond", mult: 50 },
+        { emoji: "👑", name: "Crown", mult: 100 }
+      ];
+
+      const TOTAL_LEDS = 24;
+      let ringSymbols = [];
+      let credits = 100, winAmount = 0, bonusPool = 50;
+      let currentBets = {};
+      let spinning = false, activeLedIndex = 8;
+      let spinInterval = null;
+      let machineMode = 'attract'; // attract, idle, betting, spinning, win
+      let attractInterval = null;
+      let idleTimer = null;
+      let userInteracted = false;
+
+      const creditDisplay = document.getElementById('creditDisplay');
+      const winDisplay = document.getElementById('winDisplay');
+      const bonusDisplay = document.getElementById('bonusDisplay');
+      const centerJackpot = document.getElementById('centerJackpot');
+      const modeDisplay = document.getElementById('modeDisplay');
+      const symbolsContainer = document.getElementById('symbolsContainer');
+      const betButtonsRow = document.getElementById('betButtonsRow');
+
+      function buildRing() {
+        ringSymbols = [];
+        for (let i = 0; i < TOTAL_LEDS; i++) ringSymbols.push(SYMBOLS[i % SYMBOLS.length]);
+      }
+      buildRing();
+
+      function renderRing() {
+        symbolsContainer.innerHTML = '';
+        const w = symbolsContainer.clientWidth, h = symbolsContainer.clientHeight;
+        if (!w || !h) { setTimeout(renderRing, 20); return; }
+        const cx = w/2, cy = h/2, r = Math.min(cx, cy) * 0.78;
+        for (let i = 0; i < TOTAL_LEDS; i++) {
+          const angle = (i / TOTAL_LEDS) * 2 * Math.PI - Math.PI/2;
+          const x = cx + r * Math.cos(angle), y = cy + r * Math.sin(angle);
+          const div = document.createElement('div');
+          div.className = 'led-bulb';
+          div.style.left = x + 'px'; div.style.top = y + 'px';
+          div.textContent = ringSymbols[i].emoji;
+          div.dataset.index = i;
+          symbolsContainer.appendChild(div);
+        }
+        applyLEDState();
+      }
+
+      function applyLEDState() {
+        const bulbs = document.querySelectorAll('.led-bulb');
+        if (!bulbs.length) return;
+        bulbs.forEach((el, i) => {
+          el.classList.remove('lit', 'blinking');
+          if (i === activeLedIndex && !document.querySelector('.led-bulb.blinking')) {
+            el.classList.add('lit');
+          }
+        });
+      }
+
+      function setMode(mode) {
+        machineMode = mode;
+        const texts = {
+          attract: '✨ COMING SOON..',
+          idle: '⏳ FREE PLAY · hd.wallet.uk NOT FOUND',
+          betting: '🟡 BETTING · PRESS START',
+          spinning: '🌀 DEMO...',
+          win: '🏆 WINNEEER!',
+        };
+        modeDisplay.textContent = texts[mode] || texts.attract;
+      }
+
+      function refreshUI() {
+        creditDisplay.textContent = credits;
+        winDisplay.textContent = winAmount;
+        bonusDisplay.textContent = bonusPool;
+        centerJackpot.textContent = bonusPool;
+      }
+
+      function clearBets() { currentBets = {}; updateBetButtons(); }
+      function placeBet(name) {
+        if (spinning) return;
+        if (credits < 1) { alert("INSERT COIN"); return; }
+        userInteracted = true;
+        stopAttract();
+        currentBets[name] = (currentBets[name] || 0) + 1;
+        credits--; refreshUI(); updateBetButtons();
+        resetIdleTimer();
+      }
+      function betMax() {
+        if (spinning) return;
+        if (credits < SYMBOLS.length) { alert("Need "+SYMBOLS.length+" credits"); return; }
+        userInteracted = true;
+        stopAttract();
+        SYMBOLS.forEach(s => { currentBets[s.name] = (currentBets[s.name] || 0) + 1; credits--; });
+        refreshUI(); updateBetButtons();
+        resetIdleTimer();
+      }
+      function cancelBets() {
+        if (spinning) return;
+        userInteracted = true;
+        stopAttract();
+        let ref = 0;
+        Object.values(currentBets).forEach(v => ref += v);
+        credits += ref; clearBets(); refreshUI();
+        resetIdleTimer();
+      }
+      function collectWin() {
+        if (spinning) return;
+        userInteracted = true;
+        stopAttract();
+        credits += winAmount; winAmount = 0; refreshUI();
+        resetIdleTimer();
+      }
+      function insertCoin() {
+        if (spinning) return;
+        userInteracted = true;
+        stopAttract();
+        credits++; refreshUI();
+        resetIdleTimer();
+      }
+
+      function spinStart() {
+        if (spinning) return;
+        if (!Object.keys(currentBets).length) { alert("PLACE BET FIRST"); return; }
+        userInteracted = true;
+        stopAttract();
+        spinning = true; winAmount = 0;
+        setMode('spinning'); refreshUI();
+        let steps = 0, target = 16 + Math.floor(Math.random()*16);
+        const reverse = Math.random() < 0.2;
+        spinInterval = setInterval(() => {
+          if (reverse) activeLedIndex = (activeLedIndex - 1 + TOTAL_LEDS) % TOTAL_LEDS;
+          else activeLedIndex = (activeLedIndex + 1) % TOTAL_LEDS;
+          applyLEDState();
+          steps++;
+          if (steps >= target) {
+            clearInterval(spinInterval); spinInterval = null;
+            finishSpin();
+          }
+        }, 55);
+      }
+
+      function manualStop() {
+        if (spinning && spinInterval) {
+          clearInterval(spinInterval); spinInterval = null;
+          finishSpin();
+        }
+      }
+
+      function finishSpin() {
+        spinning = false;
+        const sym = ringSymbols[activeLedIndex];
+        const bet = currentBets[sym.name] || 0;
+        if (bet > 0) {
+          winAmount = bet * sym.mult;
+          bonusPool += Math.floor(winAmount * 0.08);
+          delete currentBets[sym.name];
+        } else winAmount = 0;
+        clearBets(); refreshUI(); updateBetButtons(); applyLEDState();
+        if (winAmount > 0) setMode('win');
+        else setMode('idle');
+        resetIdleTimer();
+      }
+
+      function doubleUp(big) {
+        if (spinning || winAmount <= 0) { alert("No win to double"); return; }
+        userInteracted = true;
+        stopAttract();
+        const card = Math.floor(Math.random()*13)+1;
+        const correct = big ? card >= 7 : card <= 6;
+        if (card === 7 || !correct) { alert("LOST · Card "+card); winAmount = 0; }
+        else { winAmount *= 2; bonusPool += 5; alert("DOUBLED! "+winAmount); }
+        refreshUI();
+        resetIdleTimer();
+      }
+
+      function createBetButtons() {
+        betButtonsRow.innerHTML = '';
+        SYMBOLS.forEach(s => {
+          const b = document.createElement('button');
+          b.className = 'btn bet-btn';
+          b.textContent = s.emoji+' '+s.name;
+          b.onclick = () => placeBet(s.name);
+          betButtonsRow.appendChild(b);
+        });
+      }
+
+      function updateBetButtons() {
+        [...betButtonsRow.children].forEach((btn, i) => {
+          const s = SYMBOLS[i];
+          if (s && currentBets[s.name]) {
+            btn.style.background = 'linear-gradient(180deg, #c49a30, #4a350c)';
+            btn.style.color = 'black';
+            btn.textContent = s.emoji+' '+s.name+' ('+currentBets[s.name]+')';
+          } else {
+            btn.style.background = 'linear-gradient(180deg, #6b4f24, #2e1f08)';
+            btn.style.color = '#ffd966';
+            btn.textContent = s.emoji+' '+s.name;
+          }
+        });
+      }
+
+      // ATTRACT MODE – endless light show until user interaction
+      function startAttract() {
+        if (attractInterval) return;
+        setMode('attract');
+        let showStep = 0;
+        let chaseIdx = activeLedIndex;
+        let allLit = false, blinkAll = false, pairsActive = false;
+
+        attractInterval = setInterval(() => {
+          if (machineMode !== 'attract') return;
+          const bulbs = document.querySelectorAll('.led-bulb');
+          if (!bulbs.length) return;
+
+          showStep++;
+          // cycle through different light shows every few seconds
+          const phase = Math.floor(showStep / 40) % 5;
+
+          bulbs.forEach(el => el.classList.remove('lit', 'blinking'));
+
+          switch(phase) {
+            case 0: // chase forward fast
+              chaseIdx = (chaseIdx + 1) % TOTAL_LEDS;
+              activeLedIndex = chaseIdx;
+              bulbs[chaseIdx]?.classList.add('lit');
+              break;
+            case 1: // all lit solid
+              bulbs.forEach(el => el.classList.add('lit'));
+              break;
+            case 2: // all blinking
+              bulbs.forEach(el => { el.classList.add('lit'); el.classList.add('blinking'); });
+              break;
+            case 3: // pairs (every 3rd)
+              bulbs.forEach((el, i) => { if (i % 3 === 0) el.classList.add('lit'); });
+              break;
+            case 4: // reverse chase
+              chaseIdx = (chaseIdx - 1 + TOTAL_LEDS) % TOTAL_LEDS;
+              activeLedIndex = chaseIdx;
+              bulbs[chaseIdx]?.classList.add('lit');
+              break;
+          }
+        }, 120);
+      }
+
+      function stopAttract() {
+        if (attractInterval) {
+          clearInterval(attractInterval);
+          attractInterval = null;
+        }
+        document.querySelectorAll('.led-bulb').forEach(el => el.classList.remove('blinking'));
+        applyLEDState();
+      }
+
+      function resetIdleTimer() {
+        if (idleTimer) clearTimeout(idleTimer);
+        if (machineMode !== 'attract' && !spinning && winAmount === 0 && Object.keys(currentBets).length === 0) {
+          setMode('idle');
+        }
+        idleTimer = setTimeout(() => {
+          if (!spinning && machineMode !== 'attract' && !Object.keys(currentBets).length && winAmount === 0) {
+            startAttract();
+          }
+        }, 10000);
+      }
+
+      // global listener: any button press pauses attract and goes idle
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('button') && machineMode === 'attract') {
+          userInteracted = true;
+          stopAttract();
+          setMode('idle');
+          resetIdleTimer();
+        }
+      });
+
+      document.getElementById('startBtn').onclick = () => spinning ? manualStop() : spinStart();
+      document.getElementById('collectBtn').onclick = collectWin;
+      document.getElementById('cancelBtn').onclick = cancelBets;
+      document.getElementById('betMaxBtn').onclick = betMax;
+      document.getElementById('insertCoinBtn').onclick = insertCoin;
+      document.getElementById('bigBtn').onclick = () => doubleUp(true);
+      document.getElementById('smallBtn').onclick = () => doubleUp(false);
+      window.addEventListener('resize', () => { renderRing(); applyLEDState(); });
+
+      createBetButtons();
+      refreshUI();
+      setMode('attract');
+      startAttract();
+      setTimeout(() => { renderRing(); applyLEDState(); }, 25);
+    })();
+  </script>
+</body>
+</html>

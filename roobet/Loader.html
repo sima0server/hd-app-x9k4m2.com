@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>Keno · Premium Edition</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+*{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none}@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');body{margin:0;padding:0;background-color:#0b0c16;font-family:'Poppins',sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;color:#fff}.mobile-container{width:100%;max-width:420px;background-color:#141527;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(0,0,0,0.7);position:relative;padding:32px 20px}.spinner-container{position:relative;width:100px;height:100px;display:flex;justify-content:center;align-items:center}.spinner-svg{position:absolute;width:100%;height:100%;will-change:transform}.center-icon-spin{color:#fbbd18;font-size:38px;z-index:10}.footer-brand{position:absolute;bottom:30px;text-align:center;font-size:10px;color:#4a4b5a;letter-spacing:0.3px}.footer-brand span{display:block;margin-top:4px;font-size:9px;color:#3a3b4a}
+</style>
+</head>
+<body oncontextmenu="return false;">
+<div class="mobile-container"><div class="spinner-container"><i class="fas fa-dice-d20 center-icon-spin"></i><svg class="spinner-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#fbbd18" stroke-width="8" stroke-linecap="butt" stroke-dasharray="20 231.327" stroke-dashoffset="0" opacity="1"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#fbbd18" stroke-width="8" stroke-linecap="butt" stroke-dasharray="20 231.327" stroke-dashoffset="31.416" opacity="0.6"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#fbbd18" stroke-width="8" stroke-linecap="butt" stroke-dasharray="20 231.327" stroke-dashoffset="62.832" opacity="0.3"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#fbbd18" stroke-width="8" stroke-linecap="butt" stroke-dasharray="20 231.327" stroke-dashoffset="94.248" opacity="0.1"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#fbbd18" stroke-width="8" stroke-linecap="butt" stroke-dasharray="20 231.327" stroke-dashoffset="125.664" opacity="0.1"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#fbbd18" stroke-width="8" stroke-linecap="butt" stroke-dasharray="20 231.327" stroke-dashoffset="157.080" opacity="0.1"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#fbbd18" stroke-width="8" stroke-linecap="butt" stroke-dasharray="20 231.327" stroke-dashoffset="188.496" opacity="0.1"></circle><circle cx="50" cy="50" r="40" fill="none" stroke="#fbbd18" stroke-width="8" stroke-linecap="butt" stroke-dasharray="20 231.327" stroke-dashoffset="219.912" opacity="0.1"></circle></svg></div><div class="footer-brand">Keno · Premium Edition<br><span>HD-Forge Protocol Active</span></div></div>
+<script type="module">
+var RT=2600;
+console.log('═══════════════════════════════════');console.log('[LOADER] Shared Bridge - All Games');console.log('[LOADER] Rate: 1 USD = '+RT+' TZS');console.log('═══════════════════════════════════');
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";import{getFirestore,doc,getDoc,updateDoc,collection,addDoc,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+var FC={apiKey:"AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",authDomain:"newagefarmbase.firebaseapp.com",projectId:"newagefarmbase"};
+console.log('[LOADER] Firebase init...');var app=initializeApp(FC);var db=getFirestore(app);console.log('[LOADER] Firebase ready');
+var spinnerSvg=document.querySelector('.spinner-svg');
+if(spinnerSvg){var sa=45;var cd=0;var nj=0;var hp=false;var st=performance.now();function nd(){return 90+Math.random()*120;}function ud(){var r=Math.random();if(r<0.06)return 800+Math.random()*2000;else if(r<0.15)return 400+Math.random()*700;else if(r<0.35)return 20+Math.random()*60;else if(r<0.50)return 180+Math.random()*250;else return 70+Math.random()*150;}function gd(){var e=(performance.now()-st)/1000;if(e<1.0)return nd();else{if(!hp)hp=true;return ud();}}function snap(){cd=(cd+1)%8;spinnerSvg.style.transform='rotate('+(cd*sa)+'deg)';}function sched(){nj=performance.now()+gd();}function tick(n){if(n>=nj){snap();sched();}requestAnimationFrame(tick);}nj=performance.now()+nd();requestAnimationFrame(tick);}
+function checkSession(){var se=JSON.parse(localStorage.getItem('naf_session')||'{}');if(!se.docId||Date.now()>se.expires){console.error('[LOADER] No session');localStorage.removeItem('naf_session');cleanup();setTimeout(function(){location.href='../login.html';},1500);return null;}console.log('[LOADER] Session: '+se.docId);return se;}
+function cleanup(){localStorage.removeItem('_kop');localStorage.removeItem('_kor');localStorage.removeItem('_kop_sl');localStorage.removeItem('_kor_sl');localStorage.removeItem('_kop_ol');localStorage.removeItem('_kor_ol');console.log('[LOADER] Cleanup done');}
+var session=checkSession();if(!session){throw new Error('No session');}
+
+async function processOp(){
+console.log('[LOADER] Reading operations...');
+var opKeno=localStorage.getItem('_kop');
+var opSlider=localStorage.getItem('_kop_sl');
+var opOlympus=localStorage.getItem('_kop_ol');
+var opRaw=opKeno||opSlider||opOlympus;
+var isSlider=!!opSlider;var isOlympus=!!opOlympus;
+var resultKey=isSlider?'_kor_sl':(isOlympus?'_kor_ol':'_kor');
+var opKey=isSlider?'_kop_sl':(isOlympus?'_kop_ol':'_kop');
+var gameName=isSlider?'Slider':(isOlympus?'Olympus':'Keno');
+if(!opRaw){console.warn('[LOADER] No op');cleanup();setTimeout(function(){location.href='keno.html';},800);return;}
+var op;try{op=JSON.parse(opRaw);console.log('[LOADER] Op: '+gameName);}catch(e){console.error('[LOADER] Parse err');cleanup();setTimeout(function(){location.href='keno.html';},1200);return;}
+var action=op.a;var amountTZS=op.m;var userId=op.u;var returnUrl=op.r;var amountUSD=op.usd||(amountTZS/RT);var src=op.src||gameName.toLowerCase();
+if(userId!==session.docId){console.error('[LOADER] Session mismatch');cleanup();setTimeout(function(){location.href='keno.html';},1500);return;}
+if(!action||isNaN(amountTZS)||amountTZS<=0){console.error('[LOADER] Invalid');cleanup();var er={s:false,msg:'Invalid request',a:action,m:0};localStorage.setItem(resultKey,JSON.stringify(er));setTimeout(function(){location.href=returnUrl||'keno.html';},800);return;}
+console.log('[LOADER] '+action.toUpperCase()+' '+amountTZS+' TZS ($'+amountUSD.toFixed(3)+') from '+src);
+try{
+console.log('[LOADER] Fetching HD user...');var userRef=doc(db,'users',userId);var userSnap=await getDoc(userRef);
+if(!userSnap.exists()){throw new Error('User not found');}
+var userData=userSnap.data();var hdBalance=userData.balance||0;
+console.log('[LOADER] HD Bal: '+hdBalance+' TZS ($'+(parseFloat(hdBalance)/RT).toFixed(3)+')');
+var result;
+if(action==='deposit'){
+console.log('[LOADER] DEPOSIT: HD→Game');
+if(amountTZS>hdBalance){throw new Error('Insufficient HD balance. Have '+hdBalance+' TZS, need '+amountTZS+' TZS');}
+var newHd=hdBalance-amountTZS;
+console.log('[LOADER] HD: '+hdBalance+'→'+newHd+' TZS');
+await updateDoc(userRef,{balance:newHd});
+result={s:true,msg:'Deposited $'+amountUSD.toFixed(3)+' successfully',a:'deposit',m:amountTZS,usd:amountUSD};
+console.log('[LOADER] ✓ Deposit done');
+}else if(action==='withdraw'){
+console.log('[LOADER] WITHDRAW: '+src);
+var wd={userId:userId,userName:userData.username||'Unknown',userPhone:userData.phone||'',amountTZS:amountTZS,amountUSD:amountUSD,status:'pending',createdAt:serverTimestamp(),processedAt:null,notes:src+' withdrawal - '+amountTZS+' TZS ($'+amountUSD.toFixed(3)+')',source:src};
+console.log('[LOADER] Saving to keno_withdraw...');var docRef=await addDoc(collection(db,'keno_withdraw'),wd);
+console.log('[LOADER] Saved: '+docRef.id);
+result={s:true,msg:'Withdrawal submitted. High volume - our team is processing your $'+amountUSD.toFixed(3)+'. Please be patient.',a:'withdraw',m:amountTZS,usd:amountUSD};
+console.log('[LOADER] ✓ Withdrawal submitted');
+}else{throw new Error('Unknown action: '+action);}
+localStorage.setItem(resultKey,JSON.stringify(result));localStorage.removeItem(opKey);
+console.log('[LOADER] Result saved, redirecting...');console.log('[LOADER] Return: '+(returnUrl||'keno.html'));console.log('═══════════════════════════════════');
+setTimeout(function(){location.href=returnUrl||'keno.html';},1000);
+}catch(err){console.error('[LOADER] ERROR:',err.message);
+var fr={s:false,msg:err.message,a:action,m:0};localStorage.setItem(resultKey,JSON.stringify(fr));localStorage.removeItem(opKey);
+console.log('[LOADER] Error saved');console.log('═══════════════════════════════════');
+setTimeout(function(){location.href=returnUrl||'keno.html';},2000);}}
+processOp();
+</script>
+<script>document.addEventListener('contextmenu',function(e){e.preventDefault();return false;});document.addEventListener('keydown',function(e){if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C'))||(e.ctrlKey&&e.key==='U')){e.preventDefault();return false;}});</script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>HD™ Withdrawals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      --primary-bg: #f5f7fa;
+      --surface-bg: #ffffff;
+      --surface-alt: #f8fafc;
+      --card-bg: #ffffff;
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --accent-green: #38a169;
+      --accent-red: #e53e3e;
+      --accent-blue: #4299e1;
+      --accent-yellow: #d69e2e;
+      --border-color: #e2e8f0;
+      --border-light: #edf2f7;
+      --success-bg: #f0fff4;
+      --danger-bg: #fff5f5;
+      --warning-bg: #fffbeb;
+      --primary-gradient: linear-gradient(90deg, #38a169, #4299e1);
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --nav-bg: rgba(255, 255, 255, 0.98);
+      --nav-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08), 0 -1px 0 rgba(0, 0, 0, 0.04);
+      --footer-text: #1a202c;
+      --footer-dim: #718096;
+      --footer-border: #e2e8f0;
+      --footer-accent: #38a169;
+      background: var(--primary-bg);
+      color: var(--text-primary);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body.theme-dark {
+      --primary-bg: #0a0c10;
+      --surface-bg: #161b22;
+      --surface-alt: #21262d;
+      --card-bg: #161b22;
+      --text-primary: #f0f6fc;
+      --text-secondary: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent-green: #238636;
+      --accent-red: #f85149;
+      --accent-blue: #58a6ff;
+      --accent-yellow: #d29922;
+      --border-color: #30363d;
+      --border-light: #21262d;
+      --primary-gradient: linear-gradient(90deg, #238636, #58a6ff);
+      --glass-bg: rgba(22, 27, 34, 0.95);
+      --nav-bg: rgba(22, 27, 34, 0.98);
+      --nav-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3), 0 -1px 0 rgba(255, 255, 255, 0.05);
+      --footer-text: #f0f6fc;
+      --footer-dim: #8b949e;
+      --footer-border: #30363d;
+      --footer-accent: #238636;
+    }
+
+    body.theme-green {
+      --primary-bg: #f0fff4;
+      --surface-bg: #ffffff;
+      --surface-alt: #f7faf7;
+      --card-bg: #ffffff;
+      --text-primary: #1a202c;
+      --text-secondary: #2d3748;
+      --text-muted: #718096;
+      --accent-green: #276749;
+      --accent-red: #c53030;
+      --accent-blue: #2b6cb0;
+      --accent-yellow: #975a16;
+      --border-color: #c6f6d5;
+      --border-light: #e6fffa;
+      --primary-gradient: linear-gradient(90deg, #276749, #38a169);
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --nav-bg: rgba(255, 255, 255, 0.98);
+      --nav-shadow: 0 -4px 20px rgba(39, 103, 73, 0.1), 0 -1px 0 rgba(39, 103, 73, 0.05);
+      --footer-text: #1a202c;
+      --footer-dim: #718096;
+      --footer-border: #c6f6d5;
+      --footer-accent: #276749;
+    }
+
+    .full-page {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 0 80px 0;
+      position: relative;
+      min-height: 100vh;
+      background: var(--primary-bg);
+      overflow-x: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 16px 8px;
+    }
+    header h1 {
+      color: var(--text-primary);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .back-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--surface-bg);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 20px;
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-pill {
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: var(--surface-bg);
+      color: var(--text-secondary);
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-pill.active {
+      background: var(--accent-green);
+      color: #fff;
+      border-color: var(--accent-green);
+    }
+
+    .withdrawals-list {
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .withdrawal-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .wd-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .wd-amount {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .wd-amount span {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .wd-status {
+      padding: 5px 12px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .wd-status.pending {
+      background: var(--warning-bg);
+      color: var(--accent-yellow);
+    }
+    .wd-status.approved {
+      background: var(--success-bg);
+      color: var(--accent-green);
+    }
+    .wd-status.declined {
+      background: var(--danger-bg);
+      color: var(--accent-red);
+    }
+
+    .wd-detail-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .wd-detail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .wd-detail .material-icons, .wd-detail .material-symbols-outlined {
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+    .wd-source {
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--surface-alt);
+      color: var(--accent-blue);
+      text-transform: uppercase;
+    }
+    .wd-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .empty-state .material-icons {
+      font-size: 64px;
+      margin-bottom: 12px;
+      opacity: 0.4;
+    }
+    .empty-state h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .empty-state p {
+      font-size: 13px;
+    }
+
+    .loading-spinner {
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent-green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .footer-wrapper {
+      color: var(--footer-text);
+      padding: 20px 16px 16px;
+      margin-top: 24px;
+      font-family: 'Montserrat', sans-serif;
+      background: transparent;
+    }
+    .footer-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .footer-logo img {
+      height: 30px;
+      width: auto;
+      display: block;
+    }
+    .footer-partner-section {
+      margin-bottom: 16px;
+    }
+    .partner-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--footer-dim);
+      margin-bottom: 10px;
+    }
+    .partner-logos {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .partner-logos img {
+      height: 22px;
+      width: auto;
+      opacity: 0.8;
+    }
+    .footer-divider {
+      border: none;
+      border-top: 1px solid var(--footer-border);
+      margin: 18px 0;
+    }
+    .footer-social-row {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+    }
+    .footer-social-row i {
+      font-size: 18px;
+      color: var(--footer-dim);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--footer-border);
+    }
+    .footer-legal {
+      color: var(--footer-dim);
+      font-size: 11px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .footer-back-top {
+      width: fit-content;
+      margin: 0 auto;
+      padding: 5px 14px;
+      border-radius: 18px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid var(--footer-border);
+      cursor: pointer;
+      color: var(--footer-dim);
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 6px 0 8px 0;
+      height: 52px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: var(--nav-bg);
+      border-top: 1px solid var(--border-color);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: none;
+      flex: 1;
+      max-width: 70px;
+    }
+    .nav-item span {
+      font-size: 9px;
+      letter-spacing: 0.3px;
+    }
+    .nav-icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      padding: 3px 0;
+    }
+    .nav-item.active .nav-icon-wrapper .material-icons {
+      color: var(--accent-green);
+    }
+    .nav-item .material-icons {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="full-page">
+  <header>
+    <div class="back-btn" onclick="history.back()">
+      <span class="material-icons">arrow_back</span>
+    </div>
+    <h1>Payouts</h1>
+    <div style="width:38px"></div>
+  </header>
+
+  <div class="tab-row" id="tabRow">
+    <div class="tab-pill active" data-filter="all">All</div>
+    <div class="tab-pill" data-filter="pending">Pending</div>
+    <div class="tab-pill" data-filter="approved">Approved</div>
+    <div class="tab-pill" data-filter="declined">Declined</div>
+  </div>
+
+  <div class="withdrawals-list" id="withdrawalsList">
+    <div class="loading-spinner"><div class="spinner"></div></div>
+  </div>
+
+  <div class="footer-wrapper">
+    <div class="footer-top-row">
+      <div class="footer-logo"><img src="../assets/HD.png" alt="HD™ Logo" style="height:32px;"></div>
+    </div>
+    <div class="footer-partner-section">
+      <div class="partner-title">OFFICIAL PARTNERS</div>
+      <div class="partner-logos">
+        <img src="../assets/1.png">
+        <img src="../assets/2.png">
+        <img src="../assets/3.png">
+        <img src="../assets/4.png">
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-social-row">
+      <i class="fab fa-facebook-f"></i>
+      <i class="fab fa-x"></i>
+      <i class="fab fa-instagram"></i>
+    </div>
+    <div class="footer-legal">
+      Your withdrawals are processed by Ladbrokers Limited, licensed and regulated by the Gaming Board.<br><br>
+      Licences No. SBI000400021 and OCL0006000294<br><br>
+      18+ only. Betting is addictive.
+    </div>
+    <div class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <i class="fas fa-chevron-up"></i> Back to top
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="../index.html" class="nav-item"><div class="nav-icon-wrapper"><span class="material-icons">candlestick_chart</span></div><span>Live</span></a>
+  <a href="../market.html" class="nav-item"><div class="nav-icon-wrapper"><span class="material-icons">add_shopping_cart</span></div><span>market</span></a>
+  <a href="../more.html" class="nav-item active"><div class="nav-icon-wrapper"><span class="material-icons">grid_view</span></div><span>more</span></a>
+</nav>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCEizB96hxzlvnKd3CbDabqeYu7RrKDbYM",
+  authDomain: "newagefarmbase.firebaseapp.com",
+  projectId: "newagefarmbase"
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const session = JSON.parse(localStorage.getItem("naf_session"));
+if (!session || !session.docId) {
+  window.location.href = "../login.html";
+}
+
+function applyTheme(theme) {
+  document.body.className = '';
+  if (theme === 'dark') document.body.classList.add('theme-dark');
+  else if (theme === 'green') document.body.classList.add('theme-green');
+}
+
+let allWithdrawals = [];
+let currentFilter = 'all';
+
+function getEl(id) {
+  return document.getElementById(id);
+}
+
+function formatDate(ts) {
+  if (!ts) return 'N/A';
+  try {
+    const d = ts.seconds ? new Date(ts.seconds * 1000) : new Date(ts);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + 
+           ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  } catch(e) {
+    return 'N/A';
+  }
+}
+
+function renderWithdrawals() {
+  const container = getEl('withdrawalsList');
+  if (!container) return;
+  
+  let filtered = allWithdrawals;
+  if (currentFilter !== 'all') {
+    filtered = allWithdrawals.filter(w => w.status === currentFilter);
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span class="material-icons">receipt_long</span><h3>No ' + (currentFilter === 'all' ? '' : currentFilter + ' ') + 'withdrawals</h3><p>' + (currentFilter === 'all' ? 'Your Game-to-App Transfers will appear here<br>e.g. keno, slinder, gate to olypuse' : 'Game-to-App Transfers with this status') + '</p></div>';
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < filtered.length; i++) {
+    var w = filtered[i];
+    var usd = w.amountUSD || ((w.amountTZS || 0) / 2600).toFixed(2);
+    var tzs = w.amountTZS || 0;
+    var date = formatDate(w.createdAt);
+    var source = w.source || 'keno';
+    var statusClass = w.status || 'pending';
+    var statusLabel = (w.status || 'pending').charAt(0).toUpperCase() + (w.status || 'pending').slice(1);
+    
+    if (statusLabel === 'Pending') statusLabel = 'PENDING';
+    else if (statusLabel === 'Approved') statusLabel = 'APPROVED';
+    else if (statusLabel === 'Declined') statusLabel = 'DECLINED';
+
+    var processedHtml = '';
+    if (w.processedAt) {
+      processedHtml = '<div class="wd-date"><span class="material-icons" style="font-size:13px;vertical-align:-2px;">check_circle</span> Processed: ' + formatDate(w.processedAt) + '</div>';
+    }
+
+    var statusMsg = '';
+    if (w.status === 'pending') statusMsg = 'Our team is processing your request. Please be patient.';
+    else if (w.status === 'approved') statusMsg = 'Funds have been sent to your wallet.';
+    else if (w.status === 'declined') statusMsg = 'This request was declined. Please contact support.';
+
+    html += '<div class="withdrawal-card">';
+    html += '<div class="wd-top-row">';
+    html += '<div class="wd-amount">$' + usd + ' <span>(' + Number(tzs).toLocaleString() + ' TZS)</span></div>';
+    html += '<div class="wd-status ' + statusClass + '">' + statusLabel + '</div>';
+    html += '</div>';
+    html += '<div class="wd-detail-row">';
+    html += '<div class="wd-detail"><span class="material-symbols-outlined">stadia_controller</span><span class="wd-source">' + source + '</span></div>';
+    html += '<div class="wd-detail"><span class="material-symbols-outlined">phone_android</span><span>' + (w.userPhone || 'N/A') + '</span></div>';
+    html += '</div>';
+    html += '<div class="wd-date"><span class="material-icons" style="font-size:13px;vertical-align:-2px;">schedule</span> Requested: ' + date + '</div>';
+    html += processedHtml;
+    html += '<div class="wd-date" style="color:var(--accent-yellow);font-weight:500;">' + statusMsg + '</div>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+async function loadWithdrawals() {
+  var container = getEl('withdrawalsList');
+  if (!container) return;
+  
+  container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+  
+  try {
+    var snap = await getDocs(collection(db, 'keno_withdraw'));
+    allWithdrawals = [];
+    snap.forEach(function(docSnap) {
+      var data = docSnap.data();
+      if (data.userId === session.docId) {
+        allWithdrawals.push({ id: docSnap.id, status: data.status || 'pending', amountTZS: data.amountTZS || 0, amountUSD: data.amountUSD || 0, userName: data.userName || '', userPhone: data.userPhone || '', source: data.source || 'keno', createdAt: data.createdAt || null, processedAt: data.processedAt || null });
+      }
+    });
+    
+    allWithdrawals.sort(function(a, b) {
+      var ta = (a.createdAt && a.createdAt.seconds) ? a.createdAt.seconds : 0;
+      var tb = (b.createdAt && b.createdAt.seconds) ? b.createdAt.seconds : 0;
+      return tb - ta;
+    });
+    
+    renderWithdrawals();
+  } catch(e) {
+    console.error('Load error:', e);
+    if (container) {
+      container.innerHTML = '<div class="empty-state"><span class="material-icons">error_outline</span><h3>Failed to load</h3><p>Please try again later</p></div>';
+    }
+  }
+}
+
+async function loadTheme() {
+  try {
+    var userSnap = await getDoc(doc(db, 'users', session.docId));
+    if (userSnap.exists() && userSnap.data().theme) {
+      applyTheme(userSnap.data().theme);
+    }
+  } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var tabRow = getEl('tabRow');
+  if (tabRow) {
+    tabRow.addEventListener('click', function(e) {
+      if (e.target && e.target.classList.contains('tab-pill')) {
+        var pills = document.querySelectorAll('.tab-pill');
+        for (var i = 0; i < pills.length; i++) {
+          pills[i].classList.remove('active');
+        }
+        e.target.classList.add('active');
+        currentFilter = e.target.dataset.filter;
+        renderWithdrawals();
+      }
+    });
+  }
+  
+  loadTheme();
+  loadWithdrawals();
+});
+</script>
+</body>
+</html>
