@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>HD™ - Privacy Policy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-primary: #0a0c10;
+            --bg-card: #11141a;
+            --bg-surface: #1a1e26;
+            --text-primary: #ffffff;
+            --text-secondary: #c9d1d9;
+            --text-muted: #6b7280;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-gold: #dcb95e;
+            --border-color: #2a303a;
+            --nav-bg: #1e2128;
+        }
+
+        body {
+            background: #e0e0e0;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 414px;
+            background: var(--bg-primary);
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #1a1d24;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .welcome-pill {
+            background-color: #234936;
+            display: flex;
+            align-items: center;
+            padding: 4px 12px 4px 4px;
+            border-radius: 40px;
+            gap: 8px;
+        }
+        .avatar { width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #ffd166;
+            object-fit: cover; }
+        .welcome-text { font-size: 12px;
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', sans-serif;
+            color: white; }
+        .header-icons { display: flex;
+            gap: 16px; }
+        .icon-btn { background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            text-decoration: none; }
+        .material-icons { font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr; }
+
+        .user-panel {
+            background: var(--bg-card);
+            border-bottom: 1px solid #1f242c;
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .user-info { display: flex;
+            flex-direction: column;
+            gap: 2px; }
+        .user-name { font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400; }
+        .user-id { font-size: 10px;
+            color: #4a4b52; }
+        .balance-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .balance-amount { font-size: 12px;
+            font-weight: 500;
+            color: var(--accent-green); }
+        .balance-label { font-size: 10px;
+            color: var(--text-muted); }
+
+        .market-ticker {
+            width: 100%;
+            background: #0e1117;
+            border-bottom: 1px solid #1f242c;
+            height: 36px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .ticker-header { position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--accent-red);
+            color: white;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 10;
+            min-width: 50px;
+            text-transform: uppercase; }
+        .ticker-content { position: absolute;
+            left: 50px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            overflow: hidden; }
+        .ticker-track { display: flex;
+            animation: tickerSlide 60s linear infinite;
+            white-space: nowrap; }
+        @keyframes tickerSlide { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-item { display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 20px;
+            border-right: 1px solid #1f242c;
+            height: 36px;
+            font-size: 11px;
+            color: var(--text-secondary); }
+        .ticker-symbol { font-weight: 600;
+            color: #fff;
+            min-width: 45px; }
+        .ticker-price { font-weight: 400;
+            min-width: 55px;
+            color: var(--text-muted); }
+        .ticker-change { font-weight: 500;
+            min-width: 65px; }
+        .ticker-change.positive { color: var(--accent-green); }
+        .ticker-change.negative { color: var(--accent-red); }
+
+        .main-content-wrapper {
+            background: #f2f2f2;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 15px;
+        }
+
+        h1 { font-size: 18px;
+            margin-bottom: 8px;
+            color: #111; }
+        .last-updated { font-size: 10px;
+            color: #888;
+            margin-bottom: 15px; }
+        h2 { font-size: 15px;
+            margin: 20px 0 10px;
+            color: #111; }
+        h3 { font-size: 13px;
+            margin: 15px 0 8px;
+            color: #222; }
+
+        .toc-list { list-style: none;
+            margin-bottom: 15px;
+            font-weight: bold; }
+        .toc-list li { margin-bottom: 8px; }
+        .toc-list a { color: #333;
+            text-decoration: underline; }
+
+        p { margin-bottom: 12px; }
+
+        ul { padding-left: 20px;
+            margin-bottom: 15px; }
+        ul li { margin-bottom: 5px; }
+        ol { padding-left: 20px;
+            margin-bottom: 15px; }
+        ol li { margin-bottom: 8px; }
+
+        .footer-wrapper {
+            background: #f2f2f2;
+            color: #1a202c;
+            padding: 24px 20px 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .footer-top-row { display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px; }
+        .footer-logo img { height: 32px;
+            width: auto;
+            display: block; }
+        .footer-lang-btn { border: 1px solid #e2e8f0;
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            background: transparent; }
+        .footer-partner-section { margin-bottom: 20px; }
+        .partner-title { font-size: 12px;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px; }
+        .partner-logos { display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap; }
+        .partner-logos img { height: 24px;
+            width: auto;
+            opacity: 0.8;
+            filter: grayscale(30%); }
+        .footer-divider { border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 20px 0; }
+        .footer-links-grid { display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 14px; }
+        .footer-col h4 { font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px; }
+        .footer-col ul { list-style: none;
+            padding: 0;
+            margin: 0; }
+        .footer-col li { padding: 6px 0;
+            color: #718096;
+            font-size: 13px; }
+        .footer-social-header { color: #718096;
+            font-size: 12px;
+            margin-bottom: 12px;
+            font-weight: 600; }
+        .footer-social-row { display: flex;
+            gap: 15px;
+            padding-bottom: 16px;
+            margin-bottom: 16px; }
+        .footer-social-row i { font-size: 20px;
+            color: #718096;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0; }
+        .footer-legal { color: #718096;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 16px; }
+        .footer-back-top { width: fit-content;
+            margin: 0 auto;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            color: #718096; }
+
+        .bottom-navigation {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 10px 0;
+            border-top: 1px solid #363a45;
+            height: 60px;
+            z-index: 1000;
+        }
+        .nav-item { display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            color: #848a97;
+            text-decoration: none;
+            flex: 1;
+            max-width: 70px;
+            transition: color 0.2s; }
+        .nav-label { font-size: 10px;
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', sans-serif; }
+        .nav-icon-container { display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            padding: 2px 0; }
+        .nav-icon { font-size: 22px;
+            color: currentColor; }
+        .nav-item.active { color: #4caf50; }
+        .nav-item.active .nav-icon { color: #4caf50; }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+
+    <header class="top-bar">
+        <div class="welcome-pill">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dog&backgroundColor=b6e3f4" alt="Avatar" class="avatar">
+            <span class="welcome-text">Welcome to HD-Forge 👋</span>
+        </div>
+        <div class="header-icons">
+            <a href="../index.html" class="icon-btn"><span class="material-icons">home</span></a>
+            <a href="home.html" class="icon-btn"><span class="material-icons">storefront</span></a>
+        </div>
+    </header>
+
+    <div class="user-panel">
+        <div class="user-info">
+            <div class="user-name">NaN</div>
+            <div class="user-id">UID: --</div>
+        </div>
+        <div class="balance-card">
+            <div class="balance-amount">TZS 0.00</div>
+            <div class="balance-label">Balance</div>
+        </div>
+    </div>
+
+    <div class="market-ticker">
+        <div class="ticker-header">LIVE</div>
+        <div class="ticker-content">
+            <div class="ticker-track">
+                <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">0.5%</span><span class="ticker-change positive">+2.34%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">0.3%</span><span class="ticker-change negative">-1.20%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">1.2%</span><span class="ticker-change positive">+0.89%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">0.5%</span><span class="ticker-change positive">+2.34%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">0.3%</span><span class="ticker-change negative">-1.20%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">1.2%</span><span class="ticker-change positive">+0.89%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last updated: September 26, 2025</p>
+
+        <ol class="toc-list">
+            <li><a href="#introduction">1. Introduction</a></li>
+            <li><a href="#information-collected">2. Information We Collect</a></li>
+            <li><a href="#how-used">3. How We Use Your Information</a></li>
+            <li><a href="#sharing">4. How We Share Your Information</a></li>
+            <li><a href="#cookies">5. Cookies & Tracking Technologies</a></li>
+            <li><a href="#data-retention">6. Data Retention</a></li>
+            <li><a href="#security">7. Data Security</a></li>
+            <li><a href="#user-rights">8. Your Rights & Choices</a></li>
+            <li><a href="#children">9. Children's Privacy</a></li>
+            <li><a href="#international">10. International Data Transfers</a></li>
+            <li><a href="#third-party">11. Third-Party Links & Services</a></li>
+            <li><a href="#changes">12. Changes to This Privacy Policy</a></li>
+            <li><a href="#contact">13. Contact Us</a></li>
+        </ol>
+
+        <h2 id="introduction">1. Introduction</h2>
+        <p>Ladbrokers Limited ("Company," "we," "us," or "our") operates the HD-Forge™ platform ("the Platform"). This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our services.</p>
+        <p>We are committed to protecting your privacy and ensuring that your personal data is handled responsibly and in compliance with applicable data protection laws, including the Personal Data Protection Act where applicable. By using the Platform, you agree to the collection and use of information in accordance with this Privacy Policy.</p>
+        <p>This Privacy Policy is incorporated into and forms part of our Terms of Service. Capitalized terms not defined here have the meaning given in our Terms of Service.</p>
+
+        <h2 id="information-collected">2. Information We Collect</h2>
+        <p>We collect several types of information to provide and improve our services:</p>
+
+        <h3>2.1 Information You Provide Directly</h3>
+        <p>When you register, use, or interact with the Platform, you may provide us with:</p>
+        <ul>
+            <li><strong>Account Information:</strong> Username, phone number, password, date of birth, country, and region.</li>
+            <li><strong>Profile Information:</strong> Profile picture (uploaded or selected from our gallery).</li>
+            <li><strong>Transaction Information:</strong> Deposit details, withdrawal requests, trading activity, and account balance.</li>
+            <li><strong>Communication Data:</strong> Messages sent to customer support, feedback, and survey responses.</li>
+            <li><strong>Identity Verification:</strong> Government-issued ID, proof of address, or other documents when required.</li>
+            <li><strong>Referral Data:</strong> The referral code used during registration and your own referral code shared with others.</li>
+        </ul>
+
+        <h3>2.2 Information Collected Automatically</h3>
+        <p>When you access the Platform, we automatically collect:</p>
+        <ul>
+            <li><strong>Device Information:</strong> Device type, operating system, browser type, IP address, and mobile network information.</li>
+            <li><strong>Usage Data:</strong> Pages visited, time spent on pages, features used, and interactions with the Platform.</li>
+            <li><strong>Location Data:</strong> Approximate location based on your IP address for regulatory compliance.</li>
+            <li><strong>Login Information:</strong> Login timestamps, session duration, and authentication events.</li>
+            <li><strong>Transaction Logs:</strong> Records of all trades, deposits, withdrawals, and commission payments.</li>
+        </ul>
+
+        <h3>2.3 Information from Third Parties</h3>
+        <p>We may receive information about you from:</p>
+        <ul>
+            <li><strong>Referral Agents:</strong> When an agent refers you, we receive confirmation of the referral relationship.</li>
+            <li><strong>Payment Processors:</strong> Confirmation of deposit and withdrawal transactions.</li>
+            <li><strong>Regulatory Bodies:</strong> Information required for compliance with gaming regulations.</li>
+        </ul>
+
+        <h2 id="how-used">3. How We Use Your Information</h2>
+        <p>We use your personal information for the following purposes:</p>
+        <ul>
+            <li><strong>Account Management:</strong> Create, maintain, and secure your account. Process your registration and verify your identity.</li>
+            <li><strong>Service Delivery:</strong> Process trades, deposits, withdrawals, and commission payments. Calculate and distribute referral commissions.</li>
+            <li><strong>Customer Support:</strong> Respond to your inquiries, resolve disputes, and provide technical assistance.</li>
+            <li><strong>Security & Fraud Prevention:</strong> Detect and prevent fraudulent activity, unauthorized access, and Terms violations. Monitor for suspicious transactions.</li>
+            <li><strong>Legal Compliance:</strong> Comply with applicable laws, regulations, and licensing requirements. Respond to lawful requests from regulatory authorities.</li>
+            <li><strong>Platform Improvement:</strong> Analyze usage patterns to improve our services, develop new features, and optimize user experience.</li>
+            <li><strong>Communications:</strong> Send important account notifications, security alerts, and service updates. With your consent, send promotional communications.</li>
+            <li><strong>Referral System:</strong> Track referral relationships, calculate commissions, and display agent information during registration.</li>
+        </ul>
+
+        <h2 id="sharing">4. How We Share Your Information</h2>
+        <p>We do not sell your personal information. We may share your information in the following circumstances:</p>
+        <ul>
+            <li><strong>With Your Agent:</strong> Your referring agent may see your username, join date, trading status, and deposit activity as part of the referral system.</li>
+            <li><strong>Service Providers:</strong> Trusted third parties who assist us in operating the Platform, including hosting providers, payment processors, and analytics services.</li>
+            <li><strong>Regulatory Authorities:</strong> Gaming Board and other regulatory bodies as required by law or our licensing obligations.</li>
+            <li><strong>Legal Requirements:</strong> When required by law, court order, or legal process. To protect our rights, property, or safety, and that of our users.</li>
+            <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of company assets, your information may be transferred as part of that transaction.</li>
+        </ul>
+        <p>All third parties receiving your information are contractually obligated to protect it and use it only for the purposes we specify.</p>
+
+        <h2 id="cookies">5. Cookies & Tracking Technologies</h2>
+        <p>We use cookies and similar tracking technologies to enhance your experience on the Platform:</p>
+        <ul>
+            <li><strong>Essential Cookies:</strong> Required for basic Platform functionality, including authentication and security.</li>
+            <li><strong>Preference Cookies:</strong> Remember your settings, such as language and theme preferences.</li>
+            <li><strong>Analytics Cookies:</strong> Help us understand how users interact with the Platform so we can improve it.</li>
+            <li><strong>Session Storage:</strong> Temporarily stores your login session for seamless navigation between pages.</li>
+        </ul>
+        <p>You can control cookies through your browser settings. Disabling essential cookies may affect the functionality of the Platform. By using the Platform, you consent to our use of cookies as described.</p>
+
+        <h2 id="data-retention">6. Data Retention</h2>
+        <p>We retain your personal information for as long as necessary to fulfill the purposes described in this Privacy Policy, unless a longer retention period is required by law:</p>
+        <ul>
+            <li><strong>Account Information:</strong> Retained for the life of your account plus 5 years after account closure for legal and regulatory purposes.</li>
+            <li><strong>Transaction Records:</strong> Retained for a minimum of 7 years as required by financial and gaming regulations.</li>
+            <li><strong>Communication Records:</strong> Retained for 3 years from the date of last communication.</li>
+            <li><strong>Usage Data:</strong> Retained for 2 years from the date of collection.</li>
+            <li><strong>Identity Verification Documents:</strong> Retained for 5 years after account closure.</li>
+        </ul>
+        <p>When data is no longer needed, we securely delete or anonymize it. You may request early deletion of your data where permitted by law.</p>
+
+        <h2 id="security">7. Data Security</h2>
+        <p>We implement and maintain appropriate technical and organizational security measures to protect your personal information against unauthorized access, disclosure, alteration, and destruction:</p>
+        <ul>
+            <li><strong>Encryption:</strong> Data transmitted between your device and our servers is encrypted using SSL/TLS protocols.</li>
+            <li><strong>Access Controls:</strong> Access to personal data is restricted to authorized personnel who need it to perform their duties.</li>
+            <li><strong>Authentication:</strong> Multi-factor authentication options and secure session management.</li>
+            <li><strong>Monitoring:</strong> Continuous monitoring for suspicious activity and security threats.</li>
+            <li><strong>Database Security:</strong> Our database is hosted on Google SQL Engine with enterprise-grade security features.</li>
+            <li><strong>Regular Audits:</strong> Periodic security assessments and updates to our systems.</li>
+        </ul>
+        <p>While we strive to protect your information, no method of electronic storage or transmission is 100% secure. We cannot guarantee absolute security. You are responsible for maintaining the confidentiality of your login credentials.</p>
+
+        <h2 id="user-rights">8. Your Rights & Choices</h2>
+        <p>Depending on your jurisdiction, you may have the following rights regarding your personal information:</p>
+        <ul>
+            <li><strong>Access:</strong> Request a copy of the personal data we hold about you.</li>
+            <li><strong>Rectification:</strong> Request correction of inaccurate or incomplete personal data.</li>
+            <li><strong>Erasure:</strong> Request deletion of your personal data, subject to legal retention requirements.</li>
+            <li><strong>Restriction:</strong> Request restriction of processing under certain circumstances.</li>
+            <li><strong>Portability:</strong> Request transfer of your data to another service provider where technically feasible.</li>
+            <li><strong>Objection:</strong> Object to processing of your personal data for specific purposes.</li>
+            <li><strong>Withdraw Consent:</strong> Withdraw previously given consent at any time.</li>
+        </ul>
+        <p>To exercise any of these rights, please contact us using the information in the Contact section below. We will respond to your request within 30 days. We may need to verify your identity before processing your request.</p>
+
+        <h2 id="children">9. Children's Privacy</h2>
+        <p>The Platform is strictly intended for users who are 18 years of age or older. We do not knowingly collect personal information from individuals under 18. If we become aware that a person under 18 has provided us with personal information, we will take immediate steps to:</p>
+        <ul>
+            <li>Terminate the account immediately.</li>
+            <li>Forfeit any winnings in accordance with our Terms of Service.</li>
+            <li>Delete all personal information from our systems.</li>
+            <li>Refund deposits where required by applicable law.</li>
+        </ul>
+        <p>If you believe a minor has registered on our Platform, please contact us immediately.</p>
+
+        <h2 id="international">10. International Data Transfers</h2>
+        <p>Your information may be transferred to and processed in countries other than your country of residence. These countries may have data protection laws different from those in your jurisdiction.</p>
+        <p>When we transfer data internationally, we ensure appropriate safeguards are in place, including:</p>
+        <ul>
+            <li>Transferring data only to countries with adequate data protection standards.</li>
+            <li>Using contractual clauses that require equivalent data protection standards.</li>
+            <li>Ensuring our service providers comply with applicable privacy regulations.</li>
+        </ul>
+        <p>Our primary data storage is on Cluster SQL Servers, which maintain robust security certifications and compliance standards.</p>
+
+        <h2 id="third-party">11. Third-Party Links & Services</h2>
+        <p>The Platform may contain links to third-party websites, payment processors, or services not operated by us. This Privacy Policy does not apply to those third parties. We are not responsible for the privacy practices of external sites or services.</p>
+        <p>We encourage you to review the privacy policies of any third-party services you interact with through our Platform, including payment providers and social media platforms where you may share your referral link.</p>
+
+        <h2 id="changes">12. Changes to This Privacy Policy</h2>
+        <p>We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or for other operational reasons. When we make changes:</p>
+        <ul>
+            <li>We will update the "Last updated" date at the top of this page.</li>
+            <li>We will notify you through the Platform or via email for material changes.</li>
+            <li>Your continued use of the Platform after changes take effect constitutes acceptance of the updated Privacy Policy.</li>
+        </ul>
+        <p>We recommend that you review this Privacy Policy periodically to stay informed about how we protect your information.</p>
+
+        <h2 id="contact">13. Contact Us</h2>
+        <p>If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
+        <ul>
+            <li><strong>Email:</strong> privacy@hdforge.co.tz</li>
+            <li><strong>Phone:</strong> +255 801 866 647</li>
+            <li><strong>Data Protection Officer:</strong> dpo@hdforge.co.tz</li>
+            <li><strong>Physical Address:</strong> Ladbrokers Limited, Headquaters</li>
+        </ul>
+        <p>You also have the right to lodge a complaint with your local data protection authority or the Gaming Board at <strong>https://www.gamingboard.com/</strong> if you believe your privacy rights have been violated.</p>
+
+    </div>
+
+    <div class="footer-wrapper">
+        <div class="footer-top-row">
+            <div class="footer-logo"><img src="../assets/HDC.png" alt="HD™ Logo" style="height: 36px;"></div>
+            <div class="footer-lang-btn">🇬🇧 English</div>
+        </div>
+        <div class="footer-partner-section">
+            <div class="partner-title">OFFICIAL PARTNER</div>
+            <div class="partner-logos">
+                <img src="../assets/1.png" alt="partner 1">
+                <img src="../assets/2.png" alt="partner 2">
+                <img src="../assets/3.png" alt="partner 3">
+                <img src="../assets/4.png" alt="partner 4">
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-links-grid">
+            <div class="footer-col"><h4>Help Center</h4><ul><li>FAQ</li><li>Contact Us</li><li>Responsible Gaming</li><li>Privacy Policy</li></ul></div>
+            <div class="footer-col"><h4>Sports</h4><ul><li>Football</li><li>Basketball</li><li>Tennis</li><li>Binance</li></ul></div>
+        </div>
+        <div class="footer-social-header">Stay up to date</div>
+        <div class="footer-social-row">
+            <i class="fab fa-facebook-f"></i><i class="fab fa-x"></i><i class="fab fa-instagram"></i>
+        </div>
+        <div class="footer-legal">Your bets and payouts are processed by Ladbrokers Limited, which is licensed and regulated by the Gaming Board.<br><br>Licences No. SBI000400021 and OCL0006000294<br><br>You have to be 18 years and above to bet.<br>Betting is addictive and can be psychologically harmful.</div>
+        <div class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i> Back to top</div>
+    </div>
+
+    <nav class="bottom-navigation">
+        <a href="teamhelp.html" class="nav-item" data-title="Home"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">gavel</span></div><span class="nav-label">Referal</span></a>
+        <a href="referalhelp.html" class="nav-item" data-title="Trade"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">ballot</span></div><span class="nav-label">Commission</span></a>
+        <a href="markethelp.html" class="nav-item" data-title="Market"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">policy</span></div><span class="nav-label">Market</span></a>
+        <a href="privacy.html" class="nav-item active" data-title="Records"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">person_shield</span></div><span class="nav-label">Privacy</span></a>
+        <a href="terms.html" class="nav-item" data-title="Menu"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">balance</span></div><span class="nav-label">Terms</span></a>
+    </nav>
+
+</div>
+
+</body>
+</html>

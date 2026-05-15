@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>HD™ - Beginner Trading Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-primary: #0a0c10;
+            --bg-card: #11141a;
+            --bg-surface: #1a1e26;
+            --text-primary: #ffffff;
+            --text-secondary: #c9d1d9;
+            --text-muted: #6b7280;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-gold: #dcb95e;
+            --border-color: #2a303a;
+            --nav-bg: #1e2128;
+        }
+
+        body {
+            background: #e0e0e0;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 414px;
+            background: var(--bg-primary);
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #1a1d24;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .welcome-pill {
+            background-color: #234936;
+            display: flex;
+            align-items: center;
+            padding: 4px 12px 4px 4px;
+            border-radius: 40px;
+            gap: 8px;
+        }
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #ffd166;
+            object-fit: cover;
+        }
+        .welcome-text {
+            font-size: 12px;
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+        }
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            text-decoration: none;
+        }
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+        }
+
+        .user-panel {
+            background: var(--bg-card);
+            border-bottom: 1px solid #1f242c;
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .user-name {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .user-id {
+            font-size: 10px;
+            color: #4a4b52;
+        }
+        .balance-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .balance-amount {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent-green);
+        }
+        .balance-label {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .market-ticker {
+            width: 100%;
+            background: #0e1117;
+            border-bottom: 1px solid #1f242c;
+            height: 36px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .ticker-header {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--accent-red);
+            color: white;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 10;
+            min-width: 50px;
+            text-transform: uppercase;
+        }
+        .ticker-content {
+            position: absolute;
+            left: 50px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .ticker-track {
+            display: flex;
+            animation: tickerSlide 60s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes tickerSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 20px;
+            border-right: 1px solid #1f242c;
+            height: 36px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .ticker-symbol { font-weight: 600; color: #fff; min-width: 45px; }
+        .ticker-price { font-weight: 400; min-width: 55px; color: var(--text-muted); }
+        .ticker-change { font-weight: 500; min-width: 65px; }
+        .ticker-change.positive { color: var(--accent-green); }
+        .ticker-change.negative { color: var(--accent-red); }
+
+        .main-content-wrapper {
+            background: #f2f2f2;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.5;
+            padding: 15px;
+        }
+
+        h1 { font-size: 18px; margin-bottom: 15px; color: #111; }
+        h2 { font-size: 15px; margin: 20px 0 10px; color: #111; }
+        h3 { font-size: 13px; margin: 15px 0 8px; color: #222; }
+
+        .toc-list {
+            list-style: none;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .toc-list li { margin-bottom: 8px; }
+        .toc-list a { color: #333; text-decoration: underline; }
+
+        p { margin-bottom: 12px; }
+
+        .info-box {
+            background-color: white;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .info-box h3 { font-size: 13px; margin-bottom: 10px; color: #111; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin: 12px 0;
+            background: white;
+        }
+        table th {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 10px;
+            border: 1px solid #333;
+        }
+        table td {
+            padding: 6px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        table tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        ul { padding-left: 20px; margin-bottom: 15px; }
+        ul li { margin-bottom: 5px; }
+        ol { padding-left: 20px; margin-bottom: 15px; }
+        ol li { margin-bottom: 8px; }
+
+        /* ========== UI EXAMPLES ========== */
+        .ui-example {
+            background: #0a0c10;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #2a303a;
+        }
+        .ui-example-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b7280;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .signal-banner-example {
+            background: linear-gradient(145deg, #1a1e26, #11141a);
+            border-radius: 12px;
+            border: 1px solid #2a303a;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .signal-header-example {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .signal-label-example {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff;
+        }
+        .signal-timer-example {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #dcb95e;
+            background: #1a1e26;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .signal-target-example {
+            font-size: 16px;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 2px;
+        }
+        .signal-note-example {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .package-card-example {
+            background: #11141a;
+            border-radius: 12px;
+            border: 2px solid #dcb95e;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .card-header-example {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .card-title-example {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .card-code-example {
+            font-size: 9px;
+            color: #6b7280;
+            background: #1a1e26;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        .price-row-example {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .price-change-example {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .price-change-example.up { color: #10b981; }
+        .price-change-example.down { color: #ef4444; }
+        .price-tick-example { font-size: 10px; color: #6b7280; }
+
+        .metrics-grid-example {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .metric-item-example {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .metric-label-example {
+            font-size: 8px;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+        .metric-value-example {
+            font-size: 11px;
+            font-weight: 500;
+            color: #c9d1d9;
+        }
+
+        .timer-display-example {
+            background: #1a1e26;
+            border-radius: 6px;
+            padding: 6px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: #dcb95e;
+            margin-bottom: 10px;
+        }
+
+        .action-buttons-example {
+            display: flex;
+            gap: 6px;
+        }
+        .btn-outline-example {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #2a303a;
+            color: #6b7280;
+            padding: 6px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+        .btn-primary-example {
+            flex: 1;
+            background: #dcb95e;
+            border: none;
+            color: #0a0c10;
+            padding: 6px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .modal-example {
+            background: #11141a;
+            border-radius: 12px;
+            border: 2px solid #dcb95e;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .modal-header-example {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .yield-options-example {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .yield-option-example {
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            border-radius: 8px;
+            padding: 8px 5px;
+            text-align: center;
+            font-size: 11px;
+            color: #fff;
+        }
+        .yield-option-example.selected {
+            background: rgba(220, 185, 94, 0.15);
+            border-color: #dcb95e;
+        }
+        .yield-value-example { font-size: 13px; font-weight: 600; }
+        .yield-alloc-example { font-size: 9px; color: #6b7280; }
+
+        .amount-input-example {
+            width: 100%;
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .quick-btns-example {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .quick-btn-example {
+            flex: 1;
+            padding: 7px;
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .preview-example {
+            background: #1a1e26;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 11px;
+            color: #c9d1d9;
+        }
+        .preview-row-example {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+        }
+        .preview-row-example.total {
+            border-top: 1px solid #2a303a;
+            margin-top: 4px;
+            padding-top: 6px;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .btn-confirm-example {
+            width: 100%;
+            background: #dcb95e;
+            border: none;
+            color: #0a0c10;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .activity-panel-example {
+            background: #11141a;
+            border-radius: 12px;
+            border: 1px solid #1f242c;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .panel-header-example {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #fff;
+            font-weight: 500;
+            font-size: 13px;
+        }
+        .clear-btn-example {
+            background: #1a1e26;
+            border: 1px solid #2a303a;
+            color: #6b7280;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+        }
+        .feed-item-example {
+            display: flex;
+            gap: 10px;
+            padding: 6px 0;
+            border-bottom: 1px solid #1f242c;
+            font-size: 11px;
+            color: #c9d1d9;
+        }
+        .feed-time-example { color: #6b7280; min-width: 40px; }
+
+        .nav-preview {
+            background: #1a202c;
+            border-radius: 8px;
+            padding: 8px 6px;
+            display: flex;
+            justify-content: space-around;
+            margin: 12px 0;
+        }
+        .nav-preview-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            color: #a0aec0;
+            font-size: 8px;
+        }
+        .nav-preview-item.active { color: #4caf50; }
+
+        .footer-wrapper {
+            background: #f2f2f2;
+            color: #1a202c;
+            padding: 24px 20px 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .footer-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .footer-logo img { height: 32px; width: auto; display: block; }
+        .footer-lang-btn {
+            border: 1px solid #e2e8f0;
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            background: transparent;
+        }
+        .footer-partner-section { margin-bottom: 20px; }
+        .partner-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .partner-logos { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .partner-logos img { height: 24px; width: auto; opacity: 0.8; filter: grayscale(30%); }
+        .footer-divider { border: none; border-top: 1px solid #e2e8f0; margin: 20px 0; }
+        .footer-links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .footer-col h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+        .footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-col li { padding: 6px 0; color: #718096; font-size: 13px; }
+        .footer-social-header { color: #718096; font-size: 12px; margin-bottom: 12px; font-weight: 600; }
+        .footer-social-row { display: flex; gap: 15px; padding-bottom: 16px; margin-bottom: 16px; }
+        .footer-social-row i {
+            font-size: 20px;
+            color: #718096;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+        }
+        .footer-legal { color: #718096; font-size: 12px; line-height: 1.6; margin-bottom: 16px; }
+        .footer-back-top {
+            width: fit-content;
+            margin: 0 auto;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .bottom-navigation {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 10px 0;
+            border-top: 1px solid #363a45;
+            height: 60px;
+            z-index: 1000;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            color: #848a97;
+            text-decoration: none;
+            flex: 1;
+            max-width: 70px;
+            transition: color 0.2s;
+        }
+        .nav-label { font-size: 10px; letter-spacing: 0.3px; font-family: 'Montserrat', sans-serif; }
+        .nav-icon-container { display: flex; align-items: center; justify-content: center; border-radius: 16px; padding: 2px 0; }
+        .nav-icon { font-size: 22px; color: currentColor; }
+        .nav-item.active { color: #4caf50; }
+        .nav-item.active .nav-icon { color: #4caf50; }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+
+    <header class="top-bar">
+        <div class="welcome-pill">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dog&backgroundColor=b6e3f4" alt="Avatar" class="avatar">
+            <span class="welcome-text">Welcome to HD-Forge 👋</span>
+        </div>
+        <div class="header-icons">
+            <a href="index.html" class="icon-btn"><span class="material-icons">home</span></a>
+            <a href="home.html" class="icon-btn"><span class="material-icons">storefront</span></a>
+        </div>
+    </header>
+
+    <div class="user-panel">
+        <div class="user-info">
+            <div class="user-name">NaN</div>
+            <div class="user-id">UID: - -</div>
+        </div>
+        <div class="balance-card">
+            <div class="balance-amount">TZS 0.00</div>
+            <div class="balance-label">Balance</div>
+        </div>
+    </div>
+
+    <div class="market-ticker">
+        <div class="ticker-header">LIVE</div>
+        <div class="ticker-content">
+            <div class="ticker-track">
+                <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">0.5%</span><span class="ticker-change positive">+2.34%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">0.3%</span><span class="ticker-change negative">-1.20%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">1.2%</span><span class="ticker-change positive">+0.89%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">0.5%</span><span class="ticker-change positive">+2.34%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">0.3%</span><span class="ticker-change negative">-1.20%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">1.2%</span><span class="ticker-change positive">+0.89%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+
+        <h1>Beginner Trading Guide</h1>
+
+        <ol class="toc-list">
+            <li><a href="#what-is-hd">1. What is HD Trading?</a></li>
+            <li><a href="#market-page">2. What You'll See on the Market Page</a></li>
+            <li><a href="#package-card">3. Understanding the Package Card</a></li>
+            <li><a href="#how-to-trade">4. How to Place a Trade (Step by Step)</a></li>
+            <li><a href="#trade-modal">5. The Trade Modal Explained</a></li>
+            <li><a href="#settlement">6. Understanding Settlement Timing</a></li>
+            <li><a href="#activity">7. Checking Your Activity</a></li>
+            <li><a href="#navigation">8. Bottom Navigation Overview</a></li>
+            <li><a href="#tips">9. Beginner Tips</a></li>
+        </ol>
+
+        <h2 id="what-is-hd">What is HD Trading?</h2>
+        <p>HD Trading lets you invest in <strong>trading packages</strong>. Each package contains multiple yield options. You pick a package, choose a yield, invest, and wait for the countdown to finish. Your profit is added automatically when the timer hits zero.</p>
+
+        <div class="info-box">
+            <h3>Key Terms</h3>
+            <ul>
+                <li><strong>Package:</strong> A trading opportunity with yield options (e.g., Gold Rush Package).</li>
+                <li><strong>Yield:</strong> The profit percentage you earn (e.g., 3.5% means TZS 3,500 profit on TZS 100,000).</li>
+                <li><strong>Countdown Timer:</strong> Time left until the package settles and profits are paid.</li>
+                <li><strong>Settlement:</strong> When your profit is automatically added to your balance.</li>
+            </ul>
+        </div>
+
+        <h2 id="market-page">What You'll See on the Market Page</h2>
+        <p>When you tap <strong>Market</strong> in the bottom navigation, here's exactly what appears on your screen:</p>
+
+        <div class="ui-example">
+            <div class="ui-example-label">⬆️ Signal Banner — appears at the top of Market page</div>
+            <div class="signal-banner-example">
+                <div class="signal-header-example">
+                    <div class="signal-label-example">
+                        <span class="material-symbols-outlined" style="font-size:16px;color:#dcb95e;">trending_up</span>
+                        <span>Admin Signal</span>
+                    </div>
+                    <div class="signal-timer-example">18:42:15</div>
+                </div>
+                <div class="signal-target-example">BUY: Gold Package</div>
+                <div class="signal-note-example">Strong bullish signal detected — recommended entry</div>
+            </div>
+        </div>
+
+        <p>The <strong>Signal Banner</strong> shows the current admin recommendation. The timer shows how long the signal is active. "BUY: Gold Package" means the admin suggests trading on the Gold Package right now.</p>
+
+        <h2 id="package-card">Understanding the Package Card</h2>
+        <p>Below the signal banner, you'll find a grid of <strong>package cards</strong>. Here's a real example — this is exactly what you'll see:</p>
+
+        <div class="ui-example">
+            <div class="ui-example-label">⬆️ Package Card — exactly as seen on Market page</div>
+            <div class="package-card-example">
+                <div class="card-header-example">
+                    <div class="card-title-example">Gold Rush Package</div>
+                    <div class="card-code-example">GR-001</div>
+                </div>
+                <div class="price-row-example">
+                    <div class="price-change-example up">▲ 2.34%</div>
+                    <div class="price-tick-example">0.5% tick</div>
+                </div>
+                <div class="metrics-grid-example">
+                    <div class="metric-item-example">
+                        <div class="metric-label-example">Range</div>
+                        <div class="metric-value-example">1.2 — 5.8%</div>
+                    </div>
+                    <div class="metric-item-example">
+                        <div class="metric-label-example">Avg</div>
+                        <div class="metric-value-example">3.5%</div>
+                    </div>
+                    <div class="metric-item-example">
+                        <div class="metric-label-example">Allocations</div>
+                        <div class="metric-value-example">12 slots</div>
+                    </div>
+                    <div class="metric-item-example">
+                        <div class="metric-label-example">Trend</div>
+                        <div class="metric-value-example" style="color:#10b981;">Bullish ▲</div>
+                    </div>
+                </div>
+                <div class="timer-display-example">⏳ 12:34:56 remaining</div>
+                <div class="action-buttons-example">
+                    <div class="btn-outline-example">
+                        <span class="material-symbols-outlined" style="font-size:12px;">visibility</span> View
+                    </div>
+                    <div class="btn-primary-example">
+                        <span class="material-symbols-outlined" style="font-size:12px;">swap_horiz</span> Trade
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr><th>Element</th><th>What It Means</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Gold Rush Package / GR-001</strong></td><td>Package name and unique code</td></tr>
+                <tr><td><strong>▲ 2.34%</strong></td><td>Price is up 2.34% — green arrow means rising</td></tr>
+                <tr><td><strong>Range: 1.2 — 5.8%</strong></td><td>Lowest yield is 1.2%, highest is 5.8%</td></tr>
+                <tr><td><strong>Avg: 3.5%</strong></td><td>Average yield across all 12 allocations</td></tr>
+                <tr><td><strong>Trend: Bullish</strong></td><td>Market is going up (green = good time to buy)</td></tr>
+                <tr><td><strong>⏳ 12:34:56</strong></td><td>Time until settlement — 12 hours, 34 minutes, 56 seconds</td></tr>
+                <tr><td><strong>View button</strong></td><td>See all 12 yield options without trading</td></tr>
+                <tr><td><strong>Trade button (gold)</strong></td><td>Open the trade placement screen to invest</td></tr>
+            </tbody>
+        </table>
+
+        <h2 id="how-to-trade">How to Place a Trade (Step by Step)</h2>
+
+        <ol>
+            <li><strong>Tap the gold "Trade" button</strong> on any package card. A modal will slide up from the bottom.</li>
+            <li><strong>Select a yield percentage</strong> by tapping one of the options. The selected one highlights with a gold border.</li>
+            <li><strong>Enter your investment amount</strong> in TZS, or tap one of the quick buttons (10,000 / 50,000 / Max).</li>
+            <li><strong>Review the preview card</strong> — it shows exactly how much profit you'll make and your total return.</li>
+            <li><strong>Tap "Confirm Trade"</strong> — the amount is deducted from your balance and your trade is placed.</li>
+        </ol>
+
+        <div class="info-box">
+            <h3>⚠️ Important</h3>
+            <p>Trades are <strong>not instant</strong>. Your profit is paid when the countdown timer on the package card reaches <strong>00:00:00</strong>. The timer shows exactly how long until settlement.</p>
+        </div>
+
+        <h2 id="trade-modal">The Trade Modal Explained</h2>
+        <p>After tapping the gold Trade button, this is the modal you'll see. Every section is labeled:</p>
+
+        <div class="ui-example">
+            <div class="ui-example-label">⬆️ Trade Modal — appears after tapping "Trade"</div>
+            <div class="modal-example">
+                <div class="modal-header-example">
+                    <span>Trade: Gold Rush Package</span>
+                    <span class="material-symbols-outlined" style="color:#6b7280;font-size:18px;">close</span>
+                </div>
+                <p style="font-size:10px;color:#6b7280;margin-bottom:6px;">Select Yield</p>
+                <div class="yield-options-example">
+                    <div class="yield-option-example">
+                        <div class="yield-value-example">1.20%</div>
+                        <div class="yield-alloc-example">8.3% alloc</div>
+                    </div>
+                    <div class="yield-option-example selected">
+                        <div class="yield-value-example">3.50%</div>
+                        <div class="yield-alloc-example">8.3% alloc</div>
+                    </div>
+                    <div class="yield-option-example">
+                        <div class="yield-value-example">5.80%</div>
+                        <div class="yield-alloc-example">8.3% alloc</div>
+                    </div>
+                </div>
+                <p style="font-size:10px;color:#6b7280;margin-bottom:4px;">Investment Amount</p>
+                <div class="amount-input-example" style="text-align:left;">50,000</div>
+                <div class="quick-btns-example">
+                    <div class="quick-btn-example">10,000</div>
+                    <div class="quick-btn-example" style="border-color:#dcb95e;">50,000</div>
+                    <div class="quick-btn-example">Max</div>
+                </div>
+                <div class="preview-example">
+                    <div class="preview-row-example"><span>Principal</span><strong>TZS 50,000</strong></div>
+                    <div class="preview-row-example"><span>Yield</span><strong>3.50%</strong></div>
+                    <div class="preview-row-example"><span>Profit</span><strong style="color:#10b981;">TZS 1,750</strong></div>
+                    <div class="preview-row-example total"><span>Total Return</span><strong style="color:#10b981;">TZS 51,750</strong></div>
+                </div>
+                <div class="btn-confirm-example" style="text-align:center;">Confirm Trade</div>
+            </div>
+        </div>
+
+        <p>In this example, investing <strong>TZS 50,000</strong> at <strong>3.50% yield</strong> gives you <strong>TZS 1,750 profit</strong> and a total return of <strong>TZS 51,750</strong>.</p>
+
+        <h2 id="settlement">Understanding Settlement Timing</h2>
+        <p>Every package runs on a <strong>24-hour cycle</strong>. The countdown timer on each card tells you exactly when settlement happens:</p>
+
+        <ul>
+            <li><strong>Timer shows 12:00:00</strong> → Your trade settles in approximately 12 hours.</li>
+            <li><strong>Timer shows 00:30:00</strong> → Your trade settles in just 30 minutes.</li>
+            <li><strong>Timer shows 00:00:00</strong> → Package expired. No new trades can be placed on it.</li>
+        </ul>
+
+        <div class="info-box">
+            <h3>Settlement Example</h3>
+            <p>You invest <strong>TZS 50,000</strong> at <strong>3.5% yield</strong>. The timer on the package card shows <strong>4 hours remaining</strong>.</p>
+            <p>After 4 hours, when the timer reaches 00:00:00, your trade settles automatically:</p>
+            <p><strong>TZS 50,000 (your money back) + TZS 1,750 (profit) = TZS 51,750</strong></p>
+            <p>This amount is added directly to your balance. No action needed from you.</p>
+        </div>
+
+        <h2 id="activity">Checking Your Activity</h2>
+        <p>After placing a trade, you can track it in the <strong>Activity Panel</strong> at the bottom of the Market page:</p>
+
+        <div class="ui-example">
+            <div class="ui-example-label">⬆️ Activity Panel — bottom of Market page</div>
+            <div class="activity-panel-example">
+                <div class="panel-header-example">
+                    <span><span class="material-symbols-outlined" style="font-size:14px;">history</span> Recent Activity</span>
+                    <div class="clear-btn-example">Clear</div>
+                </div>
+                <div class="feed-item-example">
+                    <span class="feed-time-example">14:32</span>
+                    <span>Trade placed: TZS 50,000 on Gold Rush Package</span>
+                </div>
+                <div class="feed-item-example">
+                    <span class="feed-time-example">14:30</span>
+                    <span>Logged in as Johnson Doe</span>
+                </div>
+                <div class="feed-item-example">
+                    <span class="feed-time-example">14:28</span>
+                    <span>Welcome to NewAgeFarm Trading</span>
+                </div>
+            </div>
+        </div>
+
+        <p>For your complete trading history including all settled trades, tap the <strong>Records</strong> tab in the bottom navigation.</p>
+
+        <h2 id="navigation">Bottom Navigation Overview</h2>
+        <p>Here's what each icon in the bottom navigation bar does:</p>
+
+        <div class="nav-preview">
+            <div class="nav-preview-item active"><span class="material-symbols-outlined" style="font-size:16px;">home</span><span>Home</span></div>
+            <div class="nav-preview-item"><span class="material-symbols-outlined" style="font-size:16px;">receipt</span><span>Trade</span></div>
+            <div class="nav-preview-item"><span class="material-symbols-outlined" style="font-size:16px;">candlestick_chart</span><span>Market</span></div>
+            <div class="nav-preview-item"><span class="material-symbols-outlined" style="font-size:16px;">trending_up</span><span>Records</span></div>
+            <div class="nav-preview-item"><span class="material-symbols-outlined" style="font-size:16px;">grid_view</span><span>Menu</span></div>
+        </div>
+
+        <table>
+            <thead>
+                <tr><th>Tab</th><th>What It Does</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Home</strong></td><td>Dashboard with live signals, market ticker, and your balance</td></tr>
+                <tr><td><strong>Trade</strong></td><td>Your currently active trades and their status</td></tr>
+                <tr><td><strong>Market</strong></td><td>Browse all available packages and place new trades</td></tr>
+                <tr><td><strong>Records</strong></td><td>Complete history of all your settled trades and profits</td></tr>
+                <tr><td><strong>Menu</strong></td><td>Account settings, agent center, help guides, and more</td></tr>
+            </tbody>
+        </table>
+
+        <h2 id="tips">Beginner Tips</h2>
+        <ul>
+            <li><strong>Start small:</strong> Try TZS 10,000 for your first trade to understand how everything works.</li>
+            <li><strong>Watch the timer:</strong> Packages with less time remaining settle faster — you get your profit sooner.</li>
+            <li><strong>Check the trend:</strong> Bullish (green) means prices are rising. Bearish (red) means prices are falling.</li>
+            <li><strong>Use the quick buttons:</strong> Tap 10,000 or 50,000 for fast input instead of typing amounts manually.</li>
+            <li><strong>Always review the preview:</strong> The preview card shows your exact profit before you confirm.</li>
+            <li><strong>Check Market regularly:</strong> New packages are added throughout the day with fresh timers and yields.</li>
+            <li><strong>Never invest more than you can afford:</strong> Trading carries risk — only use money you're comfortable with.</li>
+        </ul>
+
+    </div>
+
+    <div class="footer-wrapper">
+        <div class="footer-top-row">
+            <div class="footer-logo"><img src="../assets/HDC.png" alt="HD™ Logo" style="height: 36px;"></div>
+            <div class="footer-lang-btn">🇬🇧 English</div>
+        </div>
+        <div class="footer-partner-section">
+            <div class="partner-title">OFFICIAL PARTNER</div>
+            <div class="partner-logos">
+                <img src="../assets/1.png" alt="partner 1">
+                <img src="../assets/2.png" alt="partner 2">
+                <img src="../assets/3.png" alt="partner 3">
+                <img src="../assets/4.png" alt="partner 4">
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-links-grid">
+            <div class="footer-col">
+                <h4>Help Center</h4>
+                <ul><li>FAQ</li><li>Contact Us</li><li>Responsible Gaming</li><li>Privacy Policy</li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>Sports</h4>
+                <ul><li>Football</li><li>Basketball</li><li>Tennis</li><li>eFootball</li></ul>
+            </div>
+        </div>
+        <div class="footer-social-header">Stay up to date</div>
+        <div class="footer-social-row">
+            <i class="fab fa-facebook-f"></i>
+            <i class="fab fa-x"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+        <div class="footer-legal">
+            Your bets and payouts are processed by Choplife Gaming Limited, which is licensed and regulated by the Gaming Board of Tanzania.<br><br>
+            Licences No. SBI000000039 and OCL000000024<br><br>
+            You have to be 18 years and above to bet.<br>
+            Betting is addictive and can be psychologically harmful.
+        </div>
+        <div class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+            <i class="fas fa-chevron-up"></i> Back to top
+        </div>
+    </div>
+
+    <nav class="bottom-navigation">
+        <a href="teamhelp.html" class="nav-item" data-title="Home"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">gavel</span></div><span class="nav-label">Referal</span></a>
+        <a href="referalhelp.html" class="nav-item" data-title="Trade"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">ballot</span></div><span class="nav-label">Commission</span></a>
+        <a href="markethelp.html" class="nav-item active" data-title="Market"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">policy</span></div><span class="nav-label">Market</span></a>
+        <a href="privacy.html" class="nav-item" data-title="Records"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">person_shield</span></div><span class="nav-label">Privacy</span></a>
+        <a href="terms.html" class="nav-item" data-title="Menu"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">balance</span></div><span class="nav-label">Terms</span></a>
+    </nav>
+
+</div>
+
+</body>
+</html>

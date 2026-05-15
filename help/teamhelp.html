@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>HD™ - Profits, Team & Referral Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-primary: #0a0c10;
+            --bg-card: #11141a;
+            --bg-surface: #1a1e26;
+            --text-primary: #ffffff;
+            --text-secondary: #c9d1d9;
+            --text-muted: #6b7280;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-gold: #dcb95e;
+            --border-color: #2a303a;
+            --nav-bg: #1e2128;
+        }
+
+        body {
+            background: #e0e0e0;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 414px;
+            background: var(--bg-primary);
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #1a1d24;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .welcome-pill {
+            background-color: #234936;
+            display: flex;
+            align-items: center;
+            padding: 4px 12px 4px 4px;
+            border-radius: 40px;
+            gap: 8px;
+        }
+        .avatar { width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #ffd166;
+            object-fit: cover; }
+        .welcome-text { font-size: 12px;
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', sans-serif;
+            color: white; }
+        .header-icons { display: flex;
+            gap: 16px; }
+        .icon-btn { background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            text-decoration: none; }
+        .material-icons { font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr; }
+
+        .user-panel {
+            background: var(--bg-card);
+            border-bottom: 1px solid #1f242c;
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .user-info { display: flex;
+            flex-direction: column;
+            gap: 2px; }
+        .user-name { font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400; }
+        .user-id { font-size: 10px;
+            color: #4a4b52; }
+        .balance-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .balance-amount { font-size: 12px;
+            font-weight: 500;
+            color: var(--accent-green); }
+        .balance-label { font-size: 10px;
+            color: var(--text-muted); }
+
+        .market-ticker {
+            width: 100%;
+            background: #0e1117;
+            border-bottom: 1px solid #1f242c;
+            height: 36px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .ticker-header { position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--accent-red);
+            color: white;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 10;
+            min-width: 50px;
+            text-transform: uppercase; }
+        .ticker-content { position: absolute;
+            left: 50px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            overflow: hidden; }
+        .ticker-track { display: flex;
+            animation: tickerSlide 60s linear infinite;
+            white-space: nowrap; }
+        @keyframes tickerSlide { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-item { display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 20px;
+            border-right: 1px solid #1f242c;
+            height: 36px;
+            font-size: 11px;
+            color: var(--text-secondary); }
+        .ticker-symbol { font-weight: 600;
+            color: #fff;
+            min-width: 45px; }
+        .ticker-price { font-weight: 400;
+            min-width: 55px;
+            color: var(--text-muted); }
+        .ticker-change { font-weight: 500;
+            min-width: 65px; }
+        .ticker-change.positive { color: var(--accent-green); }
+        .ticker-change.negative { color: var(--accent-red); }
+
+        .main-content-wrapper {
+            background: #f2f2f2;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.5;
+            padding: 15px;
+        }
+
+        h1 { font-size: 18px;
+            margin-bottom: 15px;
+            color: #111; }
+        h2 { font-size: 15px;
+            margin: 20px 0 10px;
+            color: #111; }
+        h3 { font-size: 13px;
+            margin: 15px 0 8px;
+            color: #222; }
+
+        .toc-list { list-style: none;
+            margin-bottom: 15px;
+            font-weight: bold; }
+        .toc-list li { margin-bottom: 8px; }
+        .toc-list a { color: #333;
+            text-decoration: underline; }
+
+        p { margin-bottom: 12px; }
+
+        .info-box {
+            background-color: white;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .info-box h3 { font-size: 13px;
+            margin-bottom: 10px;
+            color: #111; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin: 12px 0;
+            background: white;
+        }
+        table th {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 10px;
+            border: 1px solid #333;
+        }
+        table td { padding: 6px;
+            border: 1px solid #ddd;
+            text-align: left; }
+        table tr:nth-child(even) td { background-color: #f9f9f9; }
+
+        .scroll-table {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 12px -5px;
+            padding: 0 5px;
+        }
+
+        ul { padding-left: 20px;
+            margin-bottom: 15px; }
+        ul li { margin-bottom: 5px; }
+        ol { padding-left: 20px;
+            margin-bottom: 15px; }
+        ol li { margin-bottom: 8px; }
+
+        /* UI EXAMPLES */
+        .ui-example {
+            background: #0a0c10;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #2a303a;
+        }
+        .ui-example-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b7280;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .tree-example {
+            background: #0a0c10;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+            text-align: center;
+            border: 1px solid #2a303a;
+        }
+        .tree-level { display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 10px;
+            flex-wrap: wrap; }
+        .tree-node {
+            background: #11141a;
+            border: 1px solid #1f242c;
+            border-radius: 8px;
+            padding: 8px 10px;
+            text-align: center;
+            min-width: 60px;
+        }
+        .tree-node.you { border: 2px solid #dcb95e;
+            background: rgba(220, 185, 94, 0.1); }
+        .tree-node .node-name { font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1px; }
+        .tree-node .node-role { font-size: 8px;
+            color: #6b7280; }
+        .tree-connector { color: #4a4b52;
+            font-size: 12px;
+            margin: 2px 0; }
+
+        .reg-example {
+            background: #0a0c10;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #2a303a;
+        }
+        .reg-example .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #1f242c;
+        }
+        .reg-example .agent-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #dcb95e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: #0a0c10;
+        }
+        .reg-example .agent-details .agent-label { font-size: 8px;
+            color: #6b7280; }
+        .reg-example .agent-details .agent-name { font-size: 12px;
+            font-weight: 500;
+            color: #fff; }
+        .reg-example .referral-code-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 6px;
+        }
+        .reg-example .ref-code { font-family: monospace;
+            color: #dcb95e;
+            font-size: 12px;
+            letter-spacing: 2px; }
+        .reg-example .ref-badge { font-size: 7px;
+            color: #6b7280;
+            text-transform: uppercase; }
+
+        .nav-preview {
+            background: #1a202c;
+            border-radius: 8px;
+            padding: 8px 6px;
+            display: flex;
+            justify-content: space-around;
+            margin: 12px 0;
+        }
+        .nav-preview-item { display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            color: #a0aec0;
+            font-size: 8px; }
+        .nav-preview-item.active { color: #4caf50; }
+
+        .footer-wrapper {
+            background: #f2f2f2;
+            color: #1a202c;
+            padding: 24px 20px 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .footer-top-row { display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px; }
+        .footer-logo img { height: 32px;
+            width: auto;
+            display: block; }
+        .footer-lang-btn { border: 1px solid #e2e8f0;
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            background: transparent; }
+        .footer-partner-section { margin-bottom: 20px; }
+        .partner-title { font-size: 12px;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px; }
+        .partner-logos { display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap; }
+        .partner-logos img { height: 24px;
+            width: auto;
+            opacity: 0.8;
+            filter: grayscale(30%); }
+        .footer-divider { border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 20px 0; }
+        .footer-links-grid { display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 14px; }
+        .footer-col h4 { font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px; }
+        .footer-col ul { list-style: none;
+            padding: 0;
+            margin: 0; }
+        .footer-col li { padding: 6px 0;
+            color: #718096;
+            font-size: 13px; }
+        .footer-social-header { color: #718096;
+            font-size: 12px;
+            margin-bottom: 12px;
+            font-weight: 600; }
+        .footer-social-row { display: flex;
+            gap: 15px;
+            padding-bottom: 16px;
+            margin-bottom: 16px; }
+        .footer-social-row i { font-size: 20px;
+            color: #718096;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0; }
+        .footer-legal { color: #718096;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 16px; }
+        .footer-back-top { width: fit-content;
+            margin: 0 auto;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            color: #718096; }
+
+        .bottom-navigation {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 10px 0;
+            border-top: 1px solid #363a45;
+            height: 60px;
+            z-index: 1000;
+        }
+        .nav-item { display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            color: #848a97;
+            text-decoration: none;
+            flex: 1;
+            max-width: 70px;
+            transition: color 0.2s; }
+        .nav-label { font-size: 10px;
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', sans-serif; }
+        .nav-icon-container { display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            padding: 2px 0; }
+        .nav-icon { font-size: 22px;
+            color: currentColor; }
+        .nav-item.active { color: #4caf50; }
+        .nav-item.active .nav-icon { color: #4caf50; }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+
+    <header class="top-bar">
+        <div class="welcome-pill">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dog&backgroundColor=b6e3f4" alt="Avatar" class="avatar">
+            <span class="welcome-text">Welcome to HD-Forge 👋</span>
+        </div>
+        <div class="header-icons">
+            <a href="../index.html" class="icon-btn"><span class="material-icons">home</span></a>
+            <a href="home.html" class="icon-btn"><span class="material-icons">storefront</span></a>
+        </div>
+    </header>
+
+    <div class="user-panel">
+        <div class="user-info">
+            <div class="user-name">NaN</div>
+            <div class="user-id">UID: - -</div>
+        </div>
+        <div class="balance-card">
+            <div class="balance-amount">TZS 0.00</div>
+            <div class="balance-label">Balance</div>
+        </div>
+    </div>
+
+    <div class="market-ticker">
+        <div class="ticker-header">LIVE</div>
+        <div class="ticker-content">
+            <div class="ticker-track">
+                <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">0.5%</span><span class="ticker-change positive">+2.34%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">0.3%</span><span class="ticker-change negative">-1.20%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">1.2%</span><span class="ticker-change positive">+0.89%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">0.5%</span><span class="ticker-change positive">+2.34%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">0.3%</span><span class="ticker-change negative">-1.20%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">1.2%</span><span class="ticker-change positive">+0.89%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+
+        <h1>Profits, Team & Referral Guide</h1>
+
+        <ol class="toc-list">
+            <li><a href="#investment-profits">1. Investment Profit Table</a></li>
+            <li><a href="#referral-tree">2. How the Referral Tree Works</a></li>
+            <li><a href="#commission-rates">3. Commission Rates by Level</a></li>
+            <li><a href="#complete-table">4. Complete Agent Profit Table (TZS 1,000 – 1,500,000)</a></li>
+            <li><a href="#examples">5. Real Team Examples with Calculations</a></li>
+            <li><a href="#how-registration">6. How New Members Are Registered</a></li>
+            <li><a href="#summary">7. Summary</a></li>
+        </ol>
+
+        <h2 id="investment-profits">Investment Profit Table</h2>
+        <p>This table shows how much profit you earn from trading at different yield rates. Find your investment amount and see your return at each yield percentage.</p>
+
+        <div class="scroll-table">
+            <table>
+                <thead>
+                    <tr><th>Investment (TZS)</th><th>1% Profit</th><th>Total</th><th>2% Profit</th><th>Total</th><th>3.5% Profit</th><th>Total</th><th>5% Profit</th><th>Total</th><th>10% Profit</th><th>Total</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>2,000</td><td>20</td><td>2,020</td><td>40</td><td>2,040</td><td>70</td><td>2,070</td><td>100</td><td>2,100</td><td>200</td><td>2,200</td></tr>
+                    <tr><td>5,000</td><td>50</td><td>5,050</td><td>100</td><td>5,100</td><td>175</td><td>5,175</td><td>250</td><td>5,250</td><td>500</td><td>5,500</td></tr>
+                    <tr><td>10,000</td><td>100</td><td>10,100</td><td>200</td><td>10,200</td><td>350</td><td>10,350</td><td>500</td><td>10,500</td><td>1,000</td><td>11,000</td></tr>
+                    <tr><td>25,000</td><td>250</td><td>25,250</td><td>500</td><td>25,500</td><td>875</td><td>25,875</td><td>1,250</td><td>26,250</td><td>2,500</td><td>27,500</td></tr>
+                    <tr><td>50,000</td><td>500</td><td>50,500</td><td>1,000</td><td>51,000</td><td>1,750</td><td>51,750</td><td>2,500</td><td>52,500</td><td>5,000</td><td>55,000</td></tr>
+                    <tr><td>100,000</td><td>1,000</td><td>101,000</td><td>2,000</td><td>102,000</td><td>3,500</td><td>103,500</td><td>5,000</td><td>105,000</td><td>10,000</td><td>110,000</td></tr>
+                    <tr><td>250,000</td><td>2,500</td><td>252,500</td><td>5,000</td><td>255,000</td><td>8,750</td><td>258,750</td><td>12,500</td><td>262,500</td><td>25,000</td><td>275,000</td></tr>
+                    <tr><td>500,000</td><td>5,000</td><td>505,000</td><td>10,000</td><td>510,000</td><td>17,500</td><td>517,500</td><td>25,000</td><td>525,000</td><td>50,000</td><td>550,000</td></tr>
+                    <tr><td>1,000,000</td><td>10,000</td><td>1,010,000</td><td>20,000</td><td>1,020,000</td><td>35,000</td><td>1,035,000</td><td>50,000</td><td>1,050,000</td><td>100,000</td><td>1,100,000</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-box">
+            <h3>How to Read This Table</h3>
+            <p>Example: Invest <strong>TZS 50,000</strong> at <strong>3.5% yield</strong> → Your profit is <strong>TZS 1,750</strong> and you receive <strong>TZS 51,750</strong> total after settlement.</p>
+        </div>
+
+        <h2 id="referral-tree">How the Referral Tree Works</h2>
+        <p>When you become an agent, every person who joins through your referral link becomes part of your team. You earn a commission every time any member of your team makes a deposit. Here's a visual example of how your referral tree grows:</p>
+
+        <div class="ui-example">
+            <div class="ui-example-label">📌 Your Referral Tree — Visual Example</div>
+            <div class="tree-example">
+                <div class="tree-level">
+                    <div class="tree-node you"><div class="node-name">You (Agent)</div><div class="node-role">UID: 284756</div></div>
+                </div>
+                <div class="tree-connector">▼ ▼ ▼</div>
+                <div class="tree-level">
+                    <div class="tree-node"><div class="node-name">Alice</div><div class="node-role">Level B — 5%</div></div>
+                    <div class="tree-node"><div class="node-name">Bob</div><div class="node-role">Level B — 5%</div></div>
+                    <div class="tree-node"><div class="node-name">Carol</div><div class="node-role">Level B — 5%</div></div>
+                </div>
+                <div class="tree-connector">▼</div>
+                <div class="tree-level">
+                    <div class="tree-node"><div class="node-name">Dave</div><div class="node-role">Level C — 3% (via Alice)</div></div>
+                    <div class="tree-node"><div class="node-name">Eve</div><div class="node-role">Level C — 3% (via Bob)</div></div>
+                </div>
+                <div class="tree-connector">▼</div>
+                <div class="tree-level">
+                    <div class="tree-node"><div class="node-name">Frank</div><div class="node-role">Level D — 2% (via Dave)</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>Your Three Levels</h3>
+            <p><strong>Level B:</strong> Direct referrals — people who join through <strong>your</strong> link. You earn <strong>5%</strong> of every deposit they make.</p>
+            <p><strong>Level C:</strong> Indirect referrals — people who join through a <strong>Level B member's</strong> link. You earn <strong>3%</strong> of every deposit they make.</p>
+            <p><strong>Level D:</strong> Extended network — people who join through a <strong>Level C member's</strong> link. You earn <strong>2%</strong> of every deposit they make.</p>
+        </div>
+
+        <h2 id="commission-rates">Commission Rates by Level</h2>
+
+        <table>
+            <thead><tr><th>Level</th><th>Relationship</th><th>Rate</th><th>TZS 50,000 Deposit</th><th>TZS 100,000 Deposit</th><th>TZS 500,000 Deposit</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Level B</strong></td><td>Direct referral</td><td>5%</td><td>TZS 2,500</td><td>TZS 5,000</td><td>TZS 25,000</td></tr>
+                <tr><td><strong>Level C</strong></td><td>Referral of Level B</td><td>3%</td><td>TZS 1,500</td><td>TZS 3,000</td><td>TZS 15,000</td></tr>
+                <tr><td><strong>Level D</strong></td><td>Referral of Level C</td><td>2%</td><td>TZS 1,000</td><td>TZS 2,000</td><td>TZS 10,000</td></tr>
+            </tbody>
+        </table>
+
+        <h2 id="complete-table">Complete Agent Profit Table (TZS 1,000 – 1,500,000)</h2>
+        <p>This table shows exactly how much you earn as an agent when a team member at any level makes a deposit.</p>
+
+        <div class="scroll-table">
+            <table>
+                <thead><tr><th>Deposit (TZS)</th><th>Level B (5%)</th><th>Level C (3%)</th><th>Level D (2%)</th><th>Total Possible</th></tr></thead>
+                <tbody>
+                    <tr><td>1,000</td><td>50</td><td>30</td><td>20</td><td>100</td></tr>
+                    <tr><td>2,000</td><td>100</td><td>60</td><td>40</td><td>200</td></tr>
+                    <tr><td>5,000</td><td>250</td><td>150</td><td>100</td><td>500</td></tr>
+                    <tr><td>10,000</td><td>500</td><td>300</td><td>200</td><td>1,000</td></tr>
+                    <tr><td>20,000</td><td>1,000</td><td>600</td><td>400</td><td>2,000</td></tr>
+                    <tr><td>50,000</td><td>2,500</td><td>1,500</td><td>1,000</td><td>5,000</td></tr>
+                    <tr><td>100,000</td><td>5,000</td><td>3,000</td><td>2,000</td><td>10,000</td></tr>
+                    <tr><td>200,000</td><td>10,000</td><td>6,000</td><td>4,000</td><td>20,000</td></tr>
+                    <tr><td>500,000</td><td>25,000</td><td>15,000</td><td>10,000</td><td>50,000</td></tr>
+                    <tr><td>1,000,000</td><td>50,000</td><td>30,000</td><td>20,000</td><td>100,000</td></tr>
+                    <tr><td>1,500,000</td><td>75,000</td><td>45,000</td><td>30,000</td><td>150,000</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="examples">Real Team Examples with Calculations</h2>
+
+        <div class="info-box">
+            <h3>Example 1: Small Team (6 members)</h3>
+            <p>You have: 3 Level B, 2 Level C, 1 Level D. Each deposits TZS 50,000.</p>
+            <p><strong>Level B:</strong> 3 × TZS 2,500 = <strong>TZS 7,500</strong></p>
+            <p><strong>Level C:</strong> 2 × TZS 1,500 = <strong>TZS 3,000</strong></p>
+            <p><strong>Level D:</strong> 1 × TZS 1,000 = <strong>TZS 1,000</strong></p>
+            <p><strong>Your total earnings from this round:</strong> TZS 11,500</p>
+        </div>
+
+        <div class="info-box">
+            <h3>Example 2: Growing Team (23 members)</h3>
+            <p>You have: 10 Level B, 8 Level C, 5 Level D. Each deposits TZS 100,000.</p>
+            <p><strong>Level B:</strong> 10 × TZS 5,000 = <strong>TZS 50,000</strong></p>
+            <p><strong>Level C:</strong> 8 × TZS 3,000 = <strong>TZS 24,000</strong></p>
+            <p><strong>Level D:</strong> 5 × TZS 2,000 = <strong>TZS 10,000</strong></p>
+            <p><strong>Your total earnings from this round:</strong> TZS 84,000</p>
+        </div>
+
+        <div class="info-box">
+            <h3>Example 3: Large Team (60 members)</h3>
+            <p>You have: 25 Level B, 20 Level C, 15 Level D. Average deposit TZS 200,000.</p>
+            <p><strong>Level B:</strong> 25 × TZS 10,000 = <strong>TZS 250,000</strong></p>
+            <p><strong>Level C:</strong> 20 × TZS 6,000 = <strong>TZS 120,000</strong></p>
+            <p><strong>Level D:</strong> 15 × TZS 4,000 = <strong>TZS 60,000</strong></p>
+            <p><strong>Your total earnings from this round:</strong> TZS 430,000</p>
+        </div>
+
+        <h2 id="how-registration">How New Members Are Registered</h2>
+        <p>Every new member joins through an agent's referral link. Here's what the registration page looks like to a new member:</p>
+
+        <div class="ui-example">
+            <div class="ui-example-label">📱 Registration Page — as seen by new members</div>
+            <div class="reg-example">
+                <div class="agent-info">
+                    <div class="agent-avatar">J</div>
+                    <div class="agent-details">
+                        <div class="agent-label">Your Agent</div>
+                        <div class="agent-name">Johnson Doe</div>
+                        <div style="font-size:9px;color:#6b7280;">ID: 284756</div>
+                    </div>
+                </div>
+                <div class="referral-code-display">
+                    <span class="ref-code">284756</span>
+                    <span class="ref-badge">Locked</span>
+                </div>
+                <p style="font-size:10px;color:#6b7280;margin-top:6px;">The referral code is <strong>locked</strong> — the new member cannot change it. This ensures the agent gets credit.</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>Registration Steps</h3>
+            <ol>
+                <li><strong>Agent shares referral link</strong> (e.g.,284756) via WhatsApp, SMS, or social media.</li>
+                <li><strong>Friend opens the link</strong> — agent info appears at the top. Referral code is locked.</li>
+                <li><strong>Friend completes form:</strong> Username, phone, password, country, region, birth year.</li>
+                <li><strong>CAPTCHA verification</strong> ensures a real person is registering.</li>
+                <li><strong>Profile picture</strong> — choose from preloaded avatars or upload a photo.</li>
+                <li><strong>Welcome bonus</strong> of TZS 1 – 50,000 is automatically added.</li>
+                <li><strong>Auto-login</strong> — redirected straight to the dashboard.</li>
+            </ol>
+        </div>
+
+        <h2 id="summary">Summary</h2>
+        <p>Referral profits are earned on every deposit made by your team members across all three levels — Level B (5%), Level C (3%), and Level D (2%). Commissions are processed automatically when deposits are approved by the admin.</p>
+
+        <ul>
+            <li>Share your referral link to grow your team continuously.</li>
+            <li>Track all commissions in the <strong>Agent Bonus</strong> section of your Team page.</li>
+            <li>The larger your team and the more they deposit, the more you earn passively.</li>
+            <li>Every member in your tree is permanently linked to you through the referral chain.</li>
+        </ul>
+
+    </div>
+
+    <div class="footer-wrapper">
+        <div class="footer-top-row">
+            <div class="footer-logo"><img src="../assets/HDC.png" alt="HD™ Logo" style="height: 36px;"></div>
+            <div class="footer-lang-btn">🇬🇧 English</div>
+        </div>
+        <div class="footer-partner-section">
+            <div class="partner-title">OFFICIAL PARTNER</div>
+            <div class="partner-logos">
+                <img src="../assets/1.png" alt="partner 1">
+                <img src="../assets/2.png" alt="partner 2">
+                <img src="../assets/3.png" alt="partner 3">
+                <img src="../assets/4.png" alt="partner 4">
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-links-grid">
+            <div class="footer-col"><h4>Help Center</h4><ul><li>FAQ</li><li>Contact Us</li><li>Responsible Gaming</li><li>Privacy Policy</li></ul></div>
+            <div class="footer-col"><h4>Sports</h4><ul><li>Football</li><li>Basketball</li><li>Tennis</li><li>eFootball</li></ul></div>
+        </div>
+        <div class="footer-social-header">Stay up to date</div>
+        <div class="footer-social-row">
+            <i class="fab fa-facebook-f"></i><i class="fab fa-x"></i><i class="fab fa-instagram"></i>
+        </div>
+        <div class="footer-legal">Your bets and payouts are processed by Choplife Gaming Limited, which is licensed and regulated by the Gaming Board of Tanzania.<br><br>Licences No. SBI000000039 and OCL000000024<br><br>You have to be 18 years and above to bet.<br>Betting is addictive and can be psychologically harmful.</div>
+        <div class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i> Back to top</div>
+    </div>
+
+      <nav class="bottom-navigation">
+        <a href="teamhelp.html" class="nav-item active" data-title="Home"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">gavel</span></div><span class="nav-label">Referal</span></a>
+        <a href="referalhelp.html" class="nav-item" data-title="Trade"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">ballot</span></div><span class="nav-label">Commission</span></a>
+        <a href="markethelp.html" class="nav-item" data-title="Market"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">policy</span></div><span class="nav-label">Market</span></a>
+        <a href="privacy.html" class="nav-item" data-title="Records"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">person_shield</span></div><span class="nav-label">Privacy</span></a>
+        <a href="terms.html" class="nav-item" data-title="Menu"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">balance</span></div><span class="nav-label">Terms</span></a>
+    </nav>
+
+</div>
+
+</body>
+</html>

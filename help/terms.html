@@ -1,0 +1,596 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>HD™ - Terms of Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-primary: #0a0c10;
+            --bg-card: #11141a;
+            --bg-surface: #1a1e26;
+            --text-primary: #ffffff;
+            --text-secondary: #c9d1d9;
+            --text-muted: #6b7280;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-gold: #dcb95e;
+            --border-color: #2a303a;
+            --nav-bg: #1e2128;
+        }
+
+        body {
+            background: #e0e0e0;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 414px;
+            background: var(--bg-primary);
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #1a1d24;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .welcome-pill {
+            background-color: #234936;
+            display: flex;
+            align-items: center;
+            padding: 4px 12px 4px 4px;
+            border-radius: 40px;
+            gap: 8px;
+        }
+        .avatar { width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #ffd166;
+            object-fit: cover; }
+        .welcome-text { font-size: 12px;
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', sans-serif;
+            color: white; }
+        .header-icons { display: flex;
+            gap: 16px; }
+        .icon-btn { background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            text-decoration: none; }
+        .material-icons { font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr; }
+
+        .user-panel {
+            background: var(--bg-card);
+            border-bottom: 1px solid #1f242c;
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .user-info { display: flex;
+            flex-direction: column;
+            gap: 2px; }
+        .user-name { font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400; }
+        .user-id { font-size: 10px;
+            color: #4a4b52; }
+        .balance-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .balance-amount { font-size: 12px;
+            font-weight: 500;
+            color: var(--accent-green); }
+        .balance-label { font-size: 10px;
+            color: var(--text-muted); }
+
+        .market-ticker {
+            width: 100%;
+            background: #0e1117;
+            border-bottom: 1px solid #1f242c;
+            height: 36px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .ticker-header { position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--accent-red);
+            color: white;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 10;
+            min-width: 50px;
+            text-transform: uppercase; }
+        .ticker-content { position: absolute;
+            left: 50px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            overflow: hidden; }
+        .ticker-track { display: flex;
+            animation: tickerSlide 60s linear infinite;
+            white-space: nowrap; }
+        @keyframes tickerSlide { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-item { display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 20px;
+            border-right: 1px solid #1f242c;
+            height: 36px;
+            font-size: 11px;
+            color: var(--text-secondary); }
+        .ticker-symbol { font-weight: 600;
+            color: #fff;
+            min-width: 45px; }
+        .ticker-price { font-weight: 400;
+            min-width: 55px;
+            color: var(--text-muted); }
+        .ticker-change { font-weight: 500;
+            min-width: 65px; }
+        .ticker-change.positive { color: var(--accent-green); }
+        .ticker-change.negative { color: var(--accent-red); }
+
+        .main-content-wrapper {
+            background: #f2f2f2;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 15px;
+        }
+
+        h1 { font-size: 18px;
+            margin-bottom: 8px;
+            color: #111; }
+        .last-updated { font-size: 10px;
+            color: #888;
+            margin-bottom: 15px; }
+        h2 { font-size: 15px;
+            margin: 20px 0 10px;
+            color: #111; }
+        h3 { font-size: 13px;
+            margin: 15px 0 8px;
+            color: #222; }
+
+        .toc-list { list-style: none;
+            margin-bottom: 15px;
+            font-weight: bold; }
+        .toc-list li { margin-bottom: 8px; }
+        .toc-list a { color: #333;
+            text-decoration: underline; }
+
+        p { margin-bottom: 12px; }
+
+        ul { padding-left: 20px;
+            margin-bottom: 15px; }
+        ul li { margin-bottom: 5px; }
+        ol { padding-left: 20px;
+            margin-bottom: 15px; }
+        ol li { margin-bottom: 8px; }
+
+        .footer-wrapper {
+            background: #f2f2f2;
+            color: #1a202c;
+            padding: 24px 20px 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .footer-top-row { display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px; }
+        .footer-logo img { height: 32px;
+            width: auto;
+            display: block; }
+        .footer-lang-btn { border: 1px solid #e2e8f0;
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            background: transparent; }
+        .footer-partner-section { margin-bottom: 20px; }
+        .partner-title { font-size: 12px;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px; }
+        .partner-logos { display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap; }
+        .partner-logos img { height: 24px;
+            width: auto;
+            opacity: 0.8;
+            filter: grayscale(30%); }
+        .footer-divider { border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 20px 0; }
+        .footer-links-grid { display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 14px; }
+        .footer-col h4 { font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px; }
+        .footer-col ul { list-style: none;
+            padding: 0;
+            margin: 0; }
+        .footer-col li { padding: 6px 0;
+            color: #718096;
+            font-size: 13px; }
+        .footer-social-header { color: #718096;
+            font-size: 12px;
+            margin-bottom: 12px;
+            font-weight: 600; }
+        .footer-social-row { display: flex;
+            gap: 15px;
+            padding-bottom: 16px;
+            margin-bottom: 16px; }
+        .footer-social-row i { font-size: 20px;
+            color: #718096;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0; }
+        .footer-legal { color: #718096;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 16px; }
+        .footer-back-top { width: fit-content;
+            margin: 0 auto;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            color: #718096; }
+
+        .bottom-navigation {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 10px 0;
+            border-top: 1px solid #363a45;
+            height: 60px;
+            z-index: 1000;
+        }
+        .nav-item { display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            color: #848a97;
+            text-decoration: none;
+            flex: 1;
+            max-width: 70px;
+            transition: color 0.2s; }
+        .nav-label { font-size: 10px;
+            letter-spacing: 0.3px;
+            font-family: 'Montserrat', sans-serif; }
+        .nav-icon-container { display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            padding: 2px 0; }
+        .nav-icon { font-size: 22px;
+            color: currentColor; }
+        .nav-item.active { color: #4caf50; }
+        .nav-item.active .nav-icon { color: #4caf50; }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+
+    <header class="top-bar">
+        <div class="welcome-pill">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dog&backgroundColor=b6e3f4" alt="Avatar" class="avatar">
+            <span class="welcome-text">Welcome to HD-Forge 👋</span>
+        </div>
+        <div class="header-icons">
+            <a href="../index.html" class="icon-btn"><span class="material-icons">home</span></a>
+            <a href="home.html" class="icon-btn"><span class="material-icons">storefront</span></a>
+        </div>
+    </header>
+
+    <div class="user-panel">
+        <div class="user-info">
+            <div class="user-name">NaN</div>
+            <div class="user-id">UID: - -</div>
+        </div>
+        <div class="balance-card">
+            <div class="balance-amount">TZS 0.00</div>
+            <div class="balance-label">Balance</div>
+        </div>
+    </div>
+
+    <div class="market-ticker">
+        <div class="ticker-header">LIVE</div>
+        <div class="ticker-content">
+            <div class="ticker-track">
+                <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">0.5%</span><span class="ticker-change positive">+2.34%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">0.3%</span><span class="ticker-change negative">-1.20%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">1.2%</span><span class="ticker-change positive">+0.89%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">0.5%</span><span class="ticker-change positive">+2.34%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">0.3%</span><span class="ticker-change negative">-1.20%</span></div>
+                <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">1.2%</span><span class="ticker-change positive">+0.89%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+
+        <h1>Terms of Service</h1>
+        <p class="last-updated">Last updated: February 13, 2025</p>
+
+        <ol class="toc-list">
+            <li><a href="#acceptance">1. Acceptance of Terms</a></li>
+            <li><a href="#eligibility">2. Eligibility & Account Registration</a></li>
+            <li><a href="#account">3. Account Security & Responsibility</a></li>
+            <li><a href="#services">4. Description of Services</a></li>
+            <li><a href="#deposits">5. Deposits, Recharges & Payments</a></li>
+            <li><a href="#trading">6. Trading Packages & Settlement</a></li>
+            <li><a href="#referral">7. Referral & Commission System</a></li>
+            <li><a href="#withdrawals">8. Withdrawals & Payouts</a></li>
+            <li><a href="#prohibited">9. Prohibited Activities</a></li>
+            <li><a href="#termination">10. Account Termination & Suspension</a></li>
+            <li><a href="#liability">11. Limitation of Liability</a></li>
+            <li><a href="#intellectual">12. Intellectual Property</a></li>
+            <li><a href="#privacy">13. Privacy & Data Protection</a></li>
+            <li><a href="#changes">14. Changes to Terms</a></li>
+            <li><a href="#contact">15. Contact Information</a></li>
+        </ol>
+
+        <h2 id="acceptance">1. Acceptance of Terms</h2>
+        <p>By accessing or using the HD™ Forge platform ("the Platform"), including its website, mobile application, and all related services, you agree to be bound by these Terms of Service ("Terms"). If you do not agree with any part of these Terms, you must not access or use the Platform.</p>
+        <p>These Terms constitute a legally binding agreement between you ("User," "you," or "your") and Ladbrokers Limited ("Company," "we," "us," or "our"), the operator of Hd-Forge. The Platform is licensed and regulated by the Gaming Board under Licences No. SBI000400021 and OCL0006000294.</p>
+
+        <h2 id="eligibility">2. Eligibility & Account Registration</h2>
+        <p>To use the Platform, you must meet all of the following eligibility requirements:</p>
+        <ul>
+            <li>You must be at least <strong>18 years of age</strong> or the legal age for gambling in your jurisdiction, whichever is higher.</li>
+            <li>You must be a resident of a jurisdiction where online betting and trading is not prohibited by law.</li>
+            <li>You must register through a valid referral link provided by an authorized agent.</li>
+            <li>You must provide accurate, complete, and current information during registration.</li>
+            <li>You must not be subject to self-exclusion or have been previously banned from the Platform.</li>
+        </ul>
+        <p>We reserve the right to verify your identity and age at any time. If you are found to be underage, your account will be immediately terminated, all winnings forfeited, and your deposits returned subject to applicable regulations.</p>
+
+        <h2 id="account">3. Account Security & Responsibility</h2>
+        <p>You are solely responsible for maintaining the confidentiality of your account credentials, including your username and password. You agree to:</p>
+        <ul>
+            <li>Not share your account credentials with any third party.</li>
+            <li>Immediately notify us of any unauthorized use of your account.</li>
+            <li>Accept full responsibility for all activities that occur under your account.</li>
+            <li>Not create multiple accounts. Each individual is limited to one account.</li>
+        </ul>
+        <p>The Company shall not be liable for any loss or damage arising from your failure to comply with these security obligations. We reserve the right to suspend or terminate accounts suspected of being compromised, shared, or duplicated.</p>
+
+        <h2 id="services">4. Description of Services</h2>
+        <p>HD™ Forge provides a trading platform where users can invest in curated trading packages with varying yield percentages. Our services include:</p>
+        <ul>
+            <li>Browse and select trading packages with defined yield allocations.</li>
+            <li>Place trades by investing funds from your account balance.</li>
+            <li>Receive profits upon settlement of trading packages after the countdown timer expires.</li>
+            <li>Participate in the referral program as an agent by sharing your unique referral link.</li>
+            <li>Earn commissions on deposits made by members in your referral tree.</li>
+            <li>Deposit and withdraw funds through approved payment methods.</li>
+        </ul>
+        <p>All trading packages operate on a 24-hour cycle. Settlement occurs automatically when the countdown timer reaches zero. Profits are calculated based on the yield percentage selected at the time of trade placement.</p>
+
+        <h2 id="deposits">5. Deposits, Recharges & Payments</h2>
+        <p>Users may add funds to their account balance through approved recharge methods. The following terms apply to all deposits:</p>
+        <ul>
+            <li>All deposits must be made through designated payment channels approved by the Company.</li>
+            <li>Deposits are subject to verification and approval by our administration team.</li>
+            <li>The minimum and maximum deposit amounts may vary and are displayed at the time of transaction.</li>
+            <li>Deposits made through unauthorized channels may be rejected or delayed.</li>
+            <li>The Company reserves the right to refuse any deposit at its sole discretion.</li>
+            <li>All transactions are processed in USDT unless otherwise specified.</li>
+        </ul>
+        <p>Deposits are not transferable between accounts and cannot be refunded except as expressly provided in these Terms or required by applicable law.</p>
+
+        <h2 id="trading">6. Trading Packages & Settlement</h2>
+        <p>Trading on the Platform is subject to the following rules and conditions:</p>
+        <ul>
+            <li>All trades are final once confirmed. You cannot cancel or modify a trade after it has been placed.</li>
+            <li>The investment amount is deducted from your balance immediately upon trade confirmation.</li>
+            <li>Profits are calculated based on the yield percentage you selected from the package allocations.</li>
+            <li>Settlement occurs automatically when the package countdown timer reaches zero (24-hour cycle).</li>
+            <li>Trades placed on expired packages (timer at 00:00:00) will not be processed.</li>
+            <li>The Company does not guarantee specific returns. Yield percentages are indicative and subject to market conditions.</li>
+            <li>Trading involves risk. Past performance of any package does not guarantee future results.</li>
+            <li>The Company reserves the right to modify, suspend, or remove any trading package at any time.</li>
+        </ul>
+
+        <h2 id="referral">7. Referral & Commission System</h2>
+        <p>The Platform operates a multi-level referral system with three commission levels:</p>
+        <ul>
+            <li><strong>Level B (5%):</strong> Earned on deposits made by users who registered directly through your referral link.</li>
+            <li><strong>Level C (3%):</strong> Earned on deposits made by users who registered through a Level B member's referral link.</li>
+            <li><strong>Level D (2%):</strong> Earned on deposits made by users who registered through a Level C member's referral link.</li>
+        </ul>
+        <p>Commissions are calculated automatically when deposits are approved by the administration. Commissions are only earned on approved recharges, not on trading profits. The Company reserves the right to adjust commission rates with prior notice. Any attempt to manipulate the referral system, including creating fake accounts or self-referral, will result in immediate account termination and forfeiture of all commissions.</p>
+
+        <h2 id="withdrawals">8. Withdrawals & Payouts</h2>
+        <p>Users may request withdrawals of their available balance subject to the following conditions:</p>
+        <ul>
+            <li>Withdrawals are processed within the timeframe specified on the Platform, subject to verification.</li>
+            <li>Users must have completed identity verification before making a withdrawal.</li>
+            <li>Minimum withdrawal amounts apply and are displayed at the time of request.</li>
+            <li>Withdrawal requests may be subject to review and approval by the administration.</li>
+            <li>The Company reserves the right to delay or deny withdrawals if suspicious activity is detected.</li>
+            <li>Withdrawal methods may be limited to the same method used for deposits where applicable.</li>
+        </ul>
+
+        <h2 id="prohibited">9. Prohibited Activities</h2>
+        <p>The following activities are strictly prohibited on the Platform and may result in immediate account termination:</p>
+        <ul>
+            <li>Creating multiple accounts or using false identity information.</li>
+            <li>Engaging in fraudulent activity, including manipulation of trades or referral systems.</li>
+            <li>Using automated scripts, bots, or other unauthorized software to interact with the Platform.</li>
+            <li>Attempting to bypass security measures, including the referral lock system.</li>
+            <li>Harassing, threatening, or defrauding other users or agents.</li>
+            <li>Using the Platform for money laundering or any illegal activity.</li>
+            <li>Attempting to reverse engineer, decompile, or hack the Platform.</li>
+            <li>Sharing referral links through spam or unauthorized advertising methods.</li>
+        </ul>
+
+        <h2 id="termination">10. Account Termination & Suspension</h2>
+        <p>We reserve the right to suspend or terminate your account at any time, with or without notice, for any of the following reasons:</p>
+        <ul>
+            <li>Violation of these Terms of Service.</li>
+            <li>Suspected fraudulent, abusive, or illegal activity.</li>
+            <li>Failure to complete identity verification when requested.</li>
+            <li>Self-exclusion request by the account holder.</li>
+            <li>Court order or regulatory requirement.</li>
+            <li>Extended period of account inactivity (as defined by Company policy).</li>
+        </ul>
+        <p>Upon termination, your right to access and use the Platform ceases immediately. Any balance remaining in your account may be subject to forfeiture if the termination is due to Terms violations. Legitimate balances will be returned to you subject to applicable regulations and verification procedures.</p>
+
+        <h2 id="liability">11. Limitation of Liability</h2>
+        <p>To the fullest extent permitted by applicable law:</p>
+        <ul>
+            <li>The Platform and its services are provided "as is" without any warranties, express or implied.</li>
+            <li>The Company shall not be liable for any indirect, incidental, special, consequential, or punitive damages.</li>
+            <li>The Company's total liability shall not exceed the amount you have deposited into your account in the twelve months preceding the claim.</li>
+            <li>The Company is not responsible for losses due to technical issues, network failures, or force majeure events.</li>
+            <li>Users acknowledge that trading involves risk and the Company does not guarantee profits.</li>
+            <li>The Company is not liable for losses incurred due to user error, including incorrect trade placement.</li>
+        </ul>
+
+        <h2 id="intellectual">12. Intellectual Property</h2>
+        <p>All content on the Platform, including but not limited to logos, trademarks, text, graphics, software, and design elements, is the exclusive property of Ladbrokers Limited or its licensors. You may not reproduce, distribute, modify, or create derivative works from any Platform content without our express written permission.</p>
+        <p>The HD™ Forge name, logo, and all related marks are trademarks of the Company. Unauthorized use is strictly prohibited.</p>
+
+        <h2 id="privacy">13. Privacy & Data Protection</h2>
+        <p>Your privacy is important to us. Our collection, use, and disclosure of personal information is governed by our Privacy Policy, which is incorporated into these Terms by reference. By using the Platform, you consent to the collection and use of your information as described in the Privacy Policy.</p>
+        <p>We implement reasonable security measures to protect your personal data. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+
+        <h2 id="changes">14. Changes to Terms</h2>
+        <p>We reserve the right to modify these Terms at any time. When we make changes, we will update the "Last updated" date at the top of this page and notify users through the Platform or via email where appropriate.</p>
+        <p>Your continued use of the Platform after any changes constitutes your acceptance of the revised Terms. If you do not agree with the changes, you must stop using the Platform and may request account closure.</p>
+        <p>Major changes that materially affect your rights will be communicated with at least 30 days' notice where reasonably possible.</p>
+
+        <h2 id="contact">15. Contact Information</h2>
+        <p>If you have any questions, concerns, or complaints regarding these Terms of Service or the Platform, please contact us through the following channels:</p>
+        <ul>
+            <li><strong>Customer Support:</strong> Available through the Help section on the Platform.</li>
+            <li><strong>Email:</strong> support@hdforge.co.tz</li>
+            <li><strong>Phone:</strong> +255 801 866 647</li>
+            <li><strong>Physical Address:</strong> Ladbrokers Limited, Headquaters</li>
+        </ul>
+        <p>For gambling addiction help and support, please contact our Responsible Gambling team or reach out to the Gaming Board at <strong>https://www.gamingboard.com/</strong>.</p>
+
+    </div>
+
+    <div class="footer-wrapper">
+        <div class="footer-top-row">
+            <div class="footer-logo"><img src="../assets/HDC.png" alt="HD™ Logo" style="height: 36px;"></div>
+            <div class="footer-lang-btn">🇬🇧 English</div>
+        </div>
+        <div class="footer-partner-section">
+            <div class="partner-title">OFFICIAL PARTNER</div>
+            <div class="partner-logos">
+                <img src="../assets/1.png" alt="partner 1">
+                <img src="../assets/2.png" alt="partner 2">
+                <img src="../assets/3.png" alt="partner 3">
+                <img src="../assets/4.png" alt="partner 4">
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-links-grid">
+            <div class="footer-col"><h4>Help Center</h4><ul><li>FAQ</li><li>Contact Us</li><li>Responsible Gaming</li><li>Privacy Policy</li></ul></div>
+            <div class="footer-col"><h4>Sports</h4><ul><li>Football</li><li>Basketball</li><li>Tennis</li><li>Binance</li></ul></div>
+        </div>
+        <div class="footer-social-header">Stay up to date</div>
+        <div class="footer-social-row">
+            <i class="fab fa-facebook-f"></i><i class="fab fa-x"></i><i class="fab fa-instagram"></i>
+        </div>
+        <div class="footer-legal">Your bets and payouts are processed by Ladbrokers Limited, which is licensed and regulated by the Gaming Board.<br><br>Licences No. SBI000400021 and OCL0006000294<br><br>You have to be 18 years and above to bet.<br>Betting is addictive and can be psychologically harmful.</div>
+        <div class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i> Back to top</div>
+    </div>
+
+        <nav class="bottom-navigation">
+        <a href="teamhelp.html" class="nav-item" data-title="Home"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">gavel</span></div><span class="nav-label">Referal</span></a>
+        <a href="referalhelp.html" class="nav-item" data-title="Trade"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">ballot</span></div><span class="nav-label">Commission</span></a>
+        <a href="markethelp.html" class="nav-item" data-title="Market"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">policy</span></div><span class="nav-label">Market</span></a>
+        <a href="privacy.html" class="nav-item" data-title="Records"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">person_shield</span></div><span class="nav-label">Privacy</span></a>
+        <a href="terms.html" class="nav-item active" data-title="Menu"><div class="nav-icon-container"><span class="nav-icon material-symbols-outlined">balance</span></div><span class="nav-label">Terms</span></a>
+    </nav>
+
+</div>
+
+</body>
+</html>

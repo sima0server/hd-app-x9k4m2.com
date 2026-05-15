@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Contact & Social</title>
+    <!-- Minimal, no card, real icons, official colors, mobile-first -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+
+        /* No card container – just direct layout */
+        .page {
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 12px 8px;
+        }
+
+        .header-text {
+            text-align: left;
+            margin-bottom: 4px;
+        }
+
+        .header-text h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #111;
+            letter-spacing: -0.3px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .header-text p {
+            font-size: 0.8rem;
+            color: #5e5e5e;
+            font-weight: 400;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        /* Base button style – minimal, official colors, no emojis */
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            background: white;
+            color: #1a1a1a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            transition: background 0.15s, box-shadow 0.15s;
+            width: 100%;
+            border: 1px solid #f0f0f0;
+            letter-spacing: -0.2px;
+            cursor: pointer;
+        }
+
+        .contact-btn i {
+            font-size: 1.3rem;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .contact-btn:active {
+            background: #f9f9fb;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Customer care – live chat style (green accent) */
+        .care-btn {
+            background: #ffffff;
+            border-left: 4px solid #10b981;
+        }
+        .care-btn i {
+            color: #10b981;
+        }
+
+        /* WhatsApp – official green */
+        .whatsapp-btn {
+            background: #ffffff;
+            border-left: 4px solid #25D366;
+        }
+        .whatsapp-btn i {
+            color: #25D366;
+        }
+
+        /* Telegram – official blue */
+        .telegram-btn {
+            background: #ffffff;
+            border-left: 4px solid #0088cc;
+        }
+        .telegram-btn i {
+            color: #0088cc;
+        }
+
+        .btn-content {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            line-height: 1.3;
+        }
+
+        .btn-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #111;
+        }
+
+        .btn-sub {
+            font-size: 0.7rem;
+            color: #6b7280;
+            font-weight: 400;
+        }
+
+        .simple-footer {
+            margin-top: 18px;
+            font-size: 0.7rem;
+            color: #8b8b8b;
+            text-align: left;
+            border-top: 1px solid #ececec;
+            padding-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: -0.2px;
+        }
+
+        .footer-note {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-note i {
+            font-size: 0.65rem;
+            color: #9ca3af;
+        }
+
+        /* remove typical link decorations */
+        a, a:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* max font size 12px for some elements as requested – applied to subtitles/footer */
+        .btn-sub, .simple-footer, .header-text p {
+            font-size: 0.75rem; /* 12px equivalent */
+        }
+
+        @media (max-width: 380px) {
+            .contact-btn {
+                padding: 13px 14px;
+                gap: 10px;
+            }
+            .header-text h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header-text">
+            <h2>Contact us</h2>
+            <p>customer care · community · social</p>
+        </div>
+
+        <!-- 3 buttons only: Customer Care (live chat), WhatsApp, Telegram -->
+        <div class="button-group">
+            <!-- Customer Care - live built-in chat (instant reply concept) -->
+            <a href="#" class="contact-btn care-btn" id="liveCareBtn">
+                <i class="fas fa-comment-dots"></i>
+                <div class="btn-content">
+                    <span class="btn-title">Customer Care</span>
+                    <span class="btn-sub">Live chat · instant reply</span>
+                </div>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.7rem; color: #9ca3af;"></i>
+            </a>
+
+            <!-- WhatsApp community / social -->
+            <a href="#" class="contact-btn whatsapp-btn" id="whatsappBtn">
+                <i class="fab fa-whatsapp"></i>
+                <div class="btn-content">
+                    <span class="btn-title">WhatsApp</span>
+                    <span class="btn-sub">Join community group</span>
+                </div>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.7rem; color: #9ca3af;"></i>
+            </a>
+
+            <!-- Telegram social club -->
+            <a href="#" class="contact-btn telegram-btn" id="telegramBtn">
+                <i class="fab fa-telegram-plane"></i>
+                <div class="btn-content">
+                    <span class="btn-title">Telegram</span>
+                    <span class="btn-sub">Social club & updates</span>
+                </div>
+                <i class="fas fa-arrow-right" style="margin-left: auto; font-size: 0.7rem; color: #9ca3af;"></i>
+            </a>
+        </div>
+
+        <!-- Minimal footer with small text (max 12px used) -->
+        <div class="simple-footer">
+            <div class="footer-note">
+                <i class="far fa-clock"></i> 
+                <span>Live reply in seconds</span>
+            </div>
+            <div class="footer-note">
+                <i class="fas fa-users"></i>
+                <span>2.4k members</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simple interactive demo for buttons (replace href with real links) -->
+    <script>
+        (function() {
+            // Live chat simulation (customer care)
+            document.getElementById('liveCareBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('💬 Customer Care Live Chat\n\nReal-time instant reply system.\n(Communicate your chat to agent)');
+            });
+
+            document.getElementById('whatsappBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('📱 WhatsApp Community\n\nJoin our official group.\n(Find your invite link)');
+            });
+
+            document.getElementById('telegramBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('✈️ Telegram Social Club\n\nStay updated, chat with community.\n(We Redirect Telegram link)');
+            });
+        })();
+    </script>
+</body>
+</html>
