@@ -1,58 +1,62 @@
-(function() {
-    function createAlert() {
+(function () {
+
+    function createPopup() {
         if (document.getElementById("customAlertOverlay")) return;
 
         const overlay = document.createElement("div");
         overlay.id = "customAlertOverlay";
 
         overlay.innerHTML = `
-            <div id="customAlertBox">
-                <div id="customAlertText"></div>
-                <button id="customAlertBtn">OK</button>
+            <div style="
+                position:fixed;
+                inset:0;
+                background:rgba(0,0,0,.6);
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                z-index:999999;
+            ">
+                <div style="
+                    background:#11141a;
+                    padding:20px;
+                    border-radius:14px;
+                    min-width:260px;
+                    text-align:center;
+                    color:white;
+                    border:1px solid #2a303a;
+                ">
+                    <div id="customAlertText" style="margin-bottom:15px; white-space:pre-wrap;"></div>
+                    <button id="customAlertBtn" style="
+                        padding:10px 20px;
+                        border:none;
+                        border-radius:10px;
+                        background:#dcb95e;
+                        color:#0a0c10;
+                        font-weight:600;
+                    ">OK</button>
+                </div>
             </div>
-        `;
-
-        overlay.style.cssText = `
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,.5);
-            z-index:999999;
         `;
 
         document.body.appendChild(overlay);
 
-        const box = document.getElementById("customAlertBox");
-        box.style.cssText = `
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            background:#fff;
-            padding:20px;
-            border-radius:8px;
-            text-align:center;
-            min-width:250px;
-        `;
-
-        document.getElementById("customAlertBtn").onclick = function() {
-            overlay.style.display = "none";
+        document.getElementById("customAlertBtn").onclick = () => {
+            overlay.remove();
         };
     }
 
-    function init() {
-        createAlert();
+    function showAlert(msg) {
+        createPopup();
 
-        window.alert = function(message) {
-            document.getElementById("customAlertText").textContent = message;
-            document.getElementById("customAlertOverlay").style.display = "block";
-        };
+        // wait 1 frame so DOM is ready
+        requestAnimationFrame(() => {
+            const el = document.getElementById("customAlertText");
+            if (el) {
+                el.textContent = msg ?? "";
+            }
+        });
     }
 
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", init);
-    } else {
-        init();
-    }
+    window.alert = showAlert;
+
 })();
-
